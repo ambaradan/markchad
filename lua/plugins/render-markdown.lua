@@ -1,6 +1,7 @@
 return {
 	"MeanderingProgrammer/markdown.nvim",
 	enabled = true,
+	latex_enabled = false,
 	name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
 	dependencies = { "nvim-treesitter/nvim-treesitter" },
 	ft = "markdown",
@@ -12,7 +13,13 @@ return {
 			highlights = {
 				heading = {
 					-- Background of heading line
-					backgrounds = { "CmpItemKindField", "CmpItemKindText", "CmpItemKindType", "CmpItemKindClass", "CmpItemKindUnit" },
+					backgrounds = {
+						"CmpItemKindField",
+						"CmpItemKindText",
+						"CmpItemKindType",
+						"CmpItemKindClass",
+						"CmpItemKindUnit",
+					},
 					-- Foreground of heading character only
 					foregrounds = {
 						"markdownH1",
