@@ -36,6 +36,7 @@
   "rainbow-delimiters.nvim": { "branch": "master", "commit": "0f314613125fdd7c85faaee3c87051611d883253" },
   "render-markdown": { "branch": "main", "commit": "09a7afb20ee7a2021cd8f11949fd540d312cd0a3" },
   "ripgrep": { "branch": "master", "commit": "c9ebcbd8abe48c8336fb4826df7e9b6fb179de03" },
+  "session-lens": { "branch": "main", "commit": "1b65d8e1bcd1836c5135cce118ba18d662a9dabd" },
   "sqlite.lua": { "branch": "master", "commit": "d0ffd703b56d090d213b497ed4eb840495f14a11" },
   "telescope-heading.nvim": { "branch": "main", "commit": "23ce2c9ef252aecbaa37300c1209b5ef2b51e6c5" },
   "telescope-lazy.nvim": { "branch": "main", "commit": "08eb9d05455cabc126e9b850470205d4f3ac7caf" },
