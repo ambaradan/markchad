@@ -12,7 +12,7 @@ return {
 			highlights = {
 				heading = {
 					-- Background of heading line
-					backgrounds = { "DiffModified", "@markup.heading", "DiffNewFile", "DiffviewHash", "DiffChange" },
+					backgrounds = { "CmpItemKindField", "CmpItemKindText", "CmpItemKindType", "CmpItemKindClass", "CmpItemKindUnit" },
 					-- Foreground of heading character only
 					foregrounds = {
 						"markdownH1",
