@@ -14,13 +14,18 @@ Create a configuration of NvChad dedicated to writing documentation with Markdow
 This project intends to create a version of the NvChad configuration with the best solutions for the Markdown language provided by Neovim plugins and settings.
 There are also features useful for project management both in terms of workspace management (file manager, session manager) and *git* repository management.
 
-## Caratteristiche
+## Features
 
-### Configurazione
+### Configuration
 
-Tutte le configurazioni dei plugin aggiuntivi sono state scritte prestando la massima attenzione a renderle indipendenti le une dalle altre, questo permette di disabilitarle all'occorrenza mediante il *Plugin Spec* `enabled = false/true` di *lazy.nvim* presente in tutti i file di configurazione. Le chiavi da tastiera per richiamare le varie funzionalità sono state incluse nei file di configurazione e convertite dove possibile nel formato *lazy style*.
+All configurations of the additional plugins have been written with great care to make them independent of each other, this allows them to be disabled when needed by means of the *Plugin Spec* `enabled = false/true` of *lazy.nvim* present in all configuration files. Keyboard keys to invoke the various features have been included in the configuration files and converted where possible to the *lazy style* format
 
-*NOTE:** This project was developed using the [Rocky Linux](https://rockylinux.org/) distribution and should therefore run on all derived RHEL distributions, for instructions on package installation and configurations on another Linux system please refer to the relevant documentations.
+### UI - Interface
+
+Some changes were made to the layout strategy of `Telescope` in order to have a more modern and functional interface, themes (*dropdown* and *ivy*) were also used for the `pickers` provided by default and for those inserted by additional plugins.
+Non è stata effettuata alcuna modifica ai temi forniti da *NvChad*, questo per permettere di utilizzarla secondo i propri gusti estetici.
+
+**NOTE:** Not all themes offer a *rich* display for highlights, and the default `onedark` theme was used for graphic development.
 
 ## Test installation
 
@@ -41,6 +46,8 @@ To keep the installation independent of the system installation, its post-instal
 ```bash
 NVIM_APPNAME=markchad nvim
 ```
+
+**NOTE:** This project was developed using the [Rocky Linux](https://rockylinux.org/) distribution and should therefore run on all derived RHEL distributions, for instructions on package installation and configurations on another Linux system please refer to the relevant documentations.
 
 ## Removal
 
