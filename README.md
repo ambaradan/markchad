@@ -13,7 +13,7 @@ Create a configuration of NvChad dedicated to writing documentation with Markdow
 [Nvchad](https://nvchad.com/) is a custom configuration of **Neovim** that provides *out of the box* an IDE for *Lua* code development, its modularity however allows useful features for any type of language to be implemented in the configuration.
 This project intends to create a version of the NvChad configuration with the best solutions for the Markdown language provided by Neovim plugins and settings.
 
-There are also features useful for project management both in terms of workspace management (file manager, project manager) and *git* repository management.
+There are also features useful for project management both in terms of workspace management (file manager, session manager) and *git* repository management.
 
 ### Warnings
 
