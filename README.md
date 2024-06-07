@@ -6,18 +6,21 @@ Create a configuration of NvChad dedicated to writing documentation with Markdow
 
 * Automatically set Neovim options for Markdown files
 * Highlighting Markdown tags in the buffer
-* Providing a zen mode for document editing
+* Providing a *zen mode* for document editing
 
 ## Introduction
 
 [Nvchad](https://nvchad.com/) is a custom configuration of **Neovim** that provides *out of the box* an IDE for *Lua* code development, its modularity however allows useful features for any type of language to be implemented in the configuration.
 This project intends to create a version of the NvChad configuration with the best solutions for the Markdown language provided by Neovim plugins and settings.
-
 There are also features useful for project management both in terms of workspace management (file manager, session manager) and *git* repository management.
 
-### Warnings
+## Caratteristiche
 
-This project was developed using the [Rocky Linux](https://rockylinux.org/) distribution and should therefore run on all derived RHEL distributions, for instructions on package installation and configurations on another Linux system please refer to the relevant documentations.
+### Configurazione
+
+Tutte le configurazioni dei plugin aggiuntivi sono state scritte prestando la massima attenzione a renderle indipendenti le une dalle altre, questo permette di disabilitarle all'occorrenza mediante il *Plugin Spec* `enabled = false/true` di *lazy.nvim* presente in tutti i file di configurazione. Le chiavi da tastiera per richiamare le varie funzionalità sono state incluse nei file di configurazione e convertite dove possibile nel formato *lazy style*.
+
+*NOTE:** This project was developed using the [Rocky Linux](https://rockylinux.org/) distribution and should therefore run on all derived RHEL distributions, for instructions on package installation and configurations on another Linux system please refer to the relevant documentations.
 
 ## Test installation
 
