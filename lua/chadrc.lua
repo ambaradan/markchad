@@ -5,7 +5,7 @@
 local M = {}
 
 M.ui = {
-	theme = "wombat",
+	theme = "onedark",
 
   cmp = {
     icons = true,
