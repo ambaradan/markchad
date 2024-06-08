@@ -13,13 +13,7 @@ return {
 			highlights = {
 				heading = {
 					-- Background of heading line
-					backgrounds = {
-						"CmpItemKindField",
-						"CmpItemKindText",
-						"CmpItemKindType",
-						"CmpItemKindClass",
-						"CmpItemKindUnit",
-					},
+					backgrounds = { "CmpItemKindType", "CmpItemKindText", "CmpItemKindConstant", "CmpItemKindValue", "CmpItemKindUnit", "CmpItemKindFolder" },
 					-- Foreground of heading character only
 					foregrounds = {
 						"markdownH1",
