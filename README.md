@@ -14,16 +14,16 @@ Create a configuration of NvChad dedicated to writing documentation with Markdow
 This project intends to create a version of the NvChad configuration with the best solutions for the Markdown language provided by Neovim plugins and settings.
 There are also features useful for project management both in terms of workspace management (file manager, session manager) and *git* repository management.
 
-## Features
+## Requirements
 
-### Configuration
+The configuration requires the same [pre-requisites needed](https://nvchad.com/docs/quickstart/install) for its use as running a standard installation of *NvChad* with the addition of the `sqlite` packages for storing strings to be copied with *yank.nvim* and `pandoc` for aligning markdown tables.
 
-All configurations of the additional plugins have been written with great care to make them independent of each other, this allows them to be disabled when needed by means of the *Plugin Spec* `enabled = false/true` of *lazy.nvim* present in all configuration files. Keyboard keys to invoke the various features have been included in the configuration files and converted where possible to the *lazy style* format
+### Features
 
-### UI - Interface
+* **Configuration:** all configurations of the additional plugins have been written with great care to make them independent of each other, this allows them to be disabled when needed by means of the *Plugin Spec* `enabled = false/true` of *lazy.nvim* present in all configuration files. Keyboard keys to invoke the various features have been included in the configuration files and converted where possible to the *lazy style* format
 
-Some changes were made to the layout strategy of `Telescope` in order to have a more modern and functional interface, themes (*dropdown* and *ivy*) were also used for the `pickers` provided by default and for those inserted by additional plugins.
-Non è stata effettuata alcuna modifica ai temi forniti da *NvChad*, questo per permettere di utilizzarla secondo i propri gusti estetici.
+* **UI - Interface:** some changes were made to the layout strategy of `Telescope` in order to have a more modern and functional interface, themes (*dropdown* and *ivy*) were also used for the `pickers` provided by default and for those inserted by additional plugins.
+No changes have been made to the themes provided by *NvChad*, this is to allow you to use it according to your own aesthetic tastes.
 
 **NOTE:** Not all themes offer a *rich* display for highlights, and the default `onedark` theme was used for graphic development.
 
