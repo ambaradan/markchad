@@ -21,11 +21,10 @@ The configuration requires the same [pre-requisites needed](https://nvchad.com/d
 ### Features
 
 * **Configuration:** all configurations of the additional plugins have been written with great care to make them independent of each other, this allows them to be disabled when needed by means of the *Plugin Spec* `enabled = false/true` of *lazy.nvim* present in all configuration files. Keyboard keys to invoke the various features have been included in the configuration files and converted where possible to the *lazy style* format
-
 * **UI - Interface:** some changes were made to the layout strategy of `Telescope` in order to have a more modern and functional interface, themes (*dropdown* and *ivy*) were also used for the `pickers` provided by default and for those inserted by additional plugins.
-No changes have been made to the themes provided by *NvChad*, this is to allow you to use it according to your own aesthetic tastes.
-
-**NOTE:** Not all themes offer a *rich* display for highlights, and the default `onedark` theme was used for graphic development.
+No changes have been made to the themes provided by *NvChad*, this is to allow you to use it according to your own aesthetic tastes. Not all themes offer a *rich* display for highlights, and the default `onedark` theme was used for graphic development.
+* **Editor:** the section of plugins that provide functionality to the editor have been supplemented with a *git* repository manager a session manager that enables faster project management and other small utilities to improve workflow.
+* **Markdown:** several features have been included for writing Markdown documentation including a preview of the document in the browser, highlighting in the buffer of markdown tags, conversion by keyboard keys of attributes to text, and more.
 
 ## Test installation
 
