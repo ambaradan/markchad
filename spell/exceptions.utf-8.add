@@ -6,3 +6,5 @@ RHEL
 nvim
 LSP
 markchad
+sqlite
+pandoc
