@@ -24,7 +24,7 @@ return {
 						"markdownH6",
 					},
 				},
-				bullet = "@markup.list",
+				bullet = "CmpItemKindText",
 			},
 		})
 	end,
