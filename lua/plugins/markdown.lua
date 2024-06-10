@@ -1,6 +1,6 @@
 return {
 	{
-		"tadmccorkle/markdown.nvim",
+		"ambaradan/markdown.nvim",
 		enabled = true,
 		ft = "markdown", -- or 'event = "VeryLazy"'
 		opts = {
