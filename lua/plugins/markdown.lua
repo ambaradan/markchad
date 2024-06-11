@@ -1,6 +1,6 @@
 return {
 	{
-		"ambaradan/markdown.nvim",
+		"tadmccorkle/markdown.nvim",
 		enabled = true,
 		ft = "markdown", -- or 'event = "VeryLazy"'
 		opts = {
@@ -14,6 +14,9 @@ return {
 				vim.keymap.set("x", "<C-c>", toggle("c"), { buffer = bufnr })
 			end,
 			-- configuration here or empty for defaults
+			mappings = {
+				inline_surround_delete = "rs", -- (string|boolean) delete emphasis surrounding cursor
+			},
 		},
 	},
 }
