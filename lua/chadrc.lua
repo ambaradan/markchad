@@ -7,7 +7,8 @@ local M = {}
 M.ui = {
 	theme = "onedark",
 	hl_override = {
-		["@markup.italic"] = { fg = "baby_pink" },
+		["@markup.italic"] = { fg = "nord_blue" },
+		["@markup.strong"] = { fg = "cyan" },
 	},
 	cmp = {
 		icons = true,
