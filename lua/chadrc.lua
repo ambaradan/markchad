@@ -7,14 +7,15 @@ local M = {}
 M.ui = {
 	theme = "onedark",
 	hl_override = {
-		FloatBorder = { fg = "light_grey" },
+		FloatBorder = { fg = "light_grey", bg = "black" },
 		["@markup.italic"] = { fg = "nord_blue" },
 		["@markup.strong"] = { fg = "cyan" },
 	},
 	hl_add = {
 		NeoTreeDirectoryIcon = { fg = "yellow" },
 		NeoTreeDirectoryName = { fg = "sun" },
-        NeoTreeFileName = { fg = "green" },
+		NeoTreeFileName = { fg = "green" },
+		NeoTreeFloatBorder = { fg = "one_bg2", bg = "black" },
 	},
 	cmp = {
 		icons = true,
