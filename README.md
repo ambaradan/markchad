@@ -57,3 +57,8 @@ rm -rf ~/.config/markchad/
 rm -rf ~/.cache/markchad/
 rm -rf ~/.local/share/markchad/
 ```
+
+## Acknowledgements
+
+A big thank you goes to [Siduck](https://github.com/siduck), the main developer, and to all those who contributed to the creation of *NvChad*, without them this project could not exist.
+A big thank you also goes to all the developers of the plugins used in this setup for sharing their knowledge.
