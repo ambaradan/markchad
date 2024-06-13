@@ -34,7 +34,7 @@
   "pantran.nvim": { "branch": "main", "commit": "250b1d8e81f83e6aff061f4c75db008c684f5971" },
   "plenary.nvim": { "branch": "master", "commit": "a3e3bc82a3f95c5ed0d7201546d5d2c19b20d683" },
   "rainbow-delimiters.nvim": { "branch": "master", "commit": "073e45546acaff6b4248e3faea8e67b399d3e864" },
-  "render-markdown": { "branch": "main", "commit": "64969bc94a9d633dc23b59a382cab407c99fecb1" },
+  "render-markdown": { "branch": "main", "commit": "6208fc408d444024f5977ea02b83dea8fe177cfa" },
   "ripgrep": { "branch": "master", "commit": "c9ebcbd8abe48c8336fb4826df7e9b6fb179de03" },
   "sqlite.lua": { "branch": "master", "commit": "d0ffd703b56d090d213b497ed4eb840495f14a11" },
   "telescope-heading.nvim": { "branch": "main", "commit": "e85c0f69cb64048f56e76548dcb2f10277576df9" },
