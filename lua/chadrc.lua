@@ -16,6 +16,7 @@ M.ui = {
 		NeoTreeDirectoryName = { fg = "sun" },
 		NeoTreeFileName = { fg = "green" },
 		NeoTreeFloatBorder = { fg = "one_bg2", bg = "black" },
+    NeoTreeFloatTitle = { fg = "yellow", bg = "black" }
 	},
 	cmp = {
 		icons = true,
