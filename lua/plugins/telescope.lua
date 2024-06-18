@@ -34,10 +34,11 @@ return {
   -- Navigate Markdown Heading
   {
     "crispgm/telescope-heading.nvim",
+    enabled = false,
     event = "VeryLazy",
     keys = {
       {
-        "<leader>nh",
+        "<leader>hh",
         "<cmd>Telescope heading theme=dropdown<cr>",
         desc = "Navigate Heading",
       },
