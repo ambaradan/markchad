@@ -15,11 +15,6 @@ return {
 			"<cmd>Neotree float toggle<cr>",
 			desc = "file manager float",
 		},
-		-- {
-		-- 	"<leader>-",
-		-- 	"<cmd>Neotree right toggle<cr>",
-		-- 	desc = "file manager right",
-		-- },
 		{
 			"<leader>pc",
 			"<cmd>Neotree position=current<cr>",
@@ -42,10 +37,6 @@ return {
 				folder_closed = "",
 				folder_open = "",
 				folder_empty = "ﰊ",
-				-- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
-				-- then these will never be used.
-				default = "*",
-				highlight = "NeoTreeFileIcon",
 			},
 		})
 	end,
