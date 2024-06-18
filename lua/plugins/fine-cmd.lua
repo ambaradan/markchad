@@ -1,6 +1,6 @@
 return {
 	"VonHeikemen/fine-cmdline.nvim",
-	enabled = true,
+	enabled = false,
 	dependencies = {
 		{ "MunifTanjim/nui.nvim" },
 	},
