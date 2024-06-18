@@ -21,7 +21,7 @@ return {
 			desc = "file manager current",
 		},
 		{
-      "<leader>gg",
+			"<leader>gg",
 			"<cmd>Neotree float git_status<cr>",
 			desc = "file manager git status",
 		},
