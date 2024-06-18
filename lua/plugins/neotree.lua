@@ -15,18 +15,18 @@ return {
 			"<cmd>Neotree float toggle<cr>",
 			desc = "file manager float",
 		},
+		-- {
+		-- 	"<leader>-",
+		-- 	"<cmd>Neotree right toggle<cr>",
+		-- 	desc = "file manager right",
+		-- },
 		{
-			"<leader>-",
-			"<cmd>Neotree right toggle<cr>",
-			desc = "file manager right",
-		},
-		{
-			"<leader>cl",
+			"<leader>pc",
 			"<cmd>Neotree position=current<cr>",
 			desc = "file manager current",
 		},
 		{
-			"<leader>gg",
+      "<leader>gg",
 			"<cmd>Neotree float git_status<cr>",
 			desc = "file manager git status",
 		},
