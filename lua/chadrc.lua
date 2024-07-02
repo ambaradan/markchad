@@ -16,17 +16,13 @@ M.ui = {
 		NeoTreeDirectoryName = { fg = "sun" },
 		NeoTreeFileName = { fg = "green" },
 		NeoTreeFloatBorder = { fg = "one_bg2", bg = "black" },
-    NeoTreeFloatTitle = { fg = "yellow", bg = "black" }
+		NeoTreeFloatTitle = { fg = "yellow", bg = "black" },
 	},
 	cmp = {
 		icons = true,
 		lspkind_text = true,
 		style = "flat_dark", -- default/flat_light/flat_dark/atom/atom_colored
 	},
-	-- hl_override = {
-	-- 	Comment = { italic = true },
-	-- 	["@comment"] = { italic = true },
-	-- },
 }
 
 return M
