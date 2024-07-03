@@ -1,7 +1,7 @@
 return {
 	{
 		"rmagatti/auto-session",
-		enabled = true,
+		enabled = false,
 		lazy = false,
 		keys = {
 			{ "<leader>qr", "<cmd>SessionRestore<CR>", desc = "Restore Session" },
