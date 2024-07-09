@@ -17,6 +17,12 @@ M.ui = {
 		NeoTreeFileName = { fg = "green" },
 		NeoTreeFloatBorder = { fg = "one_bg2", bg = "black" },
 		NeoTreeFloatTitle = { fg = "yellow", bg = "black" },
+    titleH1 = { fg = "vibrant_green" },
+    titleH2 = { fg = "yellow"},
+    titleH3 = { fg = "orange" },
+    titleH4 = { fg = "red" },
+    titleH5 = { fg = "blue" },
+    titleH6 = { fg = "teal" },
 	},
 	cmp = {
 		icons = true,
