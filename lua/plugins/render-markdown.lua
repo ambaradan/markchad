@@ -18,7 +18,7 @@ return {
 				signs = { "󰫎 " },
 				-- The 'level' is used to index into the array using a clamp
 				-- Highlight for the heading icon and extends through the entire line
-				backgrounds = { "Added", "Changed", "Character", "Boolean" },
+				backgrounds = { "Define", "Added", "Changed", "Character", "Boolean" },
 				-- The 'level' is used to index into the array using a clamp
 				-- Highlight for the heading and sign icons
 				foregrounds = { "markdownH1", "markdownH2", "markdownH3", "markdownH4", "markdownH5", "markdownH6" },
