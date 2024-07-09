@@ -8,6 +8,7 @@ return {
 	config = function()
 		require("render-markdown").setup({
 			heading = {
+        enabled = true,
 				-- Replaces '#+' of 'atx_h._marker'
 				-- The number of '#' in the heading determines the 'level'
 				-- The 'level' is used to index into the array using a cycle
@@ -24,6 +25,7 @@ return {
 				foregrounds = { "markdownH1", "markdownH2", "markdownH3", "markdownH4", "markdownH5", "markdownH6" },
 			},
 			code = {
+        enabled = true,
 				-- Determines how code blocks & inline code are rendered:
 				--  none: disables all rendering
 				--  normal: adds highlight group to code blocks & inline code
