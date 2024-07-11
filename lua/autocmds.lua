@@ -16,12 +16,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
--- Delete trailing whitespace on save
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	pattern = { "*" },
-	command = [[%s/\s\+$//e]],
-})
-
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
