@@ -17,7 +17,6 @@ There are also features useful for project management both in terms of workspace
 ## Requirements
 
 The configuration requires the same [pre-requisites needed](https://nvchad.com/docs/quickstart/install) for its use as running a standard installation of *NvChad* with the addition of the `sqlite` packages for storing strings to be copied with *yank.nvim* and `pandoc` for aligning markdown tables.
-**NOTE:** the new version of *lazy.nvim* requires the `luarocks` package installable from the EPEL repository.
 
 ### Features
 
