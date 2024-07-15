@@ -5,6 +5,18 @@ return {
 		enabled = true,
 		event = "BufRead",
 		dependencies = { "kkharji/sqlite.lua" },
+    keys = {
+      { -- Mappings for Yank Ring
+        "<leader>y",
+        "<cmd> Telescope yank_history<cr>",
+        desc = "Yank History",
+      },
+            {
+        "<c-y>",
+        "<cmd> Telescope yank_history<cr>",
+        desc = "Yank History",
+      },
+    },
 		config = function()
 			require("yanky").setup({
 				highlight = {
@@ -12,7 +24,7 @@ return {
 					on_yank = true,
 				},
 				ring = {
-					history_length = 100,
+					history_length = 200,
 					storage = "sqlite",
 					storage_path = vim.fn.stdpath("data") .. "/databases/yanky.db", -- Only for sqlite storage
 					sync_with_numbered_registers = true,
@@ -25,9 +37,6 @@ return {
 				},
 			})
 			require("telescope").load_extension("yank_history")
-			-- Mappings for Yank Ring
-			vim.keymap.set("n", "<leader>y", "<CMD> Telescope yank_history<CR>", { desc = "Yank History" })
-			vim.keymap.set("i", "<c-y>", "<CMD> Telescope yank_history<CR>", { desc = "Yank History" })
 		end,
 	},
 }
