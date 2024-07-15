@@ -12,15 +12,14 @@ return {
 				vim.keymap.set("x", "<C-b>", toggle("b"), { buffer = bufnr })
 				vim.keymap.set("x", "<C-i>", toggle("i"), { buffer = bufnr })
 				vim.keymap.set("x", "<C-c>", toggle("c"), { buffer = bufnr })
+        vim.keymap.set("x", "<C-s>", toggle("s"), { buffer = bufnr })
 			end,
-			-- configuration here or empty for defaults
-			mappings = {
-				inline_surround_delete = "rs", -- (string|boolean) delete emphasis surrounding cursor
-				go_curr_heading = ")c", -- (string|boolean) set cursor to current section heading
-				go_parent_heading = ")p", -- (string|boolean) set cursor to parent section heading
-				go_next_heading = "))", -- (string|boolean) set cursor to next section heading
-				go_prev_heading = "((", -- (string|boolean) set cursor to previous section heading
-			},
+      inline_surround = {
+        strikethrough = {
+          text = "s",
+          txt = "==",
+        },
+      },
 		},
 	},
 }
