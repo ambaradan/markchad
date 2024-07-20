@@ -22,4 +22,3 @@ map("n", "<leader>nc", function()
 	vim.b.x = not vim.b.x
 	require("cmp").setup.buffer({ enabled = not vim.b.x })
 end, { desc = "Toggle Cmp Support" })
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
