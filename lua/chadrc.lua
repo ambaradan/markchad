@@ -4,7 +4,7 @@
 ---@type ChadrcConfig
 local M = {}
 
-M.ui = {
+M.base46 = {
 	theme = "onedark",
 	hl_override = {
 		FloatBorder = { fg = "light_grey", bg = "black" },
@@ -24,6 +24,8 @@ M.ui = {
     titleH5 = { fg = "blue" },
     titleH6 = { fg = "teal" },
 	},
+}
+M.ui = {
 	cmp = {
 		icons = true,
 		lspkind_text = true,
