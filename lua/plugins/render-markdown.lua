@@ -1,8 +1,8 @@
 return {
-	"MeanderingProgrammer/markdown.nvim",
+	"MeanderingProgrammer/render-markdown.nvim",
 	enabled = true,
 	latex_enabled = false,
-	name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+	-- name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
 	dependencies = { "nvim-treesitter/nvim-treesitter" },
 	ft = "markdown",
 	config = function()
