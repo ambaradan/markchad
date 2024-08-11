@@ -48,20 +48,4 @@ return {
 			require("telescope").load_extension("cmdline")
 		end,
 	},
-	-- Navigate Markdown Heading
-	{
-		"crispgm/telescope-heading.nvim",
-		enabled = false,
-		event = "VeryLazy",
-		keys = {
-			{
-				"<leader>hh",
-				"<cmd>Telescope heading theme=dropdown<cr>",
-				desc = "Navigate Heading",
-			},
-		},
-		config = function()
-			require("telescope").load_extension("heading")
-		end,
-	},
 }
