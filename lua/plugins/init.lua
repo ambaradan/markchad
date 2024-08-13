@@ -38,6 +38,7 @@ return {
         "yamllint",
         "yamlfmt",
         "shfmt",
+        "deno",
         "vale",
       },
     },
