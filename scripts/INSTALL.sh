@@ -73,7 +73,7 @@ else
   printf "\n"
 fi
 printf " ${bold_in}%s${bold_out}\n" "Required executable control"
-req=("foo" "gcc" "make")
+req=("git" "gcc" "make")
 for req in "${req[@]}"; do
   if command -v "$req" >/dev/null; then
     printf "\tChecking availability ${green}%s${clear}: " "$req"
