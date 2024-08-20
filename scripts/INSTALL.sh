@@ -72,7 +72,7 @@ else
   confirm
   printf "\n"
 fi
-printf " ${bold_in}%s${bold_out}\n" "Required executable control"
+printf " ${bold_in}%s${bold_out}\n" "Required executable control" | indent 2
 req=("git" "gcc" "make")
 for req in "${req[@]}"; do
   if command -v "$req" >/dev/null; then
@@ -81,11 +81,11 @@ for req in "${req[@]}"; do
   else
     printf "\tChecking availability ${red}%s${clear}: " "$req"
     missing
-    printf "Installable with: ${bold_in}dnf install %s -y${bold_out}\n" "$req" | indent 5
+    printf "Installable with: ${bold_in}sudo dnf install %s -y${bold_out}\n" "$req" | indent 5
 
   fi
 done
-printf " \n ${bold_in}%s${bold_out}\n" "Optional executables control"
+printf " \n ${bold_in}%s${bold_out}\n" "Optional executables control" | indent 2
 req=("rg" "sqlite3" "lazygit")
 for req in "${req[@]}"; do
   if command -v "$req" >/dev/null; then
@@ -94,10 +94,20 @@ for req in "${req[@]}"; do
   else
     printf "\tChecking availability (optional) ${red}%s${clear}: " "$req"
     missing
+    if [ "$req" = "rg" ]; then
+      printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install ripgrep -y" | indent 5
+    fi
+if [ "$req" = "sqlite3" ]; then
+      printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install sqlite -y" | indent 5
+    fi
+    if [ "$req" = "lazygit" ]; then
+      printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf copr enable atim/lazygit" | indent 5
+      printf "${bold_in}%s${bold_out}" "sudo dnf install lazygit -y" | indent 14
+  fi
   fi
 done
 # Check paths presence
-printf " \n${bold_in}%s${bold_out}\n" " Checking installation paths"
+printf " \n${bold_in}%s${bold_out}\n" " Checking installation paths" | indent 2
 dir_path=(".config" ".local/share")
 for dir_path in "${dir_path[@]}"; do
   if [ ! -d "$HOME/$dir_path" ]; then
