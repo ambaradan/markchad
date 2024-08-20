@@ -33,10 +33,11 @@ M.base46 = {
 }
 M.ui = {
 	cmp = {
-		icons = true,
-		lspkind_text = true,
-		style = "flat_dark", -- default/flat_light/flat_dark/atom/atom_colored
+		style = "flat_dark",
 	},
+    statusline = {
+      theme = "vscode",
+    },
 }
 
 return M
