@@ -1,0 +1,57 @@
+#!/bin/env bash
+# Variabili Colori
+green='\e[32m'
+red='\x1b[31m'
+blue='\x1b[38;5;81m'
+orange='\x1b[38;5;214m'
+clear='\e[0m'
+bold_in='\033[1m'
+bold_out='\033[0m'
+function divider() {
+  printf -- "-%.0s" $(seq 1 80)
+  printf "\n"
+}
+function confirm() {
+  printf "\e[32mOK\e[0m\n"
+}
+function missing() {
+  printf "\x1b[38;5;214mMISSING\e[0m\n"
+}
+function indent() {
+  local indentSize=2
+  local indent=1
+  if [ -n "$1" ]; then indent=$1; fi
+  pr -to $((indent * indentSize))
+}
+function title_script() {
+  printf "${bold_in}${green}%s${clear}${bold_out}\n" "Markchad configuration installation" | indent 4
+}
+function intro_script() {
+  printf "The script was created and tested on a Rocky Linux 8.4 system.\nConsequently, all commands refer to a RHEL based system, especially\nthe commands for installing the required packages, in case you are\nusing another Linux distribution, you should adapt them to your own\ndistribution.\n\n" | indent 1
+}
+# Messaggi della routine di controllo di 'nvim'
+function nv_check_title() {
+  printf "${bold_in}%s${bold_out}\n\n" "Neovim availability check" | indent 4
+}
+function nv_check_ok() {
+  printf "\tExecutable detected: ${orange}%s${clear}\n" "$nv_path"
+}
+function nv_check_no() {
+  printf "${red}%s${clear} No Neovim (${orange}%s${clear}) executable was found to be available on the system in use,\n the configuration requires an installation of Neovim 0.10.0 or higher.\n\n For its installation, reference can be made to the official documentation\n available in the links below.\n\n" "WARNING" "nvim" | indent 4
+}
+function nv_outdated() {
+printf "\n${red}%s${clear} detected incompatible version of Neovim:\n\n\tVersion required ${blue}%s${clear}\n\tVersion installed ${orange}%s${clear}\n\n" "WARNING" "$nv_req" "$nv_strip" | indent 4
+}
+function nv_outdated_info(){
+printf "The installed version ${orange}%s${clear} does not meet the minimum\nrequirements for a successful installation it is recommended\nto run an update of Neovim.\n\n" "$nv_vers" | indent 2
+}
+function official_doc() {
+  printf " ${bold_in}%s\n${bold_out}" "Official documentation" | indent 2
+  printf " https://github.com/neovim/neovim/blob/master/INSTALL.md\n" | indent 3
+  printf " https://github.com/neovim/neovim/blob/master/BUILD.md\n\n" | indent 3
+  printf " ${bold_in}%s\n\n${bold_out}" "Installation halted pending availability of minimum requirements." | indent 1
+}
+# Messaggi Vari
+function info_to_exit() {
+  printf "Press any key to terminate the script...\n" | indent  6
+}
