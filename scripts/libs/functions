@@ -1,0 +1,11 @@
+#!/bin/env bash
+  # Loop until a key is pressed
+function press_to_exit() {
+  while true; do
+    read -rsn1 key # Read a single character silently
+    if [[ -n "$key" ]]; then
+      exit
+    fi
+  done
+}
+
