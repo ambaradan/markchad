@@ -2,70 +2,35 @@
 # Script di installazione della configurazione personalizzata
 # di NvChad per il codice Markdown
 clear
-# Funzioni
-function divider() {
-  printf -- "-%.0s" $(seq 1 80)
-  printf "\n"
-}
-function confirm() {
-  printf "\e[32mOK\e[0m\n"
-}
-function missing() {
-  printf "\x1b[38;5;214mMISSING\e[0m\n"
-}
-function indent() {
-  local indentSize=2
-  local indent=1
-  if [ -n "$1" ]; then indent=$1; fi
-  pr -to $((indent * indentSize))
-}
-
-# Variabili Colori
-green='\e[32m'
-red='\x1b[31m'
-blue='\x1b[38;5;81m'
-orange='\x1b[38;5;214m'
-clear='\e[0m'
-bold_in='\033[1m'
-bold_out='\033[0m'
+# Source files
+source libs/messages
+source libs/functions
+# -------------------
 divider
-printf "${bold_in}${green}%s${clear}${bold_out}\n" "Markchad configuration installation" | indent 4
+title_script
 divider
 # Introduzione
-printf "The script was created and tested on a Rocky Linux 8.4 system. Consequently,\nall commands refer to a RHEL based system, especially the commands for\ninstalling the required packages, in case you are using another Linux\ndistribution, you should adapt them to your own distribution.\n\n" | indent 1
+intro_script
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
 nv_req="0.10.0"
 nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
-printf "${bold_in}%s${bold_out}\n" "Neovim availability check" | indent 2
+nv_check_title
 if command -v nvim >/dev/null; then
-  printf "\tExecutable detected: (${orange}%s${clear}): " "$nv_path"
-  confirm
+  nv_check_ok
 else
-  printf " ${red}%s${clear}\n No Neovim (${orange}%s${clear}) executable was found to be available on the system in use,\n the configuration requires an installation of Neovim 0.10.0 or higher.\n\n For its installation, reference can be made to the official documentation\n available in the links below.\n\n" "WARNING" "nvim" | indent 2
-  printf " ${bold_in}%s\n\n${bold_out}" "Official documentation"
-  printf " https://github.com/neovim/neovim/blob/master/INSTALL.md\n"
-  printf " https://github.com/neovim/neovim/blob/master/BUILD.md\n\n"
-  printf " ${bold_in}%s\n\n${bold_out}" "Installation halted pending availability of minimum requirements."
+  nv_check_no
+  official_doc
   exit
 fi
 if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | head -n1)" | sort -V -C; then
-  printf "\n ${red}%s${clear} detected incompatible version of Neovim:\n\n Version required ${blue}%s${clear}\n Version installed ${orange}%s${clear}\n\n" "WARNING" "$nv_req" "$nv_strip"
-  printf " The installed version ${orange}%s${clear} does not meet the minimum requirements\n for a successful installation it is recommended to run an update of Neovim.\n\n" "$nv_vers"
-  printf " ${bold_in}%s\n\n${bold_out}" "Official documentation"
-  printf " https://github.com/neovim/neovim/blob/master/INSTALL.md\n"
-  printf " https://github.com/neovim/neovim/blob/master/BUILD.md\n\n"
-  echo " Press any key to terminate the script..."
-  # Loop until a key is pressed
-  while true; do
-    read -rsn1 key # Read a single character silently
-    if [[ -n "$key" ]]; then
-      printf " Installation aborted due to Neovim incompatibility."
-      exit
-    fi
-  done
+  nv_outdated
+  nv_outdated_info
+  official_doc
+  info_to_exit
+  press_to_exit
   exit
 else
   printf "\tInstalled version: ${orange}%s${clear} " "$nv_vers"
@@ -97,13 +62,13 @@ for req in "${req[@]}"; do
     if [ "$req" = "rg" ]; then
       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install ripgrep -y" | indent 5
     fi
-if [ "$req" = "sqlite3" ]; then
+    if [ "$req" = "sqlite3" ]; then
       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install sqlite -y" | indent 5
     fi
     if [ "$req" = "lazygit" ]; then
       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf copr enable atim/lazygit" | indent 5
       printf "${bold_in}%s${bold_out}" "sudo dnf install lazygit -y" | indent 14
-  fi
+    fi
   fi
 done
 # Check paths presence
@@ -155,7 +120,7 @@ select root_dir in Nvim Markchad Quit; do
 done
 clear
 divider
-printf "\t${bold_in}${green}%s${clear}${bold_out}\n" "Markchad configuration installation"
+title_script
 divider
 # Configurazione delle variabili
 conf_dir=".config/$root_dir"
