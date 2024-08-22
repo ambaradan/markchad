@@ -96,27 +96,36 @@ confirm
 # End check paths
 divider
 printf "The system meets the requirements for installation of the Markchad\nconfiguration.\nThe configuration can be installed as the main editor (${blue}%s${clear})\nor as an additional configuration (${blue}%s${clear}).\n\n" "Nvim" "Markchad" | indent 3
-# Scelta della cartella di destinazione
-PS3=" Select the destination folder: "
-# Menu for defining the destination folder
-select root_dir in Nvim Markchad Quit; do
-  case $root_dir in
-  "Nvim")
+# Menu for folder choice
+# Function to display the horizontal menu
+display_menu() {
+  printf "Please select the folder:\n\n" | indent 10
+  printf "${blue}%s${clear} Nvim   ${blue}%s${clear} Markchad   ${red}%s${clear} Quit\n\n" "[1]" "[2]" "[q]" | indent 8
+  printf "\t\t\tEnter your choice: "
+
+  read -r choice
+}
+# Main loop
+while true; do
+  display_menu
+  case $choice in
+  1)
     root_dir="nvim"
-    break
+    return
     ;;
-  "Markchad")
+  2)
     root_dir="markchad"
-    break
+    return
     ;;
-  "Quit")
-    printf " Installation aborted\n"
-    exit
+  q)
+    printf "\t\tInstallation aborted.\n"
+    exit 0
     ;;
   *)
-    printf "Incorrect selection\n"
+    printf "\t\tInvalid option. Please try again."
     ;;
   esac
+  echo # for a new line after the selection message
 done
 clear
 divider

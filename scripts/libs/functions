@@ -1,4 +1,5 @@
 #!/bin/env bash
+source messages
   # Loop until a key is pressed
 function press_to_exit() {
   while true; do
@@ -8,4 +9,20 @@ function press_to_exit() {
     fi
   done
 }
-
+# Function to center text and format to 60 columns
+center_and_format_text() {
+    local text="$1"
+    local terminal_width=70  # Set terminal width to 60 columns
+    local wrapped_text
+    wrapped_text=$(echo "$text" | fold -s -w $terminal_width)  # Wrap text
+    while IFS= read -r line; do
+        local line_length=${#line}
+        local padding=$(( (terminal_width - line_length) / 2 ))  # Calculate padding
+        printf "%${padding}s%s\n" "" "$line"  # Print the centered line
+    done <<< "$wrapped_text"
+}
+# Function to format text to 80 columns
+format_text() {
+    local text="$1"  # Get the text input
+    echo "$text" | fold -w 80  # Use fold to format text to 80 columns
+}

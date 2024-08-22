@@ -27,7 +27,7 @@ function title_script() {
   printf "${bold_in}${green}%s${clear}${bold_out}\n" "Markchad configuration installation" | indent 4
 }
 function intro_script() {
-  printf "The script was created and tested on a Rocky Linux 8.4 system.\nConsequently, all commands refer to a RHEL based system, especially\nthe commands for installing the required packages, in case you are\nusing another Linux distribution, you should adapt them to your own\ndistribution.\n\n" | indent 1
+  "The script was created and tested on a Rocky Linux 8.4 system.\nConsequently, all commands refer to a RHEL based system, especially\nthe commands for installing the required packages, in case you are\nusing another Linux distribution, you should adapt them to your own\ndistribution.\n\n" | indent 1
 }
 # Messaggi della routine di controllo di 'nvim'
 function nv_check_title() {
