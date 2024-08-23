@@ -8,7 +8,7 @@ source libs/functions
 # -------------------
 title_msg "$title_script"
 # Introduzione
-center_and_format_text "$intro_script"
+format_text "$intro_script"
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
