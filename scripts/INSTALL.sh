@@ -19,12 +19,14 @@ section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
   printf "\t$nv_check_ok: ${orange}%s${clear}\n" "$nv_path"
 else
-  nv_check_no
+  warning_title "$warning"
+  center_and_format_text "$nv_check_no"
   official_doc
   exit
 fi
 if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | head -n1)" | sort -V -C; then
-  nv_outdated
+warning_title "WARNING"
+  printf "\n${red}%s${clear} detected incompatible version of Neovim:\n\n\tVersion required ${blue}%s${clear}\n\tVersion installed ${orange}%s${clear}\n\n" "WARNING" "$nv_req" "$nv_strip" | indent 4
   nv_outdated_info
   official_doc
   info_to_exit
