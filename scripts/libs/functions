@@ -10,7 +10,7 @@ function indent() {
   if [ -n "$1" ]; then indent=$1; fi
   pr -to $((indent * indentSize))
 }
-  # Loop until a key is pressed
+# Loop until a key is pressed
 function press_to_exit() {
   while true; do
     read -rsn1 key # Read a single character silently
@@ -20,57 +20,101 @@ function press_to_exit() {
     fi
   done
 }
+# Function to check command availability
+check_command() {
+  command_name="$1"
+
+  if command -v "$command_name" &>/dev/null; then
+    printf "${blue}%-20s${clear} ${green}%s${clear}\n" "$command_name" "available" | indent 7
+  else
+    printf "${blue}%-20s${clear} ${red}%s${clear}\n" "$command_name" "not available" | indent 7
+    printf "Install with: ${bold_in}sudo dnf install %s -y${bold_out}\n" "$req" | indent 8
+  fi
+}
+function check_command_opt() {
+  command_name="$1"
+
+  if command -v "$command_name" &>/dev/null; then
+    printf "${blue}%-20s${clear} ${green}%s${clear}\n" "$command_name" "available" | indent 7
+  else
+    printf "${blue}%-20s${clear} ${orange}%s${clear}\n" "$command_name" "missing" | indent 7
+    if [ "$req" = "rg" ]; then
+      printf "Install with: ${bold_in}%s${bold_out}\n" "sudo dnf install ripgrep -y" | indent 8
+    fi
+    if [ "$req" = "sqlite3" ]; then
+      printf "Install with: ${bold_in}%s${bold_out}\n" "sudo dnf install sqlite -y" | indent 5
+    fi
+    if [ "$req" = "lazygit" ]; then
+      printf "Install with: ${bold_in}%s${bold_out}\n" "sudo dnf copr enable atim/lazygit" | indent 5
+      printf "${bold_in}%s${bold_out}" "sudo dnf install lazygit -y" | indent 14
+    fi
+  fi
+}
+# Function to check command availability
+check_commands_exit() {
+  for cmd in "${commands[@]}"; do
+    if ! command -v "$cmd" &>/dev/null; then
+      printf "\n"
+      warning_title "$warning"
+      printf "\n"
+      format_text "$nv_vers_info"
+      printf "\n"
+      printf "  %s" "$info_to_exit"
+      press_to_exit
+    fi
+  done
+}
 # Function to center text and format to 60 columns
 center_and_format_text() {
-    local text="$1"
-    local terminal_width=80  # Set terminal width to 60 columns
-    local wrapped_text
-    wrapped_text=$(echo "$text" | fold -s -w $terminal_width)  # Wrap text
-    while IFS= read -r line; do
-        local line_length=${#line}
-        local padding=$(( (terminal_width - line_length) / 2 ))  # Calculate padding
-        printf "%${padding}s%s\n" "" "$line"  # Print the centered line
-    done <<< "$wrapped_text"
+  local text="$1"
+  local terminal_width=80 # Set terminal width to 60 columns
+  local wrapped_text
+  wrapped_text=$(echo "$text" | fold -s -w $terminal_width) # Wrap text
+  while IFS= read -r line; do
+    local line_length=${#line}
+    local padding=$(((terminal_width - line_length) / 2)) # Calculate padding
+    printf "%${padding}s%s\n" "" "$line"                  # Print the centered line
+  done <<<"$wrapped_text"
 }
 format_text() {
-    local text="$1"
-    # Fold the text at 80 columns and add two spaces padding on each side
-    echo "$text" | fold -s -w 76 | sed 's/^/  /; s/$/  /'
+  local text="$1"
+  # Fold the text at 80 columns and add two spaces padding on each side
+  echo "$text" | fold -s -w 76 | sed 's/^/  /; s/$/  /'
 }
 # Title
 title_msg() {
   termwidth=80
   padding="$(printf '%0.1s' ={1..500})"
-  printf "%*.*s ${bold_in}${orange}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
+  printf "%*.*s ${bold_in}${orange}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
 }
 section_title() {
   termwidth=80
   padding="$(printf '%0.1s' _{1..500})"
-  printf "\n%*.*s ${bold_in}${blue}%s${clear}${bold_out} %*.*s\n\n" 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
+  printf "\n%*.*s ${bold_in}${blue}%s${clear}${bold_out} %*.*s\n\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
 }
 warning_title() {
   termwidth=80
   padding="$(printf '%0.1s' ={1..500})"
-  printf "%*.*s ${bold_in}${red}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
+  printf "%*.*s ${bold_in}${red}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
 }
 justify_text() {
-    # Get the length of the longest line
-    max_length=$(wc -L < "$1")
+  # Get the length of the longest line
+  max_length=$(wc -L <"$1")
 
-    # Loop through each line in the file
-    while read -r line; do
-        # Calculate the number of spaces needed to justify the line
-        num_spaces=$((max_length - ${#line}))
+  # Loop through each line in the file
+  while read -r line; do
+    # Calculate the number of spaces needed to justify the line
+    num_spaces=$((max_length - ${#line}))
 
-        # Add two spaces to the beginning and end of the line
-        line="  $line  "
+    # Add two spaces to the beginning and end of the line
+    line="  $line  "
 
-        # Add the necessary number of spaces to justify the line
-        for ((i=0; i<num_spaces; i++)); do
-            line=" $line"
-        done
+    # Add the necessary number of spaces to justify the line
+    for ((i = 0; i < num_spaces; i++)); do
+      line=" $line"
+    done
 
-        # Print the justified line
-        echo "$line"
-    done < "$1"
+    # Print the justified line
+    echo "$line"
+  done <"$1"
 }

@@ -13,7 +13,7 @@ format_text "$intro_script"
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
-nv_req="0.11.0"
+nv_req="0.10.0"
 nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
 section_title "$nv_check_title"
@@ -44,46 +44,46 @@ if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | he
   printf "${blue}%s${clear}" "$neovim_install" | indent 5
   printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
   # --------------------
-  printf "  %s" "$info_to_exit"
   press_to_exit
 else
-  printf "\tInstalled version: ${orange}%s${clear} " "$nv_vers"
-  confirm
+  printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 7
 fi
 section_title "$msg_nv_exe"
-req=("git" "gcc" "make")
-for req in "${req[@]}"; do
-  if command -v "$req" >/dev/null; then
-    printf "\tChecking availability ${green}%s${clear}: " "$req"
-    confirm
-  else
-    printf "\tChecking availability ${red}%s${clear}: " "$req"
-    missing
-    printf "Installable with: ${bold_in}sudo dnf install %s -y${bold_out}\n" "$req" | indent 5
-
-  fi
+commands=("git" "gcc" "make")
+# Print header
+printf "${orange}%-20s${clear} ${orange}%s${clear}\n" "Command" "Status" | indent 7
+# Loop through each command and check
+for req in "${commands[@]}"; do
+    check_command "$req"
 done
-printf " \n ${bold_in}%s${bold_out}\n" "Optional executables control" | indent 2
-req=("rg" "sqlite3" "lazygit")
-for req in "${req[@]}"; do
-  if command -v "$req" >/dev/null; then
-    printf "\tChecking availability (optional) ${green}%s${clear}: " "$req"
-    confirm
-  else
-    printf "\tChecking availability (optional) ${red}%s${clear}: " "$req"
-    missing
-    if [ "$req" = "rg" ]; then
-      printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install ripgrep -y" | indent 5
-    fi
-    if [ "$req" = "sqlite3" ]; then
-      printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install sqlite -y" | indent 5
-    fi
-    if [ "$req" = "lazygit" ]; then
-      printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf copr enable atim/lazygit" | indent 5
-      printf "${bold_in}%s${bold_out}" "sudo dnf install lazygit -y" | indent 14
-    fi
-  fi
+check_commands_exit
+section_title "Optional executables control"
+opts=("rg1" "sqlite32" "lazygit3")
+# Print header
+printf "${orange}%-20s${clear} ${orange}%s${clear}\n" "Command" "Status" | indent 7
+# Loop through each command and check
+for req in "${opts[@]}"; do
+    check_command_opt "$req"
 done
+# for req in "${req[@]}"; do
+#   if command -v "$req" >/dev/null; then
+#     printf "\tChecking availability (optional) ${green}%s${clear}: " "$req"
+#     confirm
+#   else
+#     printf "\tChecking availability (optional) ${red}%s${clear}: " "$req"
+#     missing
+#     if [ "$req" = "rg" ]; then
+#       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install ripgrep -y" | indent 5
+#     fi
+#     if [ "$req" = "sqlite3" ]; then
+#       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install sqlite -y" | indent 5
+#     fi
+#     if [ "$req" = "lazygit" ]; then
+#       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf copr enable atim/lazygit" | indent 5
+#       printf "${bold_in}%s${bold_out}" "sudo dnf install lazygit -y" | indent 14
+#     fi
+#   fi
+# done
 # Check paths presence
 printf " \n${bold_in}%s${bold_out}\n" " Checking installation paths" | indent 2
 dir_path=(".config" ".local/share")
