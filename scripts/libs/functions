@@ -38,16 +38,7 @@ function check_command_opt() {
     printf "${blue}%-20s${clear} ${green}%s${clear}\n" "$command_name" "available" | indent 7
   else
     printf "${blue}%-20s${clear} ${orange}%s${clear}\n" "$command_name" "missing" | indent 7
-    if [ "$req" = "rg" ]; then
-      printf "Install with: ${bold_in}%s${bold_out}\n" "sudo dnf install ripgrep -y" | indent 8
-    fi
-    if [ "$req" = "sqlite3" ]; then
-      printf "Install with: ${bold_in}%s${bold_out}\n" "sudo dnf install sqlite -y" | indent 5
-    fi
-    if [ "$req" = "lazygit" ]; then
-      printf "Install with: ${bold_in}%s${bold_out}\n" "sudo dnf copr enable atim/lazygit" | indent 5
-      printf "${bold_in}%s${bold_out}" "sudo dnf install lazygit -y" | indent 14
-    fi
+
   fi
 }
 # Function to check command availability
