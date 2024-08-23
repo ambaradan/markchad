@@ -1,18 +1,26 @@
 #!/bin/env bash
 # source functions
 
-
-title_script="Markchad configuration installation"
-msg_nv_exe="Required executable control"
-intro_script="The script was created and tested on a Rocky Linux 8.4 system. Consequently, all commands refer to a RHEL based system, especially the commands for installing the required packages, in case you are using another Linux distribution, you should adapt them to your own distribution."
-nv_check_title="Neovim availability check"
-
 function confirm() {
   printf "\e[32mOK\e[0m\n"
 }
 function missing() {
   printf "\x1b[38;5;214mMISSING\e[0m\n"
 }
+# Variabili Colori
+green='\e[32m'
+red='\x1b[31m'
+blue='\x1b[38;5;81m'
+orange='\x1b[38;5;214m'
+clear='\e[0m'
+bold_in='\033[1m'
+bold_out='\033[0m'
+export title_script="Markchad configuration installation"
+export msg_nv_exe="Required executable control"
+export intro_script="The script was created and tested on a Rocky Linux 8.4 system. Consequently, all commands refer to a RHEL based system, especially the commands for installing the required packages, in case you are using another Linux distribution, you should adapt them to your own distribution."
+export nv_check_title="Neovim availability check"
+
+
 
 # function title_script() {
 #   center_title "Markchad configuration installation"
@@ -24,9 +32,7 @@ function missing() {
 # function nv_check_title() {
 #   section_title "Neovim availability check"
 # }
-function nv_check_ok() {
-  printf "\tExecutable detected: ${orange}%s${clear}\n" "$nv_path"
-}
+export nv_check_ok="Executable detected"
 function nv_check_no() {
   printf "${red}%s${clear} No Neovim (${orange}%s${clear}) executable was found to be available on the system in use,\n the configuration requires an installation of Neovim 0.10.0 or higher.\n\n For its installation, reference can be made to the official documentation\n available in the links below.\n\n" "WARNING" "nvim" | indent 4
 }

@@ -17,7 +17,7 @@ nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
 section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
-  nv_check_ok
+  printf "\t$nv_check_ok: ${orange}%s${clear}\n" "$nv_path"
 else
   nv_check_no
   official_doc

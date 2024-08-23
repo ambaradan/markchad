@@ -1,13 +1,5 @@
 #!/bin/env bash
-source messages
-# Variabili Colori
-green='\e[32m'
-red='\x1b[31m'
-blue='\x1b[38;5;81m'
-orange='\x1b[38;5;214m'
-clear='\e[0m'
-bold_in='\033[1m'
-bold_out='\033[0m'
+
 function divider() {
   printf -- "-%.0s" $(seq 1 80)
   printf "\n"
