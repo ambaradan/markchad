@@ -47,6 +47,11 @@ section_title() {
   padding="$(printf '%0.1s' _{1..500})"
   printf "\n%*.*s ${bold_in}${blue}%s${clear}${bold_out} %*.*s\n\n" 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
 }
+warning_title() {
+  termwidth=80
+  padding="$(printf '%0.1s' ={1..500})"
+  printf "%*.*s ${bold_in}${red}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
+}
 justify_text() {
     # Get the length of the longest line
     max_length=$(wc -L < "$1")
