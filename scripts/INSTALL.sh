@@ -6,18 +6,16 @@ clear
 source libs/messages
 source libs/functions
 # -------------------
-divider
-title_script
-divider
+title_msg "$title_script"
 # Introduzione
-intro_script
+center_and_format_text "$intro_script"
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
 nv_req="0.10.0"
 nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
-nv_check_title
+section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
   nv_check_ok
 else
@@ -35,9 +33,8 @@ if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | he
 else
   printf "\tInstalled version: ${orange}%s${clear} " "$nv_vers"
   confirm
-  printf "\n"
 fi
-printf " ${bold_in}%s${bold_out}\n" "Required executable control" | indent 2
+section_title "$msg_nv_exe"
 req=("git" "gcc" "make")
 for req in "${req[@]}"; do
   if command -v "$req" >/dev/null; then
