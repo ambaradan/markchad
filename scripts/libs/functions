@@ -31,10 +31,10 @@ center_and_format_text() {
         printf "%${padding}s%s\n" "" "$line"  # Print the centered line
     done <<< "$wrapped_text"
 }
-# Function to format text to 80 columns
 format_text() {
-    local text="$1"  # Get the text input
-    echo "$text" | fold -w 80  # Use fold to format text to 80 columns
+    local text="$1"
+    # Fold the text at 80 columns and add two spaces padding on each side
+    echo "$text" | fold -s -w 76 | sed 's/^/  /; s/$/  /'
 }
 # Title
 title_msg() {
