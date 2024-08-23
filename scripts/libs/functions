@@ -1,5 +1,23 @@
 #!/bin/env bash
 source messages
+# Variabili Colori
+green='\e[32m'
+red='\x1b[31m'
+blue='\x1b[38;5;81m'
+orange='\x1b[38;5;214m'
+clear='\e[0m'
+bold_in='\033[1m'
+bold_out='\033[0m'
+function divider() {
+  printf -- "-%.0s" $(seq 1 80)
+  printf "\n"
+}
+function indent() {
+  local indentSize=2
+  local indent=1
+  if [ -n "$1" ]; then indent=$1; fi
+  pr -to $((indent * indentSize))
+}
   # Loop until a key is pressed
 function press_to_exit() {
   while true; do
@@ -12,7 +30,7 @@ function press_to_exit() {
 # Function to center text and format to 60 columns
 center_and_format_text() {
     local text="$1"
-    local terminal_width=70  # Set terminal width to 60 columns
+    local terminal_width=80  # Set terminal width to 60 columns
     local wrapped_text
     wrapped_text=$(echo "$text" | fold -s -w $terminal_width)  # Wrap text
     while IFS= read -r line; do
@@ -25,4 +43,36 @@ center_and_format_text() {
 format_text() {
     local text="$1"  # Get the text input
     echo "$text" | fold -w 80  # Use fold to format text to 80 columns
+}
+# Title
+title_msg() {
+  termwidth=80
+  padding="$(printf '%0.1s' ={1..500})"
+  printf "%*.*s ${bold_in}${orange}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
+}
+section_title() {
+  termwidth=80
+  padding="$(printf '%0.1s' _{1..500})"
+  printf "\n%*.*s ${bold_in}${blue}%s${clear}${bold_out} %*.*s\n\n" 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
+}
+justify_text() {
+    # Get the length of the longest line
+    max_length=$(wc -L < "$1")
+
+    # Loop through each line in the file
+    while read -r line; do
+        # Calculate the number of spaces needed to justify the line
+        num_spaces=$((max_length - ${#line}))
+
+        # Add two spaces to the beginning and end of the line
+        line="  $line  "
+
+        # Add the necessary number of spaces to justify the line
+        for ((i=0; i<num_spaces; i++)); do
+            line=" $line"
+        done
+
+        # Print the justified line
+        echo "$line"
+    done < "$1"
 }
