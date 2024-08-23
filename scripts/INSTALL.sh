@@ -7,31 +7,45 @@ source libs/messages
 source libs/functions
 # -------------------
 title_msg "$title_script"
+printf "\n"
 # Introduzione
 format_text "$intro_script"
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
-nv_req="0.10.0"
+nv_req="0.11.0"
 nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
 section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
-  printf "\t$nv_check_ok: ${orange}%s${clear}\n" "$nv_path"
+  printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 7
 else
   warning_title "$warning"
-  center_and_format_text "$nv_check_no"
-  official_doc
+  format_text "$nv_check_no"
+  # Neovim Documentation
+  printf "\n${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
+  printf "${blue}%s${clear}" "$neovim_install" | indent 5
+  printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
+  # --------------------
+  warning_title "$install_halt"
   exit
 fi
 if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | head -n1)" | sort -V -C; then
-warning_title "WARNING"
-  printf "\n${red}%s${clear} detected incompatible version of Neovim:\n\n\tVersion required ${blue}%s${clear}\n\tVersion installed ${orange}%s${clear}\n\n" "WARNING" "$nv_req" "$nv_strip" | indent 4
-  nv_outdated_info
-  official_doc
-  info_to_exit
+  printf "\n"
+  warning_title "$warning"
+  printf "\n"
+  format_text "$nv_vers_req"
+  # printf "\n${red}%s${clear} detected incompatible version of Neovim:Version required ${blue}%s${clear}\n\tVersion installed ${orange}%s${clear}\n\n" "WARNING" "$nv_req" "$nv_strip" | indent 4
+  printf "\n"
+  printf "%s ${blue}%s${clear}" "$nv_required" "$nv_req" | indent 8
+  printf "%s ${orange}%s${clear}" "$nv_installed" "$nv_strip" | indent 8
+  # Neovim Documentation
+  printf "\n${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
+  printf "${blue}%s${clear}" "$neovim_install" | indent 5
+  printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
+  # --------------------
+  printf "  %s" "$info_to_exit"
   press_to_exit
-  exit
 else
   printf "\tInstalled version: ${orange}%s${clear} " "$nv_vers"
   confirm
