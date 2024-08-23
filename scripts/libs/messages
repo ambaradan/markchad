@@ -8,34 +8,23 @@ function missing() {
   printf "\x1b[38;5;214mMISSING\e[0m\n"
 }
 # Variabili Colori
-green='\e[32m'
-red='\x1b[31m'
-blue='\x1b[38;5;81m'
-orange='\x1b[38;5;214m'
-clear='\e[0m'
-bold_in='\033[1m'
-bold_out='\033[0m'
+export green='\e[32m'
+export blue='\x1b[38;5;81m'
+export orange='\x1b[38;5;214m'
+export red='\033[0;31m'
+export clear='\e[0m'
+export bold_in='\033[1m'
+export bold_out='\033[0m'
 export title_script="Markchad configuration installation"
 export msg_nv_exe="Required executable control"
 export intro_script="The script was created and tested on a Rocky Linux 8.4 system. Consequently, all commands refer to a RHEL based system, especially the commands for installing the required packages, in case you are using another Linux distribution, you should adapt them to your own distribution."
 export nv_check_title="Neovim availability check"
-
-
-
-# function title_script() {
-#   center_title "Markchad configuration installation"
-# }
-# function intro_script() {
-#   printf "The script was created and tested on a Rocky Linux 8.4 system. Consequently, all commands refer to a RHEL based system, especially the commands for installing the required packages, in case you are\nusing another Linux distribution, you should adapt them to your own distribution." | fmt -w 80
-# }
-# Messaggi della routine di controllo di 'nvim'
-# function nv_check_title() {
-#   section_title "Neovim availability check"
-# }
 export nv_check_ok="Executable detected"
-function nv_check_no() {
-  printf "${red}%s${clear} No Neovim (${orange}%s${clear}) executable was found to be available on the system in use,\n the configuration requires an installation of Neovim 0.10.0 or higher.\n\n For its installation, reference can be made to the official documentation\n available in the links below.\n\n" "WARNING" "nvim" | indent 4
-}
+export nv_check_no="No Neovim executable was found to be available on the system in use, the configuration requires an installation of Neovim 0.10.0 or higher. For its installation, reference can be made to the official documentation available in the links below."
+export warning="WARNING"
+# function nv_check_no() {
+#   printf "${red}%s${clear} No Neovim (${orange}%s${clear}) executable was found to be available on the system in use,\n the configuration requires an installation of Neovim 0.10.0 or higher.\n\n For its installation, reference can be made to the official documentation\n available in the links below.\n\n" "WARNING" "nvim" | indent 4
+# }
 function nv_outdated() {
 printf "\n${red}%s${clear} detected incompatible version of Neovim:\n\n\tVersion required ${blue}%s${clear}\n\tVersion installed ${orange}%s${clear}\n\n" "WARNING" "$nv_req" "$nv_strip" | indent 4
 }
