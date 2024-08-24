@@ -49,21 +49,59 @@ else
   printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 7
 fi
 section_title "$msg_nv_exe"
-commands=("git" "gcc" "make")
+commands=("git" "gcc" "make" "rg" "sqlite3" "lazygit")
+messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install ripgrep -y" "sudo dnf install sqlite -y" "Check the README.me")
+
 # Print header
-printf "${orange}%-20s${clear} ${orange}%s${clear}\n" "Command" "Status" | indent 7
-# Loop through each command and check
-for req in "${commands[@]}"; do
-    check_command "$req"
+printf "${blue}%-10s %-10s %-10s${clear}\n" "Package" "Status" "Install Cmd" | indent 7
+printf "%-10s %-10s %-40s\n" "-------" "------" "-----------" | indent 7
+
+for i in "${!commands[@]}"; do
+  if command -v "${commands[i]}" &>/dev/null; then
+    status="Installed"
+    # exists="Yes"
+    # message="${commands[i]} is installed."
+    message="  ------  "
+  else
+    status="Missing"
+    # exists="No"
+    message="${messages[i]}"
+  fi
+  printf "${blue}%-10s${clear} %-10s ${bold_in}%-10s${bold_out}\n" "${commands[i]}" "${status}" "${message}" | indent 7
 done
-check_commands_exit
-section_title "Optional executables control"
-opts=("rg1" "sqlite32" "lazygit3")
-# Print header
-printf "${orange}%-20s${clear} ${orange}%s${clear}\n" "Command" "Status" | indent 7
-# Loop through each command and check
-for req in "${opts[@]}"; do
-    check_command_opt "$req"
+# Check each command and exit if one is missing
+commands_req=("git" "gcc" "make")
+for cmd in "${commands_req[@]}"; do
+  if ! command -v "$cmd" &>/dev/null; then
+    printf "\n"
+    warning_title "$warning"
+    printf "\n"
+    format_text "$command_check_info"
+    printf "\n"
+    printf "  %s" "$info_to_exit"
+    press_to_exit
+  fi
+done
+# Define an array of paths to check
+paths=( "~/.config" "~/.local/share" "~/.local/tmp" )
+
+# Loop through each path in the array
+for path in "${paths[@]}"; do
+    # Expand the tilde (~) to the home directory
+    expanded_path=$(eval echo "$path")
+    
+    # Check if the path exists
+    if [ -d "$expanded_path" ]; then
+        echo "The directory '$expanded_path' already exists."
+    else
+        # Create the directory
+        mkdir -p "$expanded_path"
+        if [ $? -eq 0 ]; then
+            echo "The directory '$expanded_path' was created successfully."
+        else
+            echo "Failed to create the directory '$expanded_path'."
+        fi
+    fi
 done
 # for req in "${req[@]}"; do
 #   if command -v "$req" >/dev/null; then
@@ -85,27 +123,27 @@ done
 #   fi
 # done
 # Check paths presence
-printf " \n${bold_in}%s${bold_out}\n" " Checking installation paths" | indent 2
-dir_path=(".config" ".local/share")
-for dir_path in "${dir_path[@]}"; do
-  if [ ! -d "$HOME/$dir_path" ]; then
-    mkdir -p "$HOME/$dir_path"
-    printf "\tCreation of the folder ${orange}%s${clear} " "$dir_path"
-    confirm
-  else
-    printf "\tFolder ${green}%s${clear} already present " "$dir_path"
-    confirm
-  fi
-done
-# Creazione, se mancante, della cartella
-# '.local/tmp' per le operazioni sui file
-if [ ! -d "$HOME/$tmp_dir" ]; then
-  mkdir -p "$HOME"/"$tmp_dir"
-  printf "\tWork folder ${orange}%s${clear} successfully created " "$tmp_dir"
-else
-  printf "\tFolder ${green}%s${clear} already present " "$tmp_dir"
-fi
-confirm
+# printf " \n${bold_in}%s${bold_out}\n" " Checking installation paths" | indent 2
+# dir_path=(".config" ".local/share")
+# for dir_path in "${dir_path[@]}"; do
+#   if [ ! -d "$HOME/$dir_path" ]; then
+#     mkdir -p "$HOME/$dir_path"
+#     printf "\tCreation of the folder ${orange}%s${clear} " "$dir_path"
+#     confirm
+#   else
+#     printf "\tFolder ${green}%s${clear} already present " "$dir_path"
+#     confirm
+#   fi
+# done
+# # Creazione, se mancante, della cartella
+# # '.local/tmp' per le operazioni sui file
+# if [ ! -d "$HOME/$tmp_dir" ]; then
+#   mkdir -p "$HOME"/"$tmp_dir"
+#   printf "\tWork folder ${orange}%s${clear} successfully created " "$tmp_dir"
+# else
+#   printf "\tFolder ${green}%s${clear} already present " "$tmp_dir"
+# fi
+# confirm
 # End check paths
 divider
 printf "The system meets the requirements for installation of the Markchad\nconfiguration.\nThe configuration can be installed as the main editor (${blue}%s${clear})\nor as an additional configuration (${blue}%s${clear}).\n\n" "Nvim" "Markchad" | indent 3

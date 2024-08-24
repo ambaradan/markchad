@@ -34,5 +34,6 @@ export install_halt="Installation halted - no availability of minimum requiremen
 export nv_vers_req="The installed version does not meet the minimum requirements for a successful installation it is recommended to run an update of Neovim."
 export nv_vers_info="Installation of the configuration cannot be done properly without the availability of all required packages."
 export opt_check_title="Optional executables control"
+export command_check_info="The first three packages in the list are required for successful installation of the configuration; without their availability, installation cannot be continued. To install the missing packages on a Rocky Linux or RHEL derivative system simply run the suggested commands, if your system uses a different package manager adapt the commands accordingly."
 # Messaggi Vari
 export info_to_exit="Press any key to terminate the script..."
