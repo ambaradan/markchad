@@ -10,29 +10,30 @@ title_msg "$title_script"
 printf "\n"
 # Introduzione
 format_text "$intro_script"
+printf "\n"
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
-nv_req="0.10.0"
+nv_req="0.11.0"
 nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
 section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
-  printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 7
+  printf "\n$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 7
 else
-  warning_title "$warning"
+  print_centered_red_text "$warning - No Neovim Found"
   format_text "$nv_check_no"
   # Neovim Documentation
   printf "\n${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
   printf "${blue}%s${clear}" "$neovim_install" | indent 5
   printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
   # --------------------
-  warning_title "$install_halt"
+  print_centered_red_text "$install_halt"
   exit
 fi
 if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | head -n1)" | sort -V -C; then
   printf "\n"
-  warning_title "$warning"
+  print_centered_red_text "$warning - Version Outdated"
   printf "\n"
   format_text "$nv_vers_req"
   printf "\n"
@@ -43,13 +44,14 @@ if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | he
   printf "${blue}%s${clear}" "$neovim_install" | indent 5
   printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
   # --------------------
+  printf "  %s" "$info_to_exit"
   press_to_exit
 else
   printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 7
 fi
 section_title "$msg_nv_exe"
 commands=("git" "gcc" "make" "rg" "sqlite3" "lazygit")
-messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install ripgrep -y" "sudo dnf install sqlite -y" "Check the README.me")
+messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install ripgrep -y" "sudo dnf install sqlite -y" "Check the README.md")
 
 # Print header
 printf "${blue}%-10s %-10s %-10s${clear}\n" "Package" "Status" "Install Cmd" | indent 7
@@ -73,7 +75,7 @@ commands_req=("git" "gcc" "make")
 for cmd in "${commands_req[@]}"; do
   if ! command -v "$cmd" &>/dev/null; then
     printf "\n"
-    warning_title "$warning"
+    print_centered_red_text "$warning"
     printf "\n"
     format_text "$command_check_info"
     printf "\n"
