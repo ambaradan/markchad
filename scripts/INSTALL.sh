@@ -35,7 +35,6 @@ if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | he
   warning_title "$warning"
   printf "\n"
   format_text "$nv_vers_req"
-  # printf "\n${red}%s${clear} detected incompatible version of Neovim:Version required ${blue}%s${clear}\n\tVersion installed ${orange}%s${clear}\n\n" "WARNING" "$nv_req" "$nv_strip" | indent 4
   printf "\n"
   printf "%s ${blue}%s${clear}" "$nv_required" "$nv_req" | indent 8
   printf "%s ${orange}%s${clear}" "$nv_installed" "$nv_strip" | indent 8
@@ -67,7 +66,7 @@ for i in "${!commands[@]}"; do
     # exists="No"
     message="${messages[i]}"
   fi
-  printf "${blue}%-10s${clear} %-10s ${bold_in}%-10s${bold_out}\n" "${commands[i]}" "${status}" "${message}" | indent 7
+  printf "${orange}%-10s${clear} %-10s ${bold_in}%-10s${bold_out}\n" "${commands[i]}" "${status}" "${message}" | indent 7
 done
 # Check each command and exit if one is missing
 commands_req=("git" "gcc" "make")
@@ -82,71 +81,31 @@ for cmd in "${commands_req[@]}"; do
     press_to_exit
   fi
 done
-# Define an array of paths to check
-paths=( "~/.config" "~/.local/share" "~/.local/tmp" )
+section_title "Checking installation paths"
+# Array of paths to check
+paths=( "$HOME/.config" "$HOME/.local/share" "$HOME/.local/tmp" )
+# Function to check and create paths
+check_and_create_path() {
+    local path="$1"
 
-# Loop through each path in the array
-for path in "${paths[@]}"; do
-    # Expand the tilde (~) to the home directory
-    expanded_path=$(eval echo "$path")
-    
-    # Check if the path exists
-    if [ -d "$expanded_path" ]; then
-        echo "The directory '$expanded_path' already exists."
+    if [ -d "$path" ]; then
+        printf "${orange}%s${clear} already exists\n" "$path" | indent 7
     else
-        # Create the directory
-        mkdir -p "$expanded_path"
+        mkdir -p "$path"
         if [ $? -eq 0 ]; then
-            echo "The directory '$expanded_path' was created successfully."
+            printf "${orange}%s${clear} created successfully\n" "$path" | indent 7
         else
-            echo "Failed to create the directory '$expanded_path'."
+            printf "Failed to create directory ${red}%s${clear}\n" "$path" | indent 7
         fi
     fi
+}
+# Loop through each path and check/create
+for path in "${paths[@]}"; do
+    check_and_create_path "$path"
 done
-# for req in "${req[@]}"; do
-#   if command -v "$req" >/dev/null; then
-#     printf "\tChecking availability (optional) ${green}%s${clear}: " "$req"
-#     confirm
-#   else
-#     printf "\tChecking availability (optional) ${red}%s${clear}: " "$req"
-#     missing
-#     if [ "$req" = "rg" ]; then
-#       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install ripgrep -y" | indent 5
-#     fi
-#     if [ "$req" = "sqlite3" ]; then
-#       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf install sqlite -y" | indent 5
-#     fi
-#     if [ "$req" = "lazygit" ]; then
-#       printf "Installable with: ${bold_in}%s${bold_out}\n" "sudo dnf copr enable atim/lazygit" | indent 5
-#       printf "${bold_in}%s${bold_out}" "sudo dnf install lazygit -y" | indent 14
-#     fi
-#   fi
-# done
-# Check paths presence
-# printf " \n${bold_in}%s${bold_out}\n" " Checking installation paths" | indent 2
-# dir_path=(".config" ".local/share")
-# for dir_path in "${dir_path[@]}"; do
-#   if [ ! -d "$HOME/$dir_path" ]; then
-#     mkdir -p "$HOME/$dir_path"
-#     printf "\tCreation of the folder ${orange}%s${clear} " "$dir_path"
-#     confirm
-#   else
-#     printf "\tFolder ${green}%s${clear} already present " "$dir_path"
-#     confirm
-#   fi
-# done
-# # Creazione, se mancante, della cartella
-# # '.local/tmp' per le operazioni sui file
-# if [ ! -d "$HOME/$tmp_dir" ]; then
-#   mkdir -p "$HOME"/"$tmp_dir"
-#   printf "\tWork folder ${orange}%s${clear} successfully created " "$tmp_dir"
-# else
-#   printf "\tFolder ${green}%s${clear} already present " "$tmp_dir"
-# fi
-# confirm
-# End check paths
-divider
-printf "The system meets the requirements for installation of the Markchad\nconfiguration.\nThe configuration can be installed as the main editor (${blue}%s${clear})\nor as an additional configuration (${blue}%s${clear}).\n\n" "Nvim" "Markchad" | indent 3
+section_title "Installation of Markchad"
+format_text "The system meets the requirements for installation of the Markchad configuration. The configuration can be installed as the main editor (Nvim) or as an additional configuration (Markchad)."
+printf "\n"
 # Menu for folder choice
 # Function to display the horizontal menu
 display_menu() {
@@ -162,11 +121,11 @@ while true; do
   case $choice in
   1)
     root_dir="nvim"
-    return
+    break
     ;;
   2)
     root_dir="markchad"
-    return
+    break
     ;;
   q)
     printf "\t\tInstallation aborted.\n"
@@ -179,9 +138,8 @@ while true; do
   echo # for a new line after the selection message
 done
 clear
-divider
-title_script
-divider
+title_msg "$title_script"
+printf "\n"
 # Configurazione delle variabili
 conf_dir=".config/$root_dir"
 share_dir=".local/share/$root_dir"
