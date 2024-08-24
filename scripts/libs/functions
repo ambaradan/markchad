@@ -20,48 +20,6 @@ function press_to_exit() {
     fi
   done
 }
-# Function to check command availability
-check_command() {
-  command_name="$1"
-
-  if command -v "$command_name" &>/dev/null; then
-    printf "${blue}%-20s${clear} ${green}%s${clear}\n" "$command_name" "available" | indent 7
-  else
-    printf "${blue}%-20s${clear} ${red}%s${clear}\n" "$command_name" "not available" | indent 7
-    printf "Install with: ${bold_in}sudo dnf install %s -y${bold_out}\n" "$req" | indent 8
-  fi
-}
-# Function to check command availability
-check_commands_exit() {
-  for cmd in "${commands[@]}"; do
-    if ! command -v "$cmd" &>/dev/null; then
-      printf "\n"
-      warning_title "$warning"
-      printf "\n"
-      format_text "$nv_vers_info"
-      printf "\n"
-      printf "  %s" "$info_to_exit"
-      press_to_exit
-    fi
-  done
-}
-# Function to center text and format to 60 columns
-center_and_format_text() {
-  local text="$1"
-  local terminal_width=80 # Set terminal width to 60 columns
-  local wrapped_text
-  wrapped_text=$(echo "$text" | fold -s -w $terminal_width) # Wrap text
-  while IFS= read -r line; do
-    local line_length=${#line}
-    local padding=$(((terminal_width - line_length) / 2)) # Calculate padding
-    printf "%${padding}s%s\n" "" "$line"                  # Print the centered line
-  done <<<"$wrapped_text"
-}
-format_text() {
-  local text="$1"
-  # Fold the text at 80 columns and add two spaces padding on each side
-  echo "$text" | fold -s -w 76 | sed 's/^/  /; s/$/  /'
-}
 # Title
 title_msg() {
   termwidth=80
@@ -69,33 +27,26 @@ title_msg() {
   printf "%*.*s ${bold_in}${orange}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
 }
 section_title() {
-  termwidth=80
-  padding="$(printf '%0.1s' _{1..500})"
-  printf "\n%*.*s ${bold_in}${blue}%s${clear}${bold_out} %*.*s\n\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
+local text="$1"
+    local width=80  # Total width limit is set to 80 columns
+
+    # Calculate the total spaces to fill
+    local total_spaces=$((width - ${#text}))
+
+    # If text is longer than 80 columns, truncate the text
+    if (( total_spaces < 0 )); then
+        text="${text:0:width}"
+        total_spaces=0
+    fi
+
+    # Create the dotted line
+    local dots=$(printf "%${total_spaces}s" "." | tr " " ".")
+
+    # Print the right-aligned text with dots on the left
+    printf "%s%s\n" "$dots" "$text"
 }
 warning_title() {
   termwidth=80
   padding="$(printf '%0.1s' ={1..500})"
   printf "%*.*s ${bold_in}${red}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
-}
-justify_text() {
-  # Get the length of the longest line
-  max_length=$(wc -L <"$1")
-
-  # Loop through each line in the file
-  while read -r line; do
-    # Calculate the number of spaces needed to justify the line
-    num_spaces=$((max_length - ${#line}))
-
-    # Add two spaces to the beginning and end of the line
-    line="  $line  "
-
-    # Add the necessary number of spaces to justify the line
-    for ((i = 0; i < num_spaces; i++)); do
-      line=" $line"
-    done
-
-    # Print the justified line
-    echo "$line"
-  done <"$1"
 }
