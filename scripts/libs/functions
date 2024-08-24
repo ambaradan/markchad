@@ -20,33 +20,53 @@ function press_to_exit() {
     fi
   done
 }
+# Function to format text
+format_text() {
+    local text="$1"
+    # Use fold to limit line width and sed to add padding
+    echo "$text" | fold -s -w 76 | sed 's/^/  /; s/$/  /'
+}
 # Title
 title_msg() {
   termwidth=80
   padding="$(printf '%0.1s' ={1..500})"
   printf "%*.*s ${bold_in}${orange}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
 }
+function print_centered_red_text() {
+    local text="$1"
+    
+    # ANSI escape codes for red text
+    local red="\e[31m"
+    local reset="\e[0m"
+    
+    # Determine the total width and calculate padding
+    local total_width=80
+    local text_length=${#text}
+    local padding=$(( (total_width - text_length) / 2 ))
+    
+    # Create the left padded space
+    local padded_text="$(printf "%*s%s" $padding "" "$text")"
+    
+    # Create the 80-character bar
+    local bar=$(printf "%*s" "$total_width" | tr ' ' '-')
+    
+    # Print the red bar with the centered text
+    printf "${red}%s${reset}\n" "$bar"
+    printf "${red}%s${reset}\n" "$padded_text"
+    printf "${red}%s${reset}\n" "$bar"
+}
 section_title() {
 local text="$1"
     local width=80  # Total width limit is set to 80 columns
-
     # Calculate the total spaces to fill
     local total_spaces=$((width - ${#text}))
-
     # If text is longer than 80 columns, truncate the text
     if (( total_spaces < 0 )); then
         text="${text:0:width}"
         total_spaces=0
     fi
-
     # Create the dotted line
     local dots=$(printf "%${total_spaces}s" "." | tr " " ".")
-
     # Print the right-aligned text with dots on the left
     printf "%s%s\n" "$dots" "$text"
-}
-warning_title() {
-  termwidth=80
-  padding="$(printf '%0.1s' ={1..500})"
-  printf "%*.*s ${bold_in}${red}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
 }
