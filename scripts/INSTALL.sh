@@ -6,7 +6,7 @@ clear
 source libs/messages
 source libs/functions
 # -------------------
-title_msg "$title_script"
+title_green "$title_script"
 printf "\n"
 # Introduzione
 format_text "$intro_script"
@@ -14,29 +14,26 @@ printf "\n"
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
-nv_req="0.11.0"
+nv_req="0.10.0"
 nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
 section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
-  printf "\n$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 7
+  printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 4
 else
-  print_centered_red_text "$warning - No Neovim Found"
+  warning_bar "WARNING - No Neovim Found"
   format_text "$nv_check_no"
   # Neovim Documentation
-  printf "\n${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
+  printf "${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
   printf "${blue}%s${clear}" "$neovim_install" | indent 5
   printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
   # --------------------
-  print_centered_red_text "$install_halt"
+  warning_bar "$install_halt"
   exit
 fi
 if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | head -n1)" | sort -V -C; then
-  printf "\n"
-  print_centered_red_text "$warning - Version Outdated"
-  printf "\n"
+  warning_bar "$warning - Version Outdated"
   format_text "$nv_vers_req"
-  printf "\n"
   printf "%s ${blue}%s${clear}" "$nv_required" "$nv_req" | indent 8
   printf "%s ${orange}%s${clear}" "$nv_installed" "$nv_strip" | indent 8
   # Neovim Documentation
@@ -47,15 +44,15 @@ if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | he
   printf "  %s" "$info_to_exit"
   press_to_exit
 else
-  printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 7
+  printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 4
 fi
 section_title "$msg_nv_exe"
 commands=("git" "gcc" "make" "rg" "sqlite3" "lazygit")
-messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install ripgrep -y" "sudo dnf install sqlite -y" "Check the README.md")
+messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install ripgrep -y" "sudo dnf install sqlite -y" "Check the NOTE below")
 
 # Print header
-printf "${blue}%-10s %-10s %-10s${clear}\n" "Package" "Status" "Install Cmd" | indent 7
-printf "%-10s %-10s %-40s\n" "-------" "------" "-----------" | indent 7
+printf "${blue}%-10s %-10s %-10s${clear}\n" "Package" "Status" "Install Cmd" | indent 4
+printf "%-10s %-10s %-40s\n" "-------" "------" "-----------" | indent 4
 
 for i in "${!commands[@]}"; do
   if command -v "${commands[i]}" &>/dev/null; then
@@ -68,42 +65,70 @@ for i in "${!commands[@]}"; do
     # exists="No"
     message="${messages[i]}"
   fi
-  printf "${orange}%-10s${clear} %-10s ${bold_in}%-10s${bold_out}\n" "${commands[i]}" "${status}" "${message}" | indent 7
+  printf "${orange}%-10s${clear} %-10s ${bold_in}%-10s${bold_out}\n" "${commands[i]}" "${status}" "${message}" | indent 4
 done
 # Check each command and exit if one is missing
 commands_req=("git" "gcc" "make")
 for cmd in "${commands_req[@]}"; do
   if ! command -v "$cmd" &>/dev/null; then
-    printf "\n"
-    print_centered_red_text "$warning"
-    printf "\n"
+    warning_bar "$warning - Missing required packages"
     format_text "$command_check_info"
     printf "\n"
     printf "  %s" "$info_to_exit"
     press_to_exit
   fi
 done
+commands_opt=("rg" "sqlite3" "lazygit")
+missing_cmd=false
+missing_lazygit=false
+for cmd in "${commands_opt[@]}"; do
+  # Check if the command is missing
+  if ! command -v "$cmd" &>/dev/null; then
+    missing_cmd=true
+    if [[ "$cmd" == "lazygit" ]]; then
+      missing_lazygit=true
+    fi
+  fi
+done
+if $missing_cmd; then
+  printf "\n"
+  center_bold_red "$warning - Missing Optional Packages"
+  printf "\n"
+  format_text "$command_opt_info"
+  printf "\n"
+  printf "  Press any key to continue.."
+  press_to_continue
+  if $missing_lazygit; then
+    format_text "$lazygit_info"
+    printf "\n"
+    printf "${bold_in}%s${bold_out}" "$lazygit_inst_1" | indent 4
+    printf "${bold_in}%s${bold_out}" "$lazygit_inst_2" | indent 4
+    printf "\n"
+    printf "  Press any key to continue.."
+    press_to_continue
+  fi
+fi
 section_title "Checking installation paths"
 # Array of paths to check
-paths=( "$HOME/.config" "$HOME/.local/share" "$HOME/.local/tmp" )
+paths=("$HOME/.config" "$HOME/.local/share" "$HOME/.local/tmp")
 # Function to check and create paths
 check_and_create_path() {
-    local path="$1"
+  local path="$1"
 
-    if [ -d "$path" ]; then
-        printf "${orange}%s${clear} already exists\n" "$path" | indent 7
+  if [ -d "$path" ]; then
+    printf "${orange}%s${clear} already exists\n" "$path" | indent 4
+  else
+    mkdir -p "$path"
+    if [ $? -eq 0 ]; then
+      printf "${orange}%s${clear} created successfully\n" "$path" | indent 4
     else
-        mkdir -p "$path"
-        if [ $? -eq 0 ]; then
-            printf "${orange}%s${clear} created successfully\n" "$path" | indent 7
-        else
-            printf "Failed to create directory ${red}%s${clear}\n" "$path" | indent 7
-        fi
+      printf "Failed to create directory ${red}%s${clear}\n" "$path" | indent 4
     fi
+  fi
 }
 # Loop through each path and check/create
 for path in "${paths[@]}"; do
-    check_and_create_path "$path"
+  check_and_create_path "$path"
 done
 section_title "Installation of Markchad"
 format_text "The system meets the requirements for installation of the Markchad configuration. The configuration can be installed as the main editor (Nvim) or as an additional configuration (Markchad)."
@@ -140,7 +165,7 @@ while true; do
   echo # for a new line after the selection message
 done
 clear
-title_msg "$title_script"
+title_green "$title_script"
 printf "\n"
 # Configurazione delle variabili
 conf_dir=".config/$root_dir"
@@ -148,7 +173,7 @@ share_dir=".local/share/$root_dir"
 cache_dir=".cache/$root_dir"
 
 date=$(date +%m-%d-%Y-%H-%M)
-cd ~/ || exit
+cd "$HOME" || exit
 if [ -d "$conf_dir" ]; then
   while true; do
     printf " Detected a configuration already present in the system in use.\n Back up the configuration ${orange}%s${clear}\n" "$conf_dir"

@@ -1,7 +1,14 @@
 #!/bin/env bash
-
 function divider() {
   printf -- "-%.0s" $(seq 1 80)
+  printf "\n"
+}
+function divider_single_red() {
+  printf -- "\033[0;31m-%.0s\e[0m" $(seq 1 80)
+  printf "\n"
+}
+function divider_double_red() {
+  printf "\033[0;31m=%.0s\e[0m" $(seq 1 80)
   printf "\n"
 }
 function indent() {
@@ -20,53 +27,114 @@ function press_to_exit() {
     fi
   done
 }
+function press_to_continue() {
+  while true; do
+    read -rsn1 key # Read a single character silently
+    if [[ -n "$key" ]]; then
+      printf "\n"
+      return
+    fi
+  done
+}
 # Function to format text
 format_text() {
-    local text="$1"
-    # Use fold to limit line width and sed to add padding
-    echo "$text" | fold -s -w 76 | sed 's/^/  /; s/$/  /'
+  local text="$1"
+  # Use fold to limit line width and sed to add padding
+  echo "$text" | fold -s -w 76 | sed 's/^/  /; s/$/  /'
+}
+# Function to center text
+function center_bold_red() {
+  local text="$1"
+  local text_length=${#text}                # Get the length of the text
+  local padding=$(((80 - text_length) / 2)) # Calculate padding
+  # Print the text with padding
+  printf "%${padding}s\033[1m\033[0;31m%s\e[0m\033[0m\n" "" "$text"
+}
+function warning_bar() {
+  local text="$1"
+  local text_length=${#text}                # Get the length of the text
+  local padding=$(((80 - text_length) / 2)) # Calculate padding
+  # Print the text with padding
+  printf "\n"
+  divider_single_red
+  printf "%${padding}s\033[1m\033[0;31m%s\e[0m\033[0m\n" "" "$text"
+  divider_single_red
+  printf "\n"
+}
+function center_bold_green() {
+  local text="$1"
+  local text_length=${#text}                # Get the length of the text
+  local padding=$(((80 - text_length) / 2)) # Calculate padding
+  # Print the text with padding
+  printf "%${padding}s\033[1ms\e[32m%s\e[0m\033[0m\n" "" "$text"
+}
+# Function to center text with '=' padding
+function title_red() {
+  local text="$1"
+  local total_width=80                               # Total width of the line
+  local text_length=${#text}                         # Length of the text
+  local padding=$(((total_width - text_length) / 2)) # Calculate padding
+  # Create the line with '=' characters and center the text
+  printf "%${padding}s" "=" | tr ' ' '='             # Left padding with '='
+  printf " \033[1m\033[0;31m%s\e[0m\033[0m " "$text" # Print the text
+  printf "%${padding}s" "=" | tr ' ' '='             # Right padding with '='
+  echo ""                                            # New line
+}
+function title_green() {
+  local text="$1"
+  local total_width=80                               # Total width of the line
+  local text_length=${#text}                         # Length of the text
+  local padding=$(((total_width - text_length) / 2)) # Calculate padding
+  # Create the line with '=' characters and center the text
+  printf "%${padding}s" "=" | tr ' ' '='         # Left padding with '='
+  printf " \033[1m\e[32m%s\e[0m\033[0m " "$text" # Print the text
+  printf "%${padding}s" "=" | tr ' ' '='         # Right padding with '='
+  echo ""                                        # New line
 }
 # Title
 title_msg() {
   termwidth=80
   padding="$(printf '%0.1s' ={1..500})"
-  printf "%*.*s ${bold_in}${orange}%s${clear}${bold_out} %*.*s\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
+  printf "%*.*s \033[1m\x1b[38;5;214m%s\e[0m\033[0m %*.*s\n" 0 "$(((termwidth - 2 - ${#1}) / 2))" "$padding" "$1" 0 "$(((termwidth - 1 - ${#1}) / 2))" "$padding"
 }
 function print_centered_red_text() {
-    local text="$1"
-    
-    # ANSI escape codes for red text
-    local red="\e[31m"
-    local reset="\e[0m"
-    
-    # Determine the total width and calculate padding
-    local total_width=80
-    local text_length=${#text}
-    local padding=$(( (total_width - text_length) / 2 ))
-    
-    # Create the left padded space
-    local padded_text="$(printf "%*s%s" $padding "" "$text")"
-    
-    # Create the 80-character bar
-    local bar=$(printf "%*s" "$total_width" | tr ' ' '-')
-    
-    # Print the red bar with the centered text
-    printf "${red}%s${reset}\n" "$bar"
-    printf "${red}%s${reset}\n" "$padded_text"
-    printf "${red}%s${reset}\n" "$bar"
+  local text="$1"
+
+  # ANSI escape codes for red text
+  local red="\e[31m"
+  local reset="\e[0m"
+
+  # Determine the total width and calculate padding
+  local total_width=80
+  local text_length=${#text}
+  local padding=$(((total_width - text_length) / 2))
+
+  # Create the left padded space
+  local padded_text
+  padded_text="$(printf "%*s%s" $padding "" "$text")"
+
+  # Create the 80-character bar
+  local bar
+  bar=$(printf "%*s" "$total_width" | tr ' ' '-')
+
+  # Print the red bar with the centered text
+  printf "${red}%s${reset}\n" "$bar"
+  printf "${red}%s${reset}\n" "$padded_text"
+  printf "${red}%s${reset}\n" "$bar"
 }
 section_title() {
-local text="$1"
-    local width=80  # Total width limit is set to 80 columns
-    # Calculate the total spaces to fill
-    local total_spaces=$((width - ${#text}))
-    # If text is longer than 80 columns, truncate the text
-    if (( total_spaces < 0 )); then
-        text="${text:0:width}"
-        total_spaces=0
-    fi
-    # Create the dotted line
-    local dots=$(printf "%${total_spaces}s" "." | tr " " ".")
-    # Print the right-aligned text with dots on the left
-    printf "%s%s\n" "$dots" "$text"
+  local text="$1"
+  local width=78 # Total width limit is set to 80 columns
+  # Calculate the total spaces to fill
+  local total_spaces=$((width - ${#text}))
+  # If text is longer than 80 columns, truncate the text
+  if ((total_spaces < 0)); then
+    text="${text:0:width}"
+    total_spaces=0
+  fi
+  # Create the dotted line
+  local dots
+  dots=$(printf "%${total_spaces}s" "." | tr " " ".")
+  # Print the right-aligned text with dots on the left
+  printf "%s\x1b[38;5;81m %s\e[0m\n" "$dots" "$text"
 }
