@@ -7,6 +7,10 @@ function divider_single_red() {
   printf -- "\033[0;31m-%.0s\e[0m" $(seq 1 80)
   printf "\n"
 }
+function divider_single_green() {
+  printf -- "\e[32m-%.0s\e[0m" $(seq 1 80)
+  printf "\n"
+}
 function divider_double_red() {
   printf "\033[0;31m=%.0s\e[0m" $(seq 1 80)
   printf "\n"
@@ -66,7 +70,7 @@ function center_bold_green() {
   local text_length=${#text}                # Get the length of the text
   local padding=$(((80 - text_length) / 2)) # Calculate padding
   # Print the text with padding
-  printf "%${padding}s\033[1ms\e[32m%s\e[0m\033[0m\n" "" "$text"
+  printf "%${padding}s\033[1m\e[32m%s\e[0m\033[0m\n" "" "$text"
 }
 # Function to center text with '=' padding
 function title_red() {
