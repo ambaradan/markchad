@@ -119,7 +119,7 @@ check_and_create_path() {
     printf "${orange}%s${clear} already exists\n" "$path" | indent 4
   else
     mkdir -p "$path"
-    if [ $? -eq 0 ]; then
+    if mkdir -p "$path"; then
       printf "${orange}%s${clear} created successfully\n" "$path" | indent 4
     else
       printf "Failed to create directory ${red}%s${clear}\n" "$path" | indent 4
@@ -167,6 +167,7 @@ done
 clear
 title_green "$title_script"
 printf "\n"
+
 # Configurazione delle variabili
 conf_dir=".config/$root_dir"
 share_dir=".local/share/$root_dir"
@@ -176,15 +177,21 @@ date=$(date +%m-%d-%Y-%H-%M)
 cd "$HOME" || exit
 if [ -d "$conf_dir" ]; then
   while true; do
-    printf " Detected a configuration already present in the system in use.\n Back up the configuration ${orange}%s${clear}\n" "$conf_dir"
-    divider
+    section_title "$backup_title"
+    format_text "$backup_info"
+    printf "\n"
+    printf "%s\n" "$backup_paths" | indent 2
+    printf "${orange}%s${clear}\n" "$HOME/$conf_dir" | indent 4
+    printf "${orange}%s${clear}\n\n" "$HOME/$share_dir" | indent 4
+    printf "%s\n" "$backup_save_path" | indent 2
+    printf "%s\n" "$HOME/backup" | indent 4
+    printf "\n"
     read -r -p " Start the backup? (y/n) " yn
     case $yn in
     [Yy]*)
       # Backup della configurazione esistente
       mkdir -p ~/backup/"$root_dir-$date"
-      printf " Creating the backup of ${orange}%s${clear} in the folder: \n\t${orange}%s${clear}" "$root_dir" "$HOME/backup/$root_dir-$date"
-      # printf " in the folder ${orange}backup/%s${clear}: " "$root_dir-$date"
+      printf "${orange}%s${clear}" "$root_dir" "$HOME/backup/$root_dir-$date"
       cp -r "$conf_dir" ~/backup/"$root_dir"-"$date"/"$date"-config/
       cp -r "$share_dir" ~/backup/"$root_dir"-"$date"/"$date"-share/
       confirm
@@ -196,29 +203,38 @@ if [ -d "$conf_dir" ]; then
     *) echo "Please answer Y/y or N/n" ;;
     esac
   done
+  printf "  Press any key to continue.."
+  press_to_continue
   # Rimozione della installazione precedente
+  clear
+  title_green "$title_script"
+  printf "\n"
+  printf " ${bold_in}%s${bold_out}\n" "Removing previous installations" | indent 2
   divider
-  printf " ${bold_in}%s${bold_out}\n" "Removing previous installations"
-  divider
-  printf " Removing folder ${orange}%s${clear}: " "$conf_dir"
+  printf " Removing folder ${orange}%s${clear}: " "$conf_dir" | indent 4
   rm -rf "$conf_dir"
   confirm
   if [ -d "$share_dir" ]; then
-    printf " Removing folder ${orange}%s${clear}: " "$share_dir"
+    printf " Removing folder ${orange}%s${clear}: " "$share_dir" | indent 4
+
     rm -rf "$share_dir"
     confirm
   else
-    printf " Directory %s not present: \e[32mOK\e[0m\n" "$share_dir"
+    printf " Directory %s not present: \e[32mOK\e[0m\n" "$share_dir" | indent 4
+
   fi
   if [ -d "$cache_dir" ]; then
-    printf " Removing folder ${orange}%s${clear}: " "$cache_dir"
+    printf " Removing folder ${orange}%s${clear}: " "$cache_dir" | indent 4
+
     rm -rf "$cache_dir"
     confirm
   else
-    printf " Directory ${orange}%s${clear} not present: \e[32mOK\e[0m\n" "$cache_dir"
+    printf " Directory ${orange}%s${clear} not present: \e[32mOK\e[0m\n" "$cache_dir" | indent 4
+
   fi
 fi
-divider
+printf "  Press any key to continue.."
+press_to_continue
 printf " ${bold_in}%s${bold_out} ${orange}%s${clear}\n" "Start configuration installation" "$root_dir"
 divider
 printf "${bold_in}%s\n${bold_out}" " Downloading the latest version of the configuration"
