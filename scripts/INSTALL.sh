@@ -47,8 +47,8 @@ else
   printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 4
 fi
 section_title "$msg_nv_exe"
-commands=("git" "gcc" "make" "rg" "sqlite3" "lazygit")
-messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install ripgrep -y" "sudo dnf install sqlite -y" "Check the NOTE below")
+commands=("git" "gcc" "make" "rsync" "rg" "sqlite3" "lazygit")
+messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install ripgrep -y" "sudo dnf install sqlite -y" "Check the NOTE below")
 
 # Print header
 printf "${blue}%-10s %-10s %-10s${clear}\n" "Package" "Status" "Install Cmd" | indent 4
@@ -78,7 +78,7 @@ for cmd in "${commands_req[@]}"; do
     press_to_exit
   fi
 done
-commands_opt=("rg" "sqlite3" "lazygit")
+commands_opt=("rsync" "rg" "sqlite3" "lazygit")
 missing_cmd=false
 missing_lazygit=false
 for cmd in "${commands_opt[@]}"; do
@@ -120,7 +120,7 @@ check_and_create_path() {
   else
     mkdir -p "$path"
     if mkdir -p "$path"; then
-      printf "${orange}%s${clear} created successfully\n" "$path" | indent 4
+      printf "${orange}%s${clear} created successfully\n" "$path" | indent 2
     else
       printf "Failed to create directory ${red}%s${clear}\n" "$path" | indent 4
     fi
@@ -232,57 +232,63 @@ if [ -d "$config" ]; then
   clear
   title_green "$title_script"
   printf "\n"
-  section_title "Removing previous installations"
-  printf "Removing folder: \n" | indent 2
-  printf "${orange}%s${clear}" "$config" | indent 4
+  section_title "Cleaning previous installations"
+  printf "${bold_in}  %s${bold_out}\n" "Removing folders:"
+  printf "${orange}%s${clear}" "$config" | indent 2
   rm -rf "$config"
   if [ -d "$share_local" ]; then
-    printf "${orange}%s${clear}" "$share_local" | indent 4
+    printf "${orange}%s${clear}" "$share_local" | indent 2
     rm -rf "$share_local"
   else
-    printf " Directory %s not present: \e[32mOK\e[0m\n" "$share_local" | indent 4
+    printf "%s not present\n" "$share_local" | indent 2
   fi
   if [ -d "$cache_dir" ]; then
-    printf "${orange}%s${clear}: " "$cache_dir" | indent 4
+    printf "${orange}%s${clear} " "$cache_dir" | indent 2
     rm -rf "$cache_dir"
   else
-    printf " Directory ${orange}%s${clear} not present: \e[32mOK\e[0m\n" "$cache_dir" | indent 4
-
+    printf "${orange}%s${clear} %s\n" "$cache_dir" "missing" | indent 2
   fi
 fi
 section_title "Start configuration installation"
 printf "\n"
-printf "${bold_in}%s\n${bold_out}" " Downloading the latest version of the configuration"
+printf "${bold_in}  %s${bold_out}\n" "Downloading the latest version of the configuration"
 curl -L https://github.com/ambaradan/markchad/releases/latest/download/markchad.tar.gz --output $tmp_dir/markchad.tar.gz
-printf "\n${bold_in}%s\n${bold_out}" " Extraction of compressed archive: "
-tar -xf $tmp_dir/markchad.tar.gz --checkpoint=.1250 --checkpoint-action=dot -C $tmp_dir
+printf "\n${bold_in}  %s${bold_out}\n" "Extraction of compressed archive: "
+printf "%s\n" "Extraction of the Markchad archive" | indent 2
+tar -xf $tmp_dir/markchad.tar.gz -C $tmp_dir
+tar_status=$?
+if [ $tar_status -eq 0 ]; then
+    printf "${green}%s${clear}" "Tar archive extracted successfully" | indent 2
+else
+    printf "${red}%s${clear}" "Failed to extract tar archive." | indent 2
+    exit 1
+fi
 section_title "Setup installation"
-printf " Copying files: "
 cp -r $tmp_dir/markchad/config/nvim/ "$config"
 cp -r $tmp_dir/markchad/share/nvim/ "$share_local"
-printf " Configuration files copied to: \n"
-printf "${orange}%s${clear}\n" "$HOME$config"
-printf " Shared files copied to: \n"
-printf "${orange}%s${clear}\n" "$HOME$share_local"
+printf "${bold_in}  %s${bold_out}\n" "Configuration files copied to:"
+printf "${orange}%s${clear}\n" "$HOME$config" | indent 2
+printf "${bold_in}  %s${bold_out}\n" "Shared files copied to:"
+printf "${orange}%s${clear}\n" "$HOME$share_local" | indent 2
 section_title "Cleaning temporary files"
 rm -rf $tmp_dir/markchad
 rm -f $tmp_dir/markchad.tar.gz
 if [ -z "$(ls -A $tmp_dir)" ]; then
   rm -rf ~/.local/tmp/
-  printf "Folder .local/tmp removed\n"
+  printf "${bold_in}  %s${bold_out}\n" "Folder .local/tmp removed"
 else
-  printf "\n\t${orange}%s${clear} folder not empty: ${orange}%s${clear}\n" "$HOME/$tmp_dir" "Skipped"
+  printf "\n${orange}  %s${clear} not empty: ${orange}%s${clear}\n" "$HOME/$tmp_dir" "Skipped"
 fi
 divider_single_green
 center_bold_green "Installation performed properly"
 divider_single_green
 if [ "$root_dir" == "markchad" ]; then
-  format_text "To start this version of the configuration, it is necessary to use\n for further starts the variablen"
+  format_text "To start this version of the configuration, it is necessary to use for further starts the variable NVIM_APPNAME."
   printf "\n${blue}%s${clear}\n" "NVIM_APPNAME=markchad nvim" | indent 4
 else
-  printf " To start the new Neovim configuration use the command ${blue}%s${clear}\n\n" "nvim"
+  printf "To start the new Neovim configuration use the command ${blue}%s${clear}\n\n" "nvim"
 fi
-divider
+printf "\n"
 cd ~/ || exit
 while true; do
   read -r -p " Do you want to start the new configuration? (y/n) " yn
