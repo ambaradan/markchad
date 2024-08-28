@@ -47,8 +47,8 @@ else
   printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 4
 fi
 section_title "$msg_nv_exe"
-commands=("git" "gcc" "make" "rsync" "rg" "sqlite3" "lazygit")
-messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install ripgrep -y" "sudo dnf install sqlite -y" "Check the NOTE below")
+commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
+messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 
 # Print header
 printf "${blue}%-10s %-10s %-10s${clear}\n" "Package" "Status" "Install Cmd" | indent 4
@@ -78,14 +78,17 @@ for cmd in "${commands_req[@]}"; do
     press_to_exit
   fi
 done
-commands_opt=("rsync" "rg" "sqlite3" "lazygit")
+commands_opt=("rsync" "sqlite3" "rg" "lazygit")
 missing_cmd=false
 missing_lazygit=false
+missing_rg=false
 for cmd in "${commands_opt[@]}"; do
   # Check if the command is missing
   if ! command -v "$cmd" &>/dev/null; then
     missing_cmd=true
-    if [[ "$cmd" == "lazygit" ]]; then
+    if [[ "$cmd" == "rg" ]]; then
+      missing_rg=true
+    elif [[ "$cmd" == "lazygit" ]]; then
       missing_lazygit=true
     fi
   fi
@@ -96,15 +99,23 @@ if $missing_cmd; then
   printf "\n"
   format_text "$command_opt_info"
   printf "\n"
+  if $missing_rg; then
+    format_text "Ripgrep is available from the EPEL repository, so you must install it before installing Ripgrep. The commands to run are: "
+    printf "\n"
+    printf "${bold_in}%s${bold_out}" "sudo dnf install epel-release -y" | indent 4
+    printf "${bold_in}%s${bold_out}" "sudo dnf install ripgrep -y" | indent 4
+    printf "\n"
+  fi
   if $missing_lazygit; then
     format_text "$lazygit_info"
     printf "\n"
     printf "${bold_in}%s${bold_out}" "$lazygit_inst_1" | indent 4
     printf "${bold_in}%s${bold_out}" "$lazygit_inst_2" | indent 4
     printf "\n"
-    printf "  Press any key to continue.."
-    press_to_continue
+
   fi
+  printf "  Press any key to continue.."
+  press_to_continue
 fi
 section_title "Checking installation paths"
 # Array of paths to check
@@ -256,10 +267,10 @@ printf "%s\n" "Extraction of the Markchad archive" | indent 2
 tar -xf $tmp_dir/markchad.tar.gz -C $tmp_dir
 tar_status=$?
 if [ $tar_status -eq 0 ]; then
-    printf "${green}%s${clear}" "Tar archive extracted successfully" | indent 2
+  printf "${green}%s${clear}" "Tar archive extracted successfully" | indent 2
 else
-    printf "${red}%s${clear}" "Failed to extract tar archive." | indent 2
-    exit 1
+  printf "${red}%s${clear}" "Failed to extract tar archive." | indent 2
+  exit 1
 fi
 section_title "Setup installation"
 cp -r $tmp_dir/markchad/config/nvim/ "$config"
