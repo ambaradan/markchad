@@ -31,14 +31,30 @@ function press_to_exit() {
     fi
   done
 }
-function press_to_continue() {
-  while true; do
-    read -rsn1 key # Read a single character silently
-    if [[ -n "$key" ]]; then
-      printf "\n"
-      return
-    fi
-  done
+# Function to prompt the user to press Enter to continue or 'q' to quit
+press_enter_or_quit() {
+    while true; do
+        read -r -p "  Press Enter to continue or 'q' to quit... " input
+        
+        if [[ "$input" == "q" ]]; then
+            printf "  Quitting the script."
+            exit 0
+        elif [[ -z "$input" ]]; then
+            return  # Continue with the script
+        else
+            printf "  Invalid input. Please press Enter to continue or 'q' to quit."
+        fi
+    done
+}
+# Function to draw a box around the text
+draw_box() {
+    local text="$1"
+    local length=${#text}
+    local border=$(printf "%${length}s" | tr ' ' '-')
+
+    echo "+${border}+"
+    echo "| ${text} |"
+    echo "+${border}+"
 }
 # Function to format text
 format_text() {
