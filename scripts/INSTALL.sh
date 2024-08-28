@@ -96,8 +96,6 @@ if $missing_cmd; then
   printf "\n"
   format_text "$command_opt_info"
   printf "\n"
-  printf "  Press any key to continue.."
-  press_to_continue
   if $missing_lazygit; then
     format_text "$lazygit_info"
     printf "\n"
