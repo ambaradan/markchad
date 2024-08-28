@@ -112,10 +112,8 @@ if $missing_cmd; then
     printf "${bold_in}%s${bold_out}" "$lazygit_inst_1" | indent 4
     printf "${bold_in}%s${bold_out}" "$lazygit_inst_2" | indent 4
     printf "\n"
-
   fi
-  printf "  Press any key to continue.."
-  press_to_continue
+  press_enter_or_quit
 fi
 section_title "Checking installation paths"
 # Array of paths to check
@@ -227,8 +225,7 @@ if [ -d "$config" ]; then
       divider_single_green
       center_bold_green "Backup performed correctly"
       divider_single_green
-      printf "\n  Press any key to continue.."
-      press_to_continue
+      press_enter_or_quit
       break
       ;;
     [Nn]*)
