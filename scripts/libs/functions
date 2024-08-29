@@ -1,4 +1,5 @@
 #!/bin/env bash
+source ./messages
 function divider() {
   printf -- "-%.0s" $(seq 1 80)
   printf "\n"
@@ -34,15 +35,17 @@ function press_to_exit() {
 # Function to prompt the user to press Enter to continue or 'q' to quit
 press_enter_or_quit() {
     while true; do
-        read -r -p "  Press Enter to continue or 'q' to quit... " input
+        read -r -p "$enter_or_quit_info" input
         
         if [[ "$input" == "q" ]]; then
-            printf "  Quitting the script."
+            printf "  %s\n" "$enter_or_quit_exit"
+            printf "\n"
             exit 0
         elif [[ -z "$input" ]]; then
             return  # Continue with the script
         else
-            printf "  Invalid input. Please press Enter to continue or 'q' to quit."
+            printf "  %s\n"  "$enter_or_quit_wrong"
+            printf "\n"
         fi
     done
 }
