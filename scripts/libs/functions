@@ -1,5 +1,6 @@
 #!/bin/env bash
-source ./messages
+# Used only locally to eliminate ShellChek warnings
+# source ./messages
 function divider() {
   printf -- "-%.0s" $(seq 1 80)
   printf "\n"
