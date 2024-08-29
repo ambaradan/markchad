@@ -123,13 +123,13 @@ check_and_create_path() {
   local path="$1"
 
   if [ -d "$path" ]; then
-    printf "${orange}%s${clear} already exists\n" "$path" | indent 4
+    printf "${orange}%s${clear} already exists\n" "$path" | indent 2
   else
     mkdir -p "$path"
     if mkdir -p "$path"; then
       printf "${orange}%s${clear} created successfully\n" "$path" | indent 2
     else
-      printf "Failed to create directory ${red}%s${clear}\n" "$path" | indent 4
+      printf "Failed to create directory ${red}%s${clear}\n" "$path" | indent 2
     fi
   fi
 }
