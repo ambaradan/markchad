@@ -41,6 +41,10 @@ export lazygit_inst_1="sudo dnf copr enable atim/lazygit -y"
 export lazygit_inst_2="sudo dnf install lazygit -y"
 # Messaggi Vari
 export info_to_exit="Press any key to terminate the script..."
+# Msg for 'enter_or_quit' function
+export enter_or_quit_info="  Press Enter to continue or 'q' to quit... "
+export enter_or_quit_exit="Quitting the script."
+export enter_or_quit_wrong="Invalid input. Please press Enter to continue or 'q' to quit."
 export backup_title="Backup Utility"
 export backup_info="The presence of a previous installation at the chosen location was detected. The new installation will delete all files in the destination folders it is consequently recommended to make a backup of the previous configuration."
 export backup_paths="Folders will be backed up:"
