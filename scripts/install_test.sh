@@ -47,74 +47,18 @@ else
   printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 4
 fi
 section_title "$msg_nv_exe"
-commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
-messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
-
-# Print header
-printf "${blue}%-10s %-10s %-10s${clear}\n" "Package" "Status" "Install Cmd" | indent 4
-printf "%-10s %-10s %-40s\n" "-------" "------" "-----------" | indent 4
-
-for i in "${!commands[@]}"; do
-  if command -v "${commands[i]}" &>/dev/null; then
-    status="Installed"
-    # exists="Yes"
-    # message="${commands[i]} is installed."
-    message="  ------  "
-  else
-    status="Missing"
-    # exists="No"
-    message="${messages[i]}"
-  fi
-  printf "${orange}%-10s${clear} %-10s ${bold_in}%-10s${bold_out}\n" "${commands[i]}" "${status}" "${message}" | indent 4
+# commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
+# messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
+print_list_missing
+printf "\n"
+print_if_one_missing "One or more commands are found to be unavailable, the highlighted commands can be used for their installation on a Rocky Linux or RHEL based system. Some commands are provided by the EPEL repository and their installation is described in the related notes below."
+printf "\n"
+for cmd in "${commands[@]}"; do
+  print_missing_message "$cmd"
 done
-# Check each command and exit if one is missing
-commands_req=("git" "gcc" "make")
-for cmd in "${commands_req[@]}"; do
-  if ! command -v "$cmd" &>/dev/null; then
-    warning_bar "$warning - Missing required packages"
-    format_text "$command_check_info"
-    printf "\n"
-    printf "  %s" "$info_to_exit"
-    press_to_exit
-  fi
-done
-commands_opt=("rsync" "sqlite3" "rg" "lazygit")
-missing_cmd=false
-missing_lazygit=false
-missing_rg=false
-for cmd in "${commands_opt[@]}"; do
-  # Check if the command is missing
-  if ! command -v "$cmd" &>/dev/null; then
-    missing_cmd=true
-    if [[ "$cmd" == "rg" ]]; then
-      missing_rg=true
-    elif [[ "$cmd" == "lazygit" ]]; then
-      missing_lazygit=true
-    fi
-  fi
-done
-if $missing_cmd; then
-  printf "\n"
-  center_bold_red "$warning - Missing Optional Packages"
-  printf "\n"
-  format_text "$command_opt_info"
-  printf "\n"
-  if $missing_rg; then
-    format_text "Ripgrep is available from the EPEL repository, so you must install it before installing Ripgrep. The commands to run are: "
-    printf "\n"
-    printf "${bold_in}%s${bold_out}" "sudo dnf install epel-release -y" | indent 4
-    printf "${bold_in}%s${bold_out}" "sudo dnf install ripgrep -y" | indent 4
-    printf "\n"
-  fi
-  if $missing_lazygit; then
-    format_text "$lazygit_info"
-    printf "\n"
-    printf "${bold_in}%s${bold_out}" "$lazygit_inst_1" | indent 4
-    printf "${bold_in}%s${bold_out}" "$lazygit_inst_2" | indent 4
-    printf "\n"
-  fi
-  press_enter_or_quit
-fi
+print_if_one_missing "Lack of these commands do not allow proper execution of the Markchad configuration, it is recommended to exit the script and install the missing packages."
+printf "\n"
+press_enter_or_quit
 section_title "Checking installation paths"
 # Array of paths to check
 paths=("$HOME/.config" "$HOME/.local/share" "$HOME/.local/tmp")
