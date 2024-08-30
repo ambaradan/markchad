@@ -1,6 +1,6 @@
 #!/bin/env bash
 # Used only locally to eliminate ShellChek warnings
-# source ./messages
+source ./messages
 # Function to back up directories
 backup_directories() {
   local root_dir="$1"
@@ -33,6 +33,90 @@ backup_directories() {
 
   printf "Backup completed successfully.\nBackup stored in: \n%s\n" "$backup_dir"
 }
+# Function to show header and footer if some command is missing
+commands=("git0" "gcc0" "make" "rsync" "sqlite3" "rg0" "lazygit0")
+messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
+function print_if_one_missing() {
+    local msg="$1" # Capture the message passed as an argument
+    # commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
+    missing_commands=()
+
+    for cmd in "${commands[@]}"; do
+        if ! command -v "$cmd" &> /dev/null; then
+            missing_commands+=("$cmd")
+        fi
+    done
+
+    if [ ${#missing_commands[@]} -ne 0 ]; then
+        format_text "$msg"
+    fi
+}
+# Function for terminal printout the list of missing packages
+# and their corresponding commands for installation
+function print_list_missing() {
+  printf "${bold_in}%-10s %-10s %-10s${bold_out}\n" "Package" "Status" "Install Cmd" | indent 2
+  printf "%-10s %-10s %-40s\n" "-------" "------" "-----------" | indent 2
+  for i in "${!commands[@]}"; do
+    if command -v "${commands[i]}" &>/dev/null; then
+      status="Installed"
+      # exists="Yes"
+      # message="${commands[i]} is installed."
+      message="  ------  "
+    else
+      status="Missing"
+      # exists="No"
+      message="${messages[i]}"
+    fi
+    printf "%-10s %-10s ${bold_in}%-10s${bold_out}\n" "${commands[i]}" "${status}" "${message}" | indent 2
+  done
+}
+# Function to print a custom message for each missing command
+function print_missing_message() {
+  local cmd=$1
+  if ! command -v "$cmd" &>/dev/null; then
+    case $cmd in
+    git0)
+      printf "  ${bold_in}%s${bold_out}\n" "Git - version manager"
+      format_text "This application is needed for version control of NvChad and installed plugins thus allowing them to be updated."
+      printf "\n"
+      ;;
+    gcc0)
+      printf "  ${bold_in}%s${bold_out}\n" "GCC - GNU Compiler Collection"
+      format_text "This collection of compilers is necessary for proper handling of plugins, their installation and updating."
+      printf "\n"
+      ;;
+    make0)
+      printf "  ${bold_in}%s${bold_out}\n" "Make - compile and link a program"
+      format_text "Required to build plugins written in C, required for proper operation of NvChad."
+      printf "\n"
+      ;;
+    sqlite30)
+      printf "  ${bold_in}%s${bold_out}\n" "SQLite3 - SQL database engine"
+      format_text "Lightweight, high-performance database used by the 'yanky.nvim' plugin to store saved strings. It allows handling of a larger number of strings without slowing down the search."
+      printf "\n"
+      ;;
+    rg0)
+      printf "  ${bold_in}%s${bold_out}\n" "Ripgrep (rg) - line-oriented search tool"
+      format_text "Used by telescope sorter to significantly improve sorting performance, for its installation the availability of Epel repository is required, to install it the commands are:"
+      printf "\n"
+      printf "${bold_in}%s${bold_out}\n" "sudo dnf install epel-release -y" | indent 2
+      printf "${bold_in}%s${bold_out}\n" "sudo dnf install ripgrep -y" | indent 2
+      printf "\n"
+      ;;
+    lazygit0)
+      printf "  ${bold_in}%s${bold_out}\n" "LazyGit - terminal UI for git commands"
+      format_text "Please install LazyGit for a simple Git interface."
+      printf "\n"
+      printf "${bold_in}%s${bold_out}\n" "sudo dnf copr enable atim/lazygit -y" | indent 2
+      printf "${bold_in}%s${bold_out}\n" "sudo dnf lazygit -y" | indent 2
+      printf "\n"
+      ;;
+    esac
+  else
+    return
+  fi
+}
+
 function divider() {
   printf -- "-%.0s" $(seq 1 80)
   printf "\n"
