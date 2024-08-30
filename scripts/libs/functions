@@ -1,6 +1,38 @@
 #!/bin/env bash
 # Used only locally to eliminate ShellChek warnings
 # source ./messages
+# Function to back up directories
+backup_directories() {
+  local root_dir="$1"
+  local current_date
+  local config="config"
+  local share="local/share"
+  current_date=$(date +%Y%m%d)
+  local config_dir="$HOME/.config/$root_dir"
+  local local_share_dir="$HOME/.local/share/$root_dir"
+  local backup_dir="$HOME/backup/${root_dir}_backup_$current_date"
+  # Create the backup directory if it doesn't exist
+  mkdir -p "$backup_dir/$config/$root_dir"
+  mkdir -p "$backup_dir/$share/$root_dir"
+  # Backup the .config directory
+  if [[ -d "$config_dir" ]]; then
+    cp -r "$config_dir" "$backup_dir/$config/"
+    printf "Backed up %s\n" "$config_dir" 
+    printf "to %s\n" "${root_dir}_backup_$current_date/$config"
+  else
+    printf "Warning: Source directory %s does not exist.\n" "$config_dir"
+  fi
+  # Backup the .local/share directory
+  if [[ -d "$local_share_dir" ]]; then
+    cp -r "$local_share_dir" "$backup_dir/$share/"
+    printf "Backed up %s\n" "$local_share_dir" 
+    printf "to %s\n" "${root_dir}_backup_$current_date/$share"
+  else
+    printf "Warning: Source directory %s does not exist.\n" "$local_share_dir"
+  fi
+
+  printf "Backup completed successfully.\nBackup stored in: \n%s\n" "$backup_dir"
+}
 function divider() {
   printf -- "-%.0s" $(seq 1 80)
   printf "\n"
