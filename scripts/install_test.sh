@@ -7,6 +7,7 @@ source libs/messages
 source libs/functions
 # -------------------
 title_green "$title_script"
+cat ./libs/logo.txt
 printf "\n"
 # Introduzione
 format_text "$intro_script"
