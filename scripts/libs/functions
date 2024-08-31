@@ -35,7 +35,7 @@ backup_directories() {
 }
 
 commands=("git" "gcc" "make0" "sqlite3" "rg0" "lazygit")
-messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
+messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 function print_if_one_missing() {
   local msg="$1" # Capture the message passed as an argument
   # commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
