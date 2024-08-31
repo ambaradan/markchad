@@ -20,21 +20,46 @@ Features useful for project management, in terms of workspace management (file m
 
 ## Requirements
 
-Installation of Markchad is by way of a script, which will check the availability of minimum requirements. To ensure you have them all, you can follow these steps ahead of Markchad installation:
+Installation of Markchad is by way of a script, which will check the availability of minimum requirements. To ensure you have them all, you can follow these steps ahead of Markchad installation. This instruction should work on any Rocky Linux, RHEL Linux, or clone, version 9 or above. If you are using a different Linux operating system, then you will need to extrapolate these instructions to fit your operating system. If you *do* create a new instruction for your operating system, consider pushing those changes here. You will also need `sudo` permissions throughout.
 
-1. A modern, recent, version of Neovim. At the time of this writing, the version was 0.10.1. You can install Neovim [from source](https://github.com/neovim/neovim/blob/master/BUILD.md), or the [pre-compiled binary](https://github.com/neovim/neovim/releases/tag/v0.10.1) (recommended). Because of the fast-paced development cycle, RPM packages found in the Extra Packages for Enterprise Linux repository (EPEL) are many versions behind and will not work with Markchad.
+### Repositories
 
-2. Requires `sudo` or root privileges.
+With the standard repositories, you will also need Extra Packages for Enterprise Linux (EPEL), and a Cool Other Package Repo (COPR) for `lazygit`:
 
-3. You will need some additional packages for proper functioning of Markchad:
-    `sudo dnf install gcc make compat-lua-libs libtermkey libtree-sitter libvterm luajit luajit2.1-luv msgpack unibilium xsel ripgrep sqlite pandoc`
+```bash
+sudo dnf install epel-release -y
+sudo dnf install copr enable atim/lazygit -y
+```
 
-4. To get the installation script, ensure that your system has `curl`. Even minimal installs of Rocky Linux 9.x should have this, but to ensure a current version use:
-    `sudo dnf install curl`
+### Packages
 
-5. For the proper display of icons, use the [Nerd Font installation procedure here](https://docs.rockylinux.org/books/nvchad/nerd_fonts/).
+Install the packages:
 
-### Features
+```bash
+sudo dnf install gcc make compat-lua-libs libtermkey libtree-sitter libvterm luajit luajit2.1-luv msgpack unibilium xsel ripgrep squlite pandoc rsync curl lazygit
+```
+
+### Neovim
+
+You will need a modern, recent, version of Neovim. At the time of this writing, the version was 0.10.1. You can install Neovim [from source](https://github.com/neovim/neovim/blob/master/BUILD.md), or the [pre-compiled binary](https://github.com/neovim/neovim/releases/tag/v0.10.1) (recommended). Because of the fast-paced development cycle, RPM packages found in the Extra Packages for Enterprise Linux repository (EPEL) are many versions behind and will not work with Markchad.
+
+If using the pre-compiled binary, you will need to adjust your `$PATH` variable in your user's `.bashrc` file. This procedure assumes you have installed Neovim in your home folder:
+
+1. Edit your `.bashrc` file with your favorite editor.
+
+2. Add the following at the bottom of the file:
+
+    ```bash
+    export PATH=~/nvim-linux64/bin/:$PATH
+    ```
+
+3. Prior to running `nvim`, run `bash` at the command line and then verify your path with the `echo $PATH` command. You should see the `/nvim-linux64/bin/` in your path. If you see this, you are ready for the next steps.
+
+### Nerd fonts
+
+For the proper display of icons, use the [Nerd Font installation procedure here](https://docs.rockylinux.org/books/nvchad/nerd_fonts/).
+
+## Features
 
 * **Configuration:** careful writing of all configurations of the additional plugins makes them independent of each other. This allows disabling them when needed by means of the *Plugin Spec* `enabled = false/true` of *lazy.nvim* present in all configuration files. Include in the configuration files are keyboard keys to invoke the various features and convert them where possible to the *lazy style* format.
 * **UI - Interface:** some changes made to the layout strategy of `Telescope` to have a more modern and functional interface. Themes (*dropdown* and *ivy*) were also used for the `pickers` provided by default, and for those inserted by additional plugins.
