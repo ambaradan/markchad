@@ -33,8 +33,8 @@ backup_directories() {
 
   printf "Backup completed successfully.\nBackup stored in: \n%s\n" "$backup_dir"
 }
-# Function to show header and footer if some command is missing
-commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
+
+commands=("git" "gcc" "make0" "sqlite3" "rg0" "lazygit")
 messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 function print_if_one_missing() {
   local msg="$1" # Capture the message passed as an argument
@@ -48,14 +48,19 @@ function print_if_one_missing() {
   done
 
   if [ ${#missing_commands[@]} -ne 0 ]; then
-    local type=$1  # Take 'type' as a parameter to the function
+    local type=$1 # Take 'type' as a parameter to the function
 
     if [[ "$type" == "header" ]]; then
-        echo "This is the header message."
+      divider_single_red
+      center_bold_red "WARNING - Missing packages detected."
+      divider_single_red
     elif [[ "$type" == "footer" ]]; then
-        echo "This is the footer message."
+      format_text "The packages in the list are necessary for the successful installation of the configuration; without their availability, the configuration cannot run properly. To install the missing packages on a Rocky Linux or RHEL system, simply run the suggested commands; if your system uses a different package manager, adapt the commands accordingly."
+      printf "\n"
+      press_enter_or_quit
+      printf "\n"
     else
-        echo "Invalid type specified. Please use 'header' or 'footer'."
+      echo "Invalid type specified. Please use 'header' or 'footer'."
     fi
   fi
 }
@@ -110,7 +115,7 @@ function print_missing_message() {
       format_text "This collection of compilers is necessary for proper handling of plugins, their installation and updating."
       printf "\n"
       ;;
-    make)
+    make0)
       printf "  ${bold_in}%s${bold_out}\n" "Make - compile and link a program"
       format_text "Required to build plugins written in C, required for proper operation of NvChad."
       printf "\n"
@@ -120,7 +125,7 @@ function print_missing_message() {
       format_text "Lightweight, high-performance database used by the 'yanky.nvim' plugin to store saved strings. It allows handling of a larger number of strings without slowing down the search."
       printf "\n"
       ;;
-    rg)
+    rg0)
       printf "  ${bold_in}%s${bold_out}\n" "Ripgrep (rg) - line-oriented search tool"
       format_text "Used by telescope sorter to significantly improve sorting performance, for its installation the availability of Epel repository is required, to install it the commands are:"
       printf "\n"
@@ -190,16 +195,6 @@ press_enter_or_quit() {
       printf "\n"
     fi
   done
-}
-# Function to draw a box around the text
-draw_box() {
-  local text="$1"
-  local length=${#text}
-  local border=$(printf "%${length}s" | tr ' ' '-')
-
-  echo "+${border}+"
-  echo "| ${text} |"
-  echo "+${border}+"
 }
 # Function to format text
 format_text() {
