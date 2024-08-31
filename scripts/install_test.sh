@@ -6,12 +6,21 @@ clear
 source libs/messages
 source libs/functions
 # -------------------
-title_green "$title_script"
+# title_green "$title_script"
 cat ./libs/logo.txt
 printf "\n"
 # Introduzione
+format_text "Create a configuration of NvChad dedicated to writing documentation with Markdown code by implementing the following features."
+printf "\n"
+printf "${bold_in}%s${bold_out}\n" "* Automatically set Neovim options for Markdown files" | indent 2
+printf "${bold_in}%s${bold_out}\n" "* Highlighting Markdown tags in the buffer" | indent 2
+printf "${bold_in}%s${bold_out}\n" "* Providing a zen mode for document editing" | indent 2
+printf "\n"
 format_text "$intro_script"
 printf "\n"
+format_text "A README is available for further information about the project and the software needed to run it at:"
+printf "\n  ${bold_in}%s\n\n${bold_out}" "https://github.com/ambaradan/markchad/blob/main/README.md"
+press_enter_or_quit
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
@@ -20,7 +29,7 @@ nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
 section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
-  printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 4
+  printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 2
 else
   warning_bar "WARNING - No Neovim Found"
   format_text "$nv_check_no"
@@ -45,21 +54,17 @@ if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | he
   printf "  %s" "$info_to_exit"
   press_to_exit
 else
-  printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 4
+  printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 2
 fi
 section_title "$msg_nv_exe"
 # commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
 # messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 print_list_missing
-printf "\n"
 print_if_one_missing "One or more commands are found to be unavailable, the highlighted commands can be used for their installation on a Rocky Linux or RHEL based system. Some commands are provided by the EPEL repository and their installation is described in the related notes below."
-printf "\n"
 for cmd in "${commands[@]}"; do
   print_missing_message "$cmd"
 done
 print_if_one_missing "Lack of these commands do not allow proper execution of the Markchad configuration, it is recommended to exit the script and install the missing packages."
-printf "\n"
-press_enter_or_quit
 section_title "Checking installation paths"
 # Array of paths to check
 paths=("$HOME/.config" "$HOME/.local/share" "$HOME/.local/tmp")
