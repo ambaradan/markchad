@@ -60,11 +60,11 @@ section_title "$msg_nv_exe"
 # commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
 # messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 print_list_missing
-print_if_one_missing "One or more commands are found to be unavailable, the highlighted commands can be used for their installation on a Rocky Linux or RHEL based system. Some commands are provided by the EPEL repository and their installation is described in the related notes below."
+print_if_one_missing header
 for cmd in "${commands[@]}"; do
   print_missing_message "$cmd"
 done
-print_if_one_missing "Lack of these commands do not allow proper execution of the Markchad configuration, it is recommended to exit the script and install the missing packages."
+print_if_one_missing footer
 section_title "Checking installation paths"
 # Array of paths to check
 paths=("$HOME/.config" "$HOME/.local/share" "$HOME/.local/tmp")
