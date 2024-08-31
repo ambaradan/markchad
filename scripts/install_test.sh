@@ -34,6 +34,7 @@ else
   warning_bar "WARNING - No Neovim Found"
   format_text "$nv_check_no"
   # Neovim Documentation
+  printf "\n"
   printf "${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
   printf "${blue}%s${clear}" "$neovim_install" | indent 5
   printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
@@ -44,6 +45,7 @@ fi
 if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | head -n1)" | sort -V -C; then
   warning_bar "$warning - Version Outdated"
   format_text "$nv_vers_req"
+  printf "\n"
   printf "%s ${blue}%s${clear}" "$nv_required" "$nv_req" | indent 8
   printf "%s ${orange}%s${clear}" "$nv_installed" "$nv_strip" | indent 8
   # Neovim Documentation
