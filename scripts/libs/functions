@@ -34,7 +34,7 @@ backup_directories() {
   printf "Backup completed successfully.\nBackup stored in: \n%s\n" "$backup_dir"
 }
 
-commands=("git" "gcc" "make0" "sqlite3" "rg0" "lazygit")
+commands=("git" "gcc" "make" "sqlite3" "rg" "lazygit")
 messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 function print_if_one_missing() {
   local msg="$1" # Capture the message passed as an argument
@@ -115,7 +115,7 @@ function print_missing_message() {
       format_text "This collection of compilers is necessary for proper handling of plugins, their installation and updating."
       printf "\n"
       ;;
-    make0)
+    make)
       printf "  ${bold_in}%s${bold_out}\n" "Make - compile and link a program"
       format_text "Required to build plugins written in C, required for proper operation of NvChad."
       printf "\n"
@@ -125,7 +125,7 @@ function print_missing_message() {
       format_text "Lightweight, high-performance database used by the 'yanky.nvim' plugin to store saved strings. It allows handling of a larger number of strings without slowing down the search."
       printf "\n"
       ;;
-    rg0)
+    rg)
       printf "  ${bold_in}%s${bold_out}\n" "Ripgrep (rg) - line-oriented search tool"
       format_text "Used by telescope sorter to significantly improve sorting performance, for its installation the availability of Epel repository is required, to install it the commands are:"
       printf "\n"
