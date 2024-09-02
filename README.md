@@ -28,7 +28,7 @@ With the standard repositories, you will also need Extra Packages for Enterprise
 
 ```bash
 sudo dnf install epel-release -y
-sudo dnf install copr enable atim/lazygit -y
+sudo dnf copr enable atim/lazygit -y
 ```
 
 ### Packages
