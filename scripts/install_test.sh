@@ -26,7 +26,7 @@ nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
 nv_req="0.10.0"
 nv_path=$(command -v nvim)
-tmp_dir=".local/tmp"
+tmp_dir="$HOME/.local/tmp"
 section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
   printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 2
@@ -183,10 +183,10 @@ fi
 section_title "Start configuration installation"
 printf "\n"
 printf "${bold_in}  %s${bold_out}\n" "Downloading the latest version of the configuration"
-curl -L https://github.com/ambaradan/markchad/releases/latest/download/markchad.tar.gz --output $tmp_dir/markchad.tar.gz
+curl -L https://github.com/ambaradan/markchad/releases/latest/download/markchad.tar.gz --output "$tmp_dir"/markchad.tar.gz
 printf "\n${bold_in}  %s${bold_out}\n" "Extraction of compressed archive: "
 printf "%s\n" "Extraction of the Markchad archive" | indent 2
-tar -xf $tmp_dir/markchad.tar.gz -C $tmp_dir
+tar -xf "$tmp_dir"/markchad.tar.gz -C "$tmp_dir"
 tar_status=$?
 if [ $tar_status -eq 0 ]; then
   printf "${green}%s${clear}" "Tar archive extracted successfully" | indent 2
@@ -195,18 +195,18 @@ else
   exit 1
 fi
 section_title "Setup installation"
-cp -r $tmp_dir/markchad/config/nvim/ "$config"
-cp -r $tmp_dir/markchad/share/nvim/ "$share_local"
+cp -r "$tmp_dir"/markchad/config/nvim/ "$config"
+cp -r "$tmp_dir"/markchad/share/nvim/ "$share_local"
 printf "${bold_in}  %s${bold_out}\n" "Configuration files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$config" | indent 2
 printf "${bold_in}  %s${bold_out}\n" "Shared files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$share_local" | indent 2
 section_title "Cleaning temporary files"
-rm -rf $tmp_dir/markchad
-rm -f $tmp_dir/markchad.tar.gz
-if [ -z "$(ls -A $tmp_dir)" ]; then
+rm -rf "$tmp_dir"/markchad
+rm -f "$tmp_dir"/markchad.tar.gz
+if [ -z "$(ls -A "$tmp_dir")" ]; then
   rm -rf ~/.local/tmp/
-  printf "${bold_in}  %s${bold_out}\n" "Folder .local/tmp removed"
+  printf "${bold_in}  %s${bold_out}\n" "Folder $HOME/.local/tmp removed"
 else
   printf "\n${orange}  %s${clear} not empty: ${orange}%s${clear}\n" "$HOME/$tmp_dir" "Skipped"
 fi
