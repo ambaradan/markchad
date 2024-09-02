@@ -36,7 +36,7 @@ sudo dnf copr enable atim/lazygit -y
 Install the packages:
 
 ```bash
-sudo dnf install gcc make compat-lua-libs libtermkey libtree-sitter libvterm luajit luajit2.1-luv msgpack unibilium xsel ripgrep sqlite pandoc rsync curl lazygit
+sudo dnf install gcc make unzip compat-lua-libs libtermkey libtree-sitter libvterm luajit luajit2.1-luv msgpack unibilium xsel ripgrep sqlite pandoc rsync curl lazygit
 ```
 
 ### Neovim
