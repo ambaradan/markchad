@@ -130,7 +130,7 @@ printf "\n"
 config="$HOME/.config/$root_dir"
 share_local="$HOME/.local/share/$root_dir"
 cache_dir="$HOME/.cache/$root_dir"
-backup_nvim="$HOME/backup/$root_dir"
+# backup_nvim="$HOME/backup/$root_dir"
 cd "$HOME" || exit
 if [ -d "$config" ]; then
   while true; do
