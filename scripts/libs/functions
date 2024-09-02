@@ -1,6 +1,6 @@
 #!/bin/env bash
 # Used only locally to eliminate ShellChek warnings
-source ./messages
+# source ./messages
 # Function to back up directories
 backup_directories() {
   local root_dir="$1"
@@ -17,36 +17,36 @@ backup_directories() {
   # Backup the .config directory
   if [[ -d "$config_dir" ]]; then
     cp -r "$config_dir" "$backup_dir/$config/"
-    printf "Backed up %s\n" "$config_dir"
-    printf "to %s\n" "${root_dir}_backup_$current_date/$config"
+    printf "\n"
+    printf "Backed up %s\n" "$config_dir" | indent 2
+    printf "to ${green}%s${clear}\n" "${root_dir}_backup_$current_date/$config" | indent 3
   else
     printf "Warning: Source directory %s does not exist.\n" "$config_dir"
   fi
   # Backup the .local/share directory
   if [[ -d "$local_share_dir" ]]; then
     cp -r "$local_share_dir" "$backup_dir/$share/"
-    printf "Backed up %s\n" "$local_share_dir"
-    printf "to %s\n" "${root_dir}_backup_$current_date/$share"
+    printf "Backed up %s\n" "$local_share_dir" | indent 2
+    printf "to ${green}%s${clear}\n" "${root_dir}_backup_$current_date/$share" | indent 3
   else
     printf "Warning: Source directory %s does not exist.\n" "$local_share_dir"
   fi
-
-  printf "Backup completed successfully.\nBackup stored in: \n%s\n" "$backup_dir"
+  printf "\n"
+  printf "Backup completed successfully" | indent 2
+  printf "\n"
+  printf "Backup stored in: \n${orange}%s${clear}\n" "$backup_dir" | indent 3
 }
 
 commands=("git" "gcc" "make" "sqlite3" "rg" "lazygit")
 messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 function print_if_one_missing() {
   local msg="$1" # Capture the message passed as an argument
-  # commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
   missing_commands=()
-
   for cmd in "${commands[@]}"; do
     if ! command -v "$cmd" &>/dev/null; then
       missing_commands+=("$cmd")
     fi
   done
-
   if [ ${#missing_commands[@]} -ne 0 ]; then
     local type=$1 # Take 'type' as a parameter to the function
 
