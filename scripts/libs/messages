@@ -1,0 +1,51 @@
+#!/bin/env bash
+# source functions
+
+function confirm() {
+  printf "\e[32mOK\e[0m\n"
+}
+function missing() {
+  printf "\x1b[38;5;214mMISSING\e[0m\n"
+}
+# Variabili Colori
+export green='\e[32m'
+export blue='\x1b[38;5;81m'
+export orange='\x1b[38;5;214m'
+export red='\033[0;31m'
+export clear='\e[0m'
+export bold_in='\033[1m'
+export bold_out='\033[0m'
+export title_script="Markchad configuration installation"
+export msg_nv_exe="Required executable control"
+export intro_script="The script was created and tested on a Rocky Linux 9.4 system. Consequently, all commands refer to a RHEL based system, especially the commands for installing the required packages, in case you are using another Linux distribution, you should adapt them to your own distribution."
+export nv_check_title="Neovim availability check"
+export nv_check_ok="Executable detected"
+export nv_check_no="No Neovim executable was found to be available on the system in use, the configuration requires an installation of Neovim 0.10.0 or higher. For its installation, reference can be made to the official documentation available in the links below."
+export warning="WARNING"
+export nv_outdated="Detected incompatible version of Neovim:"
+export nv_outdated_info="The installed version does not meet the minimum requirements for a successful installation it is recommended to run an update of Neovim."
+export nv_required="Version required:  "
+export nv_installed="Version installed: "
+export neovim_title="Official documentation"
+export neovim_install="https://github.com/neovim/neovim/blob/master/INSTALL.md"
+export neovim_build="https://github.com/neovim/neovim/blob/master/BUILD.md"
+# msg for installation halted
+export install_halt="Installation halted - no availability of minimum requirements."
+export nv_vers_req="The installed version does not meet the minimum requirements for a successful installation it is recommended to run an update of Neovim."
+export nv_vers_info="Installation of the configuration cannot be done properly without the availability of all required packages."
+export opt_check_title="Optional executables control"
+export command_check_info="The first three packages in the list are required for successful installation of the configuration; without their availability, installation cannot be continued. To install the missing packages on a Rocky Linux or RHEL derivative system simply run the suggested commands, if your system uses a different package manager adapt the commands accordingly."
+export command_opt_info="The missing of the optional packages does not affect the installation of the Markchad configuration but rather some of its features; their installation is recommended to take advantage of all the features available in the editor."
+export lazygit_info="NOTE: The lazygit package is provided by a Fedora Copr repository and consequently does not meet the security and verification standards of Rocky Linux. Its installation is only necessary to use it within the editor via its plugin. Run the following commands to install it:"
+export lazygit_inst_1="sudo dnf copr enable atim/lazygit -y"
+export lazygit_inst_2="sudo dnf install lazygit -y"
+# Messaggi Vari
+export info_to_exit="Press any key to terminate the script..."
+# Msg for 'enter_or_quit' function
+export enter_or_quit_info="  Press Enter to continue or 'q' to quit... "
+export enter_or_quit_exit="Quitting the script."
+export enter_or_quit_wrong="Invalid input. Please press Enter to continue or 'q' to quit."
+export backup_title="Backup Utility"
+export backup_info="The presence of a previous installation at the chosen location was detected. The new installation will delete all files in the destination folders it is consequently recommended to make a backup of the previous configuration."
+export backup_paths="Folders will be backed up:"
+export backup_save_path="The backup will be saved in the folder: "

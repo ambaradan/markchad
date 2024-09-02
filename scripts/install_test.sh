@@ -6,11 +6,21 @@ clear
 source libs/messages
 source libs/functions
 # -------------------
-title_green "$title_script"
+# title_green "$title_script"
+cat ./libs/logo.txt
 printf "\n"
 # Introduzione
+format_text "Create a configuration of NvChad dedicated to writing documentation with Markdown code by implementing the following features."
+printf "\n"
+printf "${bold_in}%s${bold_out}\n" "* Automatically set Neovim options for Markdown files" | indent 2
+printf "${bold_in}%s${bold_out}\n" "* Highlighting Markdown tags in the buffer" | indent 2
+printf "${bold_in}%s${bold_out}\n" "* Providing a zen mode for document editing" | indent 2
+printf "\n"
 format_text "$intro_script"
 printf "\n"
+format_text "A README is available for further information about the project and the software needed to run it at:"
+printf "\n  ${bold_in}%s\n\n${bold_out}" "https://github.com/ambaradan/markchad/blob/main/README.md"
+press_enter_or_quit
 # Controllo dipendenze richieste
 nv_vers="$(nvim --version | head -1)"
 nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
@@ -19,11 +29,12 @@ nv_path=$(command -v nvim)
 tmp_dir=".local/tmp"
 section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
-  printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 4
+  printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 2
 else
   warning_bar "WARNING - No Neovim Found"
   format_text "$nv_check_no"
   # Neovim Documentation
+  printf "\n"
   printf "${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
   printf "${blue}%s${clear}" "$neovim_install" | indent 5
   printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
@@ -34,6 +45,7 @@ fi
 if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | head -n1)" | sort -V -C; then
   warning_bar "$warning - Version Outdated"
   format_text "$nv_vers_req"
+  printf "\n"
   printf "%s ${blue}%s${clear}" "$nv_required" "$nv_req" | indent 8
   printf "%s ${orange}%s${clear}" "$nv_installed" "$nv_strip" | indent 8
   # Neovim Documentation
@@ -44,77 +56,17 @@ if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | he
   printf "  %s" "$info_to_exit"
   press_to_exit
 else
-  printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 4
+  printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 2
 fi
 section_title "$msg_nv_exe"
-commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
-messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
-
-# Print header
-printf "${blue}%-10s %-10s %-10s${clear}\n" "Package" "Status" "Install Cmd" | indent 4
-printf "%-10s %-10s %-40s\n" "-------" "------" "-----------" | indent 4
-
-for i in "${!commands[@]}"; do
-  if command -v "${commands[i]}" &>/dev/null; then
-    status="Installed"
-    # exists="Yes"
-    # message="${commands[i]} is installed."
-    message="  ------  "
-  else
-    status="Missing"
-    # exists="No"
-    message="${messages[i]}"
-  fi
-  printf "${orange}%-10s${clear} %-10s ${bold_in}%-10s${bold_out}\n" "${commands[i]}" "${status}" "${message}" | indent 4
+# commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
+# messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
+print_list_missing
+print_if_one_missing header
+for cmd in "${commands[@]}"; do
+  print_missing_message "$cmd"
 done
-# Check each command and exit if one is missing
-commands_req=("git" "gcc" "make")
-for cmd in "${commands_req[@]}"; do
-  if ! command -v "$cmd" &>/dev/null; then
-    warning_bar "$warning - Missing required packages"
-    format_text "$command_check_info"
-    printf "\n"
-    printf "  %s" "$info_to_exit"
-    press_to_exit
-  fi
-done
-commands_opt=("rsync" "sqlite3" "rg" "lazygit")
-missing_cmd=false
-missing_lazygit=false
-missing_rg=false
-for cmd in "${commands_opt[@]}"; do
-  # Check if the command is missing
-  if ! command -v "$cmd" &>/dev/null; then
-    missing_cmd=true
-    if [[ "$cmd" == "rg" ]]; then
-      missing_rg=true
-    elif [[ "$cmd" == "lazygit" ]]; then
-      missing_lazygit=true
-    fi
-  fi
-done
-if $missing_cmd; then
-  printf "\n"
-  center_bold_red "$warning - Missing Optional Packages"
-  printf "\n"
-  format_text "$command_opt_info"
-  printf "\n"
-  if $missing_rg; then
-    format_text "Ripgrep is available from the EPEL repository, so you must install it before installing Ripgrep. The commands to run are: "
-    printf "\n"
-    printf "${bold_in}%s${bold_out}" "sudo dnf install epel-release -y" | indent 4
-    printf "${bold_in}%s${bold_out}" "sudo dnf install ripgrep -y" | indent 4
-    printf "\n"
-  fi
-  if $missing_lazygit; then
-    format_text "$lazygit_info"
-    printf "\n"
-    printf "${bold_in}%s${bold_out}" "$lazygit_inst_1" | indent 4
-    printf "${bold_in}%s${bold_out}" "$lazygit_inst_2" | indent 4
-    printf "\n"
-  fi
-  press_enter_or_quit
-fi
+print_if_one_missing footer
 section_title "Checking installation paths"
 # Array of paths to check
 paths=("$HOME/.config" "$HOME/.local/share" "$HOME/.local/tmp")
@@ -178,7 +130,7 @@ printf "\n"
 config="$HOME/.config/$root_dir"
 share_local="$HOME/.local/share/$root_dir"
 cache_dir="$HOME/.cache/$root_dir"
-backup_nvim="$HOME/backup/$root_dir"
+# backup_nvim="$HOME/backup/$root_dir"
 cd "$HOME" || exit
 if [ -d "$config" ]; then
   while true; do
@@ -194,34 +146,7 @@ if [ -d "$config" ]; then
     read -r -p "  Start the backup? (y/n) " yn
     case $yn in
     [Yy]*)
-      mkdir -p "$backup_nvim"
-      # Copy the first source directory to a subdirectory in the destination directory
-      section_title "Copying files"
-      if [ -d "$config" ]; then
-        rsync -av --quiet --delete "$config" "$backup_nvim/config"
-        rsync_status1=$?
-        if [ $rsync_status1 -eq 0 ]; then
-          printf "${bold_in}Copy:${bold_out} %s\n" "$config" | indent 4
-          printf "  ${bold_in}to:${bold_out} %s/config\n" "$backup_nvim" | indent 4
-        else
-          printf "Copy of %s to %s/config failed with status %s" "$config" "$backup_nvim" "$rsync_status1"
-        fi
-      else
-        printf "Source directory %s does not exist" "$config"
-      fi
-      # Copy the second source directory to a subdirectory in the destination directory
-      if [ -d "$share_local" ]; then
-        rsync -av --quiet --delete "$share_local" "$backup_nvim/share_local"
-        rsync_status2=$?
-        if [ $rsync_status2 -eq 0 ]; then
-          printf "${bold_in}Copy:${bold_out} %s\n" "$share_local" | indent 4
-          printf "  ${bold_in}to:${bold_out} %s/share_local\n" "$backup_nvim" | indent 4
-        else
-          printf "Copy of %s to %s failed with status %s" "$share_local" "$backup_nvim/share_local" "$rsync_status2"
-        fi
-      else
-        printf "Source directory %s does not exist" "$share_local"
-      fi
+      backup_directories "$root_dir"
       divider_single_green
       center_bold_green "Backup performed correctly"
       divider_single_green
