@@ -16,7 +16,7 @@ backup_directories() {
   mkdir -p "$backup_dir/$share/$root_dir"
   # Backup the .config directory
   if [[ -d "$config_dir" ]]; then
-    cp -r "$config_dir" "$backup_dir/$config/"
+    cp -r -f "$config_dir" "$backup_dir/$config/"
     printf "\n"
     printf "Backed up %s\n" "$config_dir" | indent 2
     printf "to ${green}%s${clear}\n" "${root_dir}_backup_$current_date/$config" | indent 3
@@ -25,7 +25,7 @@ backup_directories() {
   fi
   # Backup the .local/share directory
   if [[ -d "$local_share_dir" ]]; then
-    cp -r "$local_share_dir" "$backup_dir/$share/"
+    cp -r -f "$local_share_dir" "$backup_dir/$share/"
     printf "Backed up %s\n" "$local_share_dir" | indent 2
     printf "to ${green}%s${clear}\n" "${root_dir}_backup_$current_date/$share" | indent 3
   else
