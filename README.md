@@ -69,18 +69,26 @@ Made no changes to the themes provided by *NvChad*. This allows you to use it ac
 
 ## Installation
 
-1. Get the script with:
-    `curl -LO https://github.com/ambaradan/markchad/raw/main/scripts/INSTALL.sh`
+1. Get the latest version of the Markchad archive with:
+    `curl -L https://github.com/ambaradan/markchad/releases/latest/download/install_markchad.tar.gz --output install_markchad.tar.gz`
 
-2. Make the script executable:
-    `chmod +x INSTALL.sh`
+2. Extract the archive:
+    `tar xzvf install_markchad.tar.gz`
 
-3. Run the script:
-    `./INSTALL.sh`
+3. Change into the directory called "markchad":
 
-The installation script provides two ways to install Markchad. You can install it as the default ("Nvim"), or if you prefer to keep your markdown editor separate from other work, using "Markchad."
+    `cd markchad`
 
-![markchad_install](/images/markchad_install.png)
+4. Run the script:
+    `./install.sh`
+
+5. The Markchad splash screen appears. If you are ready to continue with the install, follow the on-screen directions:
+
+    ![markchad_splash_screen](images/markchad_splash.png)
+
+6. The installation script provides two ways to install Markchad. You can install it as the default ("Nvim"), or if you prefer to keep your markdown editor separate from other work, using "Markchad."
+
+    ![markchad_install](/images/markchad_install.png)
 
 ## Acknowledgements
 
