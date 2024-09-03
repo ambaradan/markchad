@@ -36,7 +36,7 @@ M.ui = {
 		style = "flat_dark",
 	},
     statusline = {
-      theme = "vscode",
+      theme = "vscode_colored",
     },
 }
 
