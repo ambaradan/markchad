@@ -1,7 +1,19 @@
 return {
 	"toppair/peek.nvim",
-	enabled = false,
-	event = { "VeryLazy" },
+	enabled = true,
+  ft = "markdown",
+  	keys = {
+		{
+			"<leader>mp",
+			"<cmd>PeekOpen<cr>",
+			desc = "Markdown Preview Open",
+		},
+		{
+			"<leader>mc",
+			"<cmd>PeekClose<cr>",
+			desc = "Markdown Preview Close",
+		}
+  },
 	build = "~/.local/share/nvim/mason/bin/deno task --quiet build:fast",
 	config = function()
 		require("peek").setup()
