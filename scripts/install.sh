@@ -197,6 +197,9 @@ fi
 section_title "Setup installation"
 cp -r "$tmp_dir"/markchad/config/nvim/ "$config"
 cp -r "$tmp_dir"/markchad/share/nvim/ "$share_local"
+if [ "$root_dir" == "markchad" ]; then
+  cp "$tmp_dir"/markchad/add-on/peek-markchad.lua "$config/lua/plugins/peek.lua"
+fi
 printf "${bold_in}  %s${bold_out}\n" "Configuration files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$config" | indent 2
 printf "${bold_in}  %s${bold_out}\n" "Shared files copied to:"
