@@ -5,7 +5,7 @@
 local M = {}
 
 M.base46 = {
-	theme = "onedark",
+	theme = "gruvchad",
 	hl_override = {
 		FloatBorder = { fg = "light_grey", bg = "black" },
 		["@markup.italic"] = { fg = "nord_blue" },
@@ -29,6 +29,9 @@ M.base46 = {
     RenderMarkdownH4 = { fg = "red" },
     RenderMarkdownH5 = { fg = "blue" },
     RenderMarkdownH6 = { fg = "teal" },
+    RenderMarkdownTableHead = { fg = "light_grey" },
+    RenderMarkdownTableRow = { fg = "light_grey" },
+    RenderMarkdownTableFill = { fg = "light_grey" },
 	},
 }
 M.ui = {
