@@ -23,28 +23,6 @@ return {
 	},
   --
   {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "lua-language-server",
-        "stylua",
-        "html-lsp",
-        "css-lsp",
-        "prettier",
-        "marksman",
-        "markdownlint",
-        "yaml-language-server",
-        "bash-language-server",
-        "yamllint",
-        "yamlfmt",
-        "shfmt",
-        "deno",
-        "vale",
-      },
-    },
-  },
-
-  {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {

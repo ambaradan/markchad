@@ -41,6 +41,25 @@ M.ui = {
     statusline = {
       theme = "vscode_colored",
     },
+mason = {
+    cmd = true,
+    pkgs = {
+        "lua-language-server",
+        "stylua",
+        "html-lsp",
+        "css-lsp",
+        "prettier",
+        "marksman",
+        "markdownlint",
+        "yaml-language-server",
+        "bash-language-server",
+        "yamllint",
+        "yamlfmt",
+        "shfmt",
+        "deno",
+        "vale",
+    }
+  },
 }
 
 return M
