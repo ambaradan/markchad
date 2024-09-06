@@ -26,6 +26,18 @@ return {
 			bullet = {
 				highlight = "Boolean",
 			},
+			pipe_table = {
+				-- Turn on / off pipe table rendering
+				enabled = true,
+				preset = "none",
+				style = "raw",
+				-- Highlight for table heading, delimiter, and the line above
+				head = "RenderMarkdownTableHead",
+				-- Highlight for everything else, main table rows and the line below
+				row = "RenderMarkdownTableRow",
+				-- Highlight for inline padding used to add back concealed space
+				filler = "RenderMarkdownTableFill",
+			},
 		})
 	end,
 }
