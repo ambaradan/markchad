@@ -27,6 +27,8 @@ nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
 nv_req="0.10.0"
 nv_path=$(command -v nvim)
 tmp_dir="$HOME/.local/tmp"
+tar_name="markchad.tar.gz"
+sha256_name="markchad.tar.gz.sha256"
 section_title "$nv_check_title"
 if command -v nvim >/dev/null; then
   printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 2
@@ -180,10 +182,27 @@ if [ -d "$config" ]; then
     printf "${orange}%s${clear} %s\n" "$cache_dir" "missing" | indent 2
   fi
 fi
-section_title "Start configuration installation"
+section_title "Downloading source files"
 printf "\n"
 printf "${bold_in}  %s${bold_out}\n" "Downloading the latest version of the configuration"
-curl -L https://github.com/ambaradan/markchad/releases/latest/download/markchad.tar.gz --output "$tmp_dir"/markchad.tar.gz
+curl -L https://github.com/ambaradan/markchad/releases/latest/download/$tar_name --output "$tmp_dir"/$tar_name
+printf "${bold_in}  %s${bold_out}\n" "Downloading the latest checksum (sha256)"
+curl -L https://github.com/ambaradan/markchad/releases/latest/download/$sha256_name --output "$tmp_dir"/$sha256_name
+printf "${bold_in}  %s${bold_out}\n" "Checkusm Verification"
+cd "$tmp_dir" || exit
+# Verify the checksum
+sha256sum -c "$sha256_name" --strict --quiet
+sha_error=$?
+if [[ $sha_error -ne 0 ]]; then
+  printf " Error: Checksum verification failed for %s." "$tar_name"
+  # return 1
+fi
+
+printf "Checksum verification successful for ${bold_in}%s${bold_out}." "$tar_name" | indent 1
+cd "$OLDPWD" || exit
+# return 0
+printf "\n"
+section_title "Start configuration installation"
 printf "\n${bold_in}  %s${bold_out}\n" "Extraction of compressed archive: "
 printf "%s\n" "Extraction of the Markchad archive" | indent 2
 tar -xf "$tmp_dir"/markchad.tar.gz -C "$tmp_dir"
@@ -204,15 +223,15 @@ printf "${bold_in}  %s${bold_out}\n" "Configuration files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$config" | indent 2
 printf "${bold_in}  %s${bold_out}\n" "Shared files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$share_local" | indent 2
-section_title "Cleaning temporary files"
-rm -rf "$tmp_dir"/markchad
-rm -f "$tmp_dir"/markchad.tar.gz
-if [ -z "$(ls -A "$tmp_dir")" ]; then
-  rm -rf ~/.local/tmp/
-  printf "${bold_in}  %s${bold_out}\n" "Folder $HOME/.local/tmp removed"
-else
-  printf "\n${orange}  %s${clear} not empty: ${orange}%s${clear}\n" "$HOME/$tmp_dir" "Skipped"
-fi
+# section_title "Cleaning temporary files"
+# rm -rf "$tmp_dir"/markchad
+# rm -f "$tmp_dir"/markchad.tar.gz
+# if [ -z "$(ls -A "$tmp_dir")" ]; then
+#   rm -rf ~/.local/tmp/
+#   printf "${bold_in}  %s${bold_out}\n" "Folder $HOME/.local/tmp removed"
+# else
+#   printf "\n${orange}  %s${clear} not empty: ${orange}%s${clear}\n" "$HOME/$tmp_dir" "Skipped"
+# fi
 divider_single_green
 center_bold_green "Installation performed properly"
 divider_single_green
