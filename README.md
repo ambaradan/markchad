@@ -90,6 +90,8 @@ Made no changes to the themes provided by *NvChad*. This allows you to use it ac
 
     ![markchad_install](/images/markchad_install.png)
 
+All releases, and the changelog information for each, are available [on this page](https://github.com/ambaradan/markchad/releases).
+
 ## Acknowledgements
 
 A big thank you goes to [Siduck](https://github.com/siduck), the main developer, and to all those who contributed to the creation of *NvChad*, without them this project could not exist.
