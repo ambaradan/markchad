@@ -12,6 +12,13 @@ return {
 		dependencies = {
 			"tsakirist/telescope-lazy.nvim",
 		},
+    keys = {
+      {
+        "<A-g>",
+        "<cmd>Telescope live_grep",
+        desc = "Live Grep"
+      },
+    },
 		require("telescope").setup({
 			defaults = {
 				layout_strategy = "horizontal",
