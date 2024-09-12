@@ -92,6 +92,34 @@ Made no changes to the themes provided by *NvChad*. This allows you to use it ac
 
 All releases, and the changelog information for each, are available [on this page](https://github.com/ambaradan/markchad/releases).
 
+## Mapping - Quick Reference
+
+This table lists the main Markchad features and their respective mappings. The mappings marked as *Toggle* allow with the same command to open and close the respective functionality.
+
+| Mapping    | Description                                                                                |
+|------------|--------------------------------------------------------------------------------------------|
+| Space + fh | Opens *Telescope* on help pages, enabling search                                           |
+| Space + ff | Search for files within the working folder with *Telescope*                                |
+| Space + fo | Opens recent files, for quick reopening                                                    |
+| Space + fb | List in *Telescope* buffers open in the editor for easy navigation                         |
+| Space + cm | Opens *Telescope* on commits made to the repository                                        |
+| - (minus)  | Opens the file manager (NeoTree) in a floating buffer (Toggle)                             |
+| , (comma)  | Opens the alternative Command Line                                                         |
+| Ctrl + d   | Scroll down                                                                                |
+| Ctrl + u   | Scroll up                                                                                  |
+| Space + cx | Closes all open buffers in the editor, recommended for switching sessions                  |
+| Space + cS | Colors the corresponding markers (e.g. #FFFFFF), useful for editing the Nvchad UI (Toggle) |
+| Ctrl + n   | Opens the file manager sideways (Toggle)                                                   |
+| Space + gg | Opens NeoTree by listing the status of the files against the *git* repository (Git Status) |
+| Space + y  | Displays in **NORMAL** mode the strings saved by *Yanky* (copy) for input                  |
+| Space + mp | Opens Markdown preview                                                                     |
+| Space + mc | Close Markdown Preview                                                                     |
+| Space + lg | Opens *lazygit* for repository management (need *lazygit* installed)                       |
+| Space + ng | Opens *Neogit* for repository management                                                   |
+| Space + tt | Opens the diagnostics buffer (*Trouble*) for the entire workspace                          |
+| Space + tb | Opens the diagnostics buffer only for the active buffer                                    |
+| Space + ts | Opens symbol buffer sideways, in Markdown lists *Header* tags                              |
+
 ## Acknowledgements
 
 A big thank you goes to [Siduck](https://github.com/siduck), the main developer, and to all those who contributed to the creation of *NvChad*, without them this project could not exist.
