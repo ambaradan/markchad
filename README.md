@@ -86,7 +86,7 @@ Made no changes to the themes provided by *NvChad*. This allows you to use it ac
 
     ![markchad_splash_screen](images/markchad_splash.png)
 
-6. The installation script provides two ways to install Markchad. You can install it as the default ("Nvim"), or if you prefer to keep your markdown editor separate from other work, using "Markchad."
+6. The installation script provides two ways to install *Markchad*. You can install it as the default ("Nvim"), or if you prefer to keep your markdown editor separate from other work, using "Markchad."
 
     ![markchad_install](/images/markchad_install.png)
 
@@ -94,31 +94,61 @@ All releases, and the changelog information for each, are available [on this pag
 
 ## Mapping - Quick Reference
 
-This table lists the main Markchad features and their respective mappings. The mappings marked as *Toggle* allow with the same command to open and close the respective functionality.
+This table lists the main *Markchad* features and their respective mappings. The mappings marked as *Toggle* allow with the same command to open and close the respective functionality.
+
+### Editor
 
 | Mapping    | Description                                                                                |
 |------------|--------------------------------------------------------------------------------------------|
-| Space + fh | Opens *Telescope* on help pages, enabling search                                           |
 | Space + ff | Search for files within the working folder with *Telescope*                                |
 | Space + fo | Opens recent files, for quick reopening                                                    |
 | Space + fb | List in *Telescope* buffers open in the editor for easy navigation                         |
-| Space + cm | Opens *Telescope* on commits made to the repository                                        |
 | - (minus)  | Opens the file manager (NeoTree) in a floating buffer (Toggle)                             |
 | , (comma)  | Opens the alternative Command Line                                                         |
 | Ctrl + d   | Scroll down                                                                                |
 | Ctrl + u   | Scroll up                                                                                  |
 | Space + cx | Closes all open buffers in the editor, recommended for switching sessions                  |
-| Space + cS | Colors the corresponding markers (e.g. #FFFFFF), useful for editing the Nvchad UI (Toggle) |
 | Ctrl + n   | Opens the file manager sideways (Toggle)                                                   |
-| Space + gg | Opens NeoTree by listing the status of the files against the *git* repository (Git Status) |
+| Alt + g    | Opens a *Telescope* buffer with ripgrep, a line-oriented search tool                       |
 | Alt + y    | Displays the strings saved by *Yanky* (copy) for their insertion                           |
-| Alt + o    | Open Markdown preview                                                                      |
-| Alt + c    | Close Markdown Preview                                                                     |
+
+### Markdown
+
+| Mapping       | Description                                                                 |
+|---------------|-----------------------------------------------------------------------------|
+| Alt + o       | Open Markdown preview                                                       |
+| Alt + c       | Close Markdown Preview                                                      |
+| Ctrl + i      | In VISUAL mode converts selection to *italic*                               |
+| Ctrl + b      | In VISUAL mode converts selection to **bold**                               |
+| Ctrl + c      | In VISUAL mode converts selection to `code inline`                          |
+| Space + gsiwi | In NORMAL mode converts text (curson on t^text) to *italic*                 |
+| Space + gsiwb | In NORMAL mode converts text (curson on t^text) to **bold**                 |
+| Space + gsiwc | In NORMAL mode converts text (curson on t^text) to `code inline`            |
+| Space + gl    | Create a link from the selected text, also select the blank space preceding |
+
+### Git Repository
+
+| Mapping    | Description                                                                                |
+|------------|--------------------------------------------------------------------------------------------|
+| Space + cm | Opens *Telescope* on commits made to the repository                                        |
+| Space + gg | Opens NeoTree by listing the status of the files against the *git* repository (Git Status) |
 | Space + lg | Opens *lazygit* for repository management (need *lazygit* installed)                       |
 | Space + ng | Opens *Neogit* for repository management                                                   |
-| Space + tt | Opens the diagnostics buffer (*Trouble*) for the entire workspace                          |
-| Space + tb | Opens the diagnostics buffer only for the active buffer                                    |
-| Space + ts | Opens symbol buffer sideways, in Markdown lists *Header* tags                              |
+
+### Diagnostics
+
+| Mapping    | Description                                                                |
+|------------|----------------------------------------------------------------------------|
+| Space + tt | Opens the diagnostics buffer (*Trouble*) for the entire workspace (Toggle) |
+| Space + tb | Opens the diagnostics buffer only for the active buffer (Toggle)           |
+| Space + ts | Opens symbol buffer sideways, in Markdown lists *Header* tags (Toggle)     |
+
+### Miscellaneous
+
+| Mapping    | Description                                                                |
+|------------|----------------------------------------------------------------------------|
+| Space + cS | Colors the corresponding markers (e.g. #FFFFFF), useful for editing the Nvchad UI (Toggle) |
+| Space + fh | Opens *Telescope* on help pages, enabling search                                           |
 
 ## Acknowledgements
 
