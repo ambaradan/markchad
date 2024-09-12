@@ -112,8 +112,8 @@ This table lists the main Markchad features and their respective mappings. The m
 | Ctrl + n   | Opens the file manager sideways (Toggle)                                                   |
 | Space + gg | Opens NeoTree by listing the status of the files against the *git* repository (Git Status) |
 | Alt + y    | Displays the strings saved by *Yanky* (copy) for their insertion                           |
-| Space + mp | Opens Markdown preview                                                                     |
-| Space + mc | Close Markdown Preview                                                                     |
+| Alt + o    | Open Markdown preview                                                                      |
+| Alt + c    | Close Markdown Preview                                                                     |
 | Space + lg | Opens *lazygit* for repository management (need *lazygit* installed)                       |
 | Space + ng | Opens *Neogit* for repository management                                                   |
 | Space + tt | Opens the diagnostics buffer (*Trouble*) for the entire workspace                          |
