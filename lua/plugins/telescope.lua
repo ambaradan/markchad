@@ -15,7 +15,7 @@ return {
     keys = {
       {
         "<A-g>",
-        "<cmd>Telescope live_grep",
+        "<cmd>Telescope live_grep<cr>",
         desc = "Live Grep"
       },
     },
