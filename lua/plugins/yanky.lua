@@ -7,14 +7,10 @@ return {
 		dependencies = { "kkharji/sqlite.lua" },
     keys = {
       { -- Mappings for Yank Ring
-        "<leader>y",
-        "<cmd> Telescope yank_history<cr>",
-        desc = "Yank History",
-      },
-            {
-        "<c-y>",
-        "<cmd> Telescope yank_history<cr>",
-        desc = "Yank History",
+        mode = { "i", "n" },
+        "<A-y>",
+        "<cmd>Telescope yank_history<cr>",
+        desc = "Yank History (INSERT)"
       },
     },
 		config = function()
