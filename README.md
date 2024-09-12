@@ -111,7 +111,7 @@ This table lists the main Markchad features and their respective mappings. The m
 | Space + cS | Colors the corresponding markers (e.g. #FFFFFF), useful for editing the Nvchad UI (Toggle) |
 | Ctrl + n   | Opens the file manager sideways (Toggle)                                                   |
 | Space + gg | Opens NeoTree by listing the status of the files against the *git* repository (Git Status) |
-| Alt + y    | Displays the strings saved by *Yanky* (copy) for input                                     |
+| Alt + y    | Displays the strings saved by *Yanky* (copy) for their insertion                           |
 | Space + mp | Opens Markdown preview                                                                     |
 | Space + mc | Close Markdown Preview                                                                     |
 | Space + lg | Opens *lazygit* for repository management (need *lazygit* installed)                       |
