@@ -98,19 +98,19 @@ This table lists the main *Markchad* features and their respective mappings. The
 
 ### Editor
 
-| Mapping    | Description                                                                                |
-|------------|--------------------------------------------------------------------------------------------|
-| Space + ff | Search for files within the working folder with *Telescope*                                |
-| Space + fo | Opens recent files, for quick reopening                                                    |
-| Space + fb | List in *Telescope* buffers open in the editor for easy navigation                         |
-| - (minus)  | Opens the file manager (NeoTree) in a floating buffer (Toggle)                             |
-| , (comma)  | Opens the alternative Command Line                                                         |
-| Ctrl + d   | Scroll down                                                                                |
-| Ctrl + u   | Scroll up                                                                                  |
-| Space + cx | Closes all open buffers in the editor, recommended for switching sessions                  |
-| Ctrl + n   | Opens the file manager sideways (Toggle)                                                   |
-| Alt + g    | Opens a *Telescope* buffer with ripgrep, a line-oriented search tool                       |
-| Alt + y    | Displays the strings saved by *Yanky* (copy) for their insertion                           |
+| Mapping    | Description                                                               |
+|------------|---------------------------------------------------------------------------|
+| Space + ff | Search for files within the working folder with *Telescope*               |
+| Space + fo | Opens recent files, for quick reopening                                   |
+| Space + fb | List in *Telescope* buffers open in the editor for easy navigation        |
+| - (minus)  | Opens the file manager (NeoTree) in a floating buffer (Toggle)            |
+| , (comma)  | Opens the alternative Command Line                                        |
+| Ctrl + d   | Scroll down                                                               |
+| Ctrl + u   | Scroll up                                                                 |
+| Space + cx | Closes all open buffers in the editor, recommended for switching sessions |
+| Ctrl + n   | Opens the file manager sideways (Toggle)                                  |
+| Alt + g    | Opens a *Telescope* buffer with ripgrep, a line-oriented search tool      |
+| Alt + y    | Displays the strings saved by *Yanky* (copy) for their insertion          |
 
 ### Markdown
 
