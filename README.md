@@ -111,6 +111,12 @@ This table lists the main *Markchad* features and their respective mappings. The
 | Ctrl + n   | Opens the file manager sideways (Toggle)                                  |
 | Alt + g    | Opens a *Telescope* buffer with ripgrep, a line-oriented search tool      |
 | Alt + y    | Displays the strings saved by *Yanky* (copy) for their insertion          |
+| Alt + s | Opens the *Telescope* buffer for session management |
+| Alt + l | Reopens the last closed session |
+| Space + ss | Save current session |
+| Space + st | Stop recording the current session |
+| Space + sS | Allows you to select the session to be opened (normal mode) |
+| Space + sl | Reload current session |
 
 ### Markdown
 
