@@ -223,28 +223,35 @@ printf "${bold_in}  %s${bold_out}\n" "Configuration files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$config" | indent 2
 printf "${bold_in}  %s${bold_out}\n" "Shared files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$share_local" | indent 2
-# section_title "Cleaning temporary files"
-# rm -rf "$tmp_dir"/markchad
-# rm -f "$tmp_dir"/markchad.tar.gz
-# if [ -z "$(ls -A "$tmp_dir")" ]; then
-#   rm -rf ~/.local/tmp/
-#   printf "${bold_in}  %s${bold_out}\n" "Folder $HOME/.local/tmp removed"
-# else
-#   printf "\n${orange}  %s${clear} not empty: ${orange}%s${clear}\n" "$HOME/$tmp_dir" "Skipped"
-# fi
+section_title "Cleaning temporary files"
+rm -rf "$tmp_dir"/markchad
+rm -f "$tmp_dir"/markchad.tar.gz
+rm -f "$tmp_dir"/markchad.tar.gz.sha256
+if [ -z "$(ls -A "$tmp_dir")" ]; then
+  rm -rf ~/.local/tmp/
+  printf "${bold_in}  %s${bold_out}\n" "Folder $HOME/.local/tmp removed"
+else
+  printf "\n${orange}  %s${clear} not empty: ${orange}%s${clear}\n" "$HOME/$tmp_dir" "Skipped"
+fi
 divider_single_green
 center_bold_green "Installation performed properly"
 divider_single_green
 if [ "$root_dir" == "markchad" ]; then
   format_text "To start this version of the configuration, it is necessary to use for further starts the variable NVIM_APPNAME."
-  printf "\n${blue}%s${clear}\n" "NVIM_APPNAME=markchad nvim" | indent 4
+  printf "\n${bold_in}%s${bold_out}\n" "NVIM_APPNAME=markchad nvim" | indent 4
+  printf "\n"
+  format_text "To install the language server required for the correct execution of the configuration, run, when first opened, the command:"
+  printf "\n${bold_in}%s${bold_out}\n" ":MasonInstallAll" | indent 4
 else
-  printf "To start the new Neovim configuration use the command ${blue}%s${clear}\n\n" "nvim"
+  printf "To start the new Neovim configuration use the command ${bold_in}%s${bold_out}\n\n" "nvim" | indent 1
+  printf "\n"
+  format_text "To install the language server required for the correct execution of the configuration, run, when first opened, the command:"
+  printf "\n${bold_in}%s${bold_out}\n" ":MasonInstallAll" | indent 4
 fi
 printf "\n"
 cd ~/ || exit
 while true; do
-  read -r -p " Do you want to start the new configuration? (y/n) " yn
+  read -r -p "  Do you want to start the new configuration? (y/n) " yn
   case $yn in
   [Yy]*)
     if [ "$root_dir" == "nvim" ]; then
