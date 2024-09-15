@@ -88,6 +88,18 @@ Made no changes to the themes provided by *NvChad*. This allows you to use it ac
 
     ![markchad_install](/images/markchad_install.png)
 
+6. After the installation is finished, the first time the editor is started, whether it is opened by the script or by the related command, it is necessary to install all the LSPs required by the configuration. The language servers are already set up for their installation and can be installed in a single operation with:
+
+    ```text
+    :MasonInstallAll
+    ```
+
+    **NOTE:** In the installation of language servers, for an as yet unknown reason, the *deno* server, used for previewing Markdown documents, is not installed, although it is regularly in the table of servers to be installed. To install it, run the command:
+
+    ```text
+    :MasonInstall deno
+    ```
+
 All releases, and the changelog information for each, are available [on this page](https://github.com/ambaradan/markchad/releases).
 
 ## Mapping - Quick Reference
