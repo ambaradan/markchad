@@ -37,8 +37,8 @@ backup_directories() {
   printf "Backup stored in: \n${orange}%s${clear}\n" "$backup_dir" | indent 3
 }
 
-commands=("git" "gcc" "make" "sqlite3" "rg" "lazygit")
-messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
+commands=("git" "gcc" "make" "npm" "sqlite3" "rg" "lazygit")
+messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install npm -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 function print_if_one_missing() {
   local msg="$1" # Capture the message passed as an argument
   missing_commands=()
@@ -118,6 +118,11 @@ function print_missing_message() {
     make)
       printf "  ${bold_in}%s${bold_out}\n" "Make - compile and link a program"
       format_text "Required to build plugins written in C, required for proper operation of NvChad."
+      printf "\n"
+      ;;
+    npm)
+      printf "  ${bold_in}%s${bold_out}\n" "Npm - the standard package manager for Node.js."
+      format_text "It started as a way to download and manage dependencies of Node.js packages, but it has since become a tool used also in frontend JavaScript."
       printf "\n"
       ;;
     sqlite3)
