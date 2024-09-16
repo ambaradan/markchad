@@ -151,7 +151,28 @@ function print_missing_message() {
     return
   fi
 }
-
+# Function to remove markchad items with error handling
+function remove_markchad() {
+  # Define variables
+  local tmp_dir="$HOME/.local/tmp"
+  local tmp_name="markchad"
+  local markchad_rm=("$tmp_dir/$tmp_name.tar.gz" "$tmp_dir/$tmp_name.tar.gz.sha256" "$tmp_dir/$tmp_name")
+  section_title "Cleaning temporary files"
+  for item in "${markchad_rm[@]}"; do
+    if [[ -e "$item" ]]; then
+      echo "Attempting to remove: $item..."
+      rm -rf "$item" # Using -r to handle directories and -f to force removal
+      if [[ $? -eq 0 ]]; then
+        echo "$item removed successfully."
+      else
+        echo "Error: Failed to remove $item."
+        exit 1
+      fi
+    else
+      echo "$item does not exist, no action taken."
+    fi
+  done
+}
 function divider() {
   printf -- "-%.0s" $(seq 1 80)
   printf "\n"

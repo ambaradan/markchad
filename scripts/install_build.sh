@@ -182,6 +182,7 @@ if [ -d "$config" ]; then
     printf "${orange}%s${clear} %s\n" "$cache_dir" "missing" | indent 2
   fi
 fi
+remove_markchad
 section_title "Downloading source files"
 printf "\n"
 printf "${bold_in}  %s${bold_out}\n" "Downloading the latest version of the configuration"
@@ -223,16 +224,7 @@ printf "${bold_in}  %s${bold_out}\n" "Configuration files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$config" | indent 2
 printf "${bold_in}  %s${bold_out}\n" "Shared files copied to:"
 printf "${orange}%s${clear}\n" "$HOME$share_local" | indent 2
-section_title "Cleaning temporary files"
-rm -rf "$tmp_dir"/markchad
-rm -f "$tmp_dir"/markchad.tar.gz
-rm -f "$tmp_dir"/markchad.tar.gz.sha256
-if [ -z "$(ls -A "$tmp_dir")" ]; then
-  rm -rf ~/.local/tmp/
-  printf "${bold_in}  %s${bold_out}\n" "Folder $HOME/.local/tmp removed"
-else
-  printf "\n${orange}  %s${clear} not empty: ${orange}%s${clear}\n" "$HOME/$tmp_dir" "Skipped"
-fi
+remove_markchad
 divider_single_green
 center_bold_green "Installation performed properly"
 divider_single_green
