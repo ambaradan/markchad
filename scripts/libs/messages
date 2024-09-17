@@ -7,14 +7,7 @@ function confirm() {
 function missing() {
   printf "\x1b[38;5;214mMISSING\e[0m\n"
 }
-# Variabili Colori
-export green='\e[32m'
-export blue='\x1b[38;5;81m'
-export orange='\x1b[38;5;214m'
-export red='\033[0;31m'
-export clear='\e[0m'
-export bold_in='\033[1m'
-export bold_out='\033[0m'
+
 export title_script="Markchad configuration installation"
 export msg_nv_exe="Required executable control"
 export intro_script="The script was created and tested on a Rocky Linux 9.4 system. Consequently, all commands refer to a RHEL based system, especially the commands for installing the required packages, in case you are using another Linux distribution, you should adapt them to your own distribution."

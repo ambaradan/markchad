@@ -2,7 +2,35 @@
 # Used only locally to eliminate ShellChek warnings
 # source ./messages
 # Function to back up directories
-backup_directories() {
+# Variable Colors
+export green='\e[32m'
+export blue='\x1b[38;5;81m'
+export orange='\x1b[38;5;214m'
+export red='\033[0;31m'
+export clear='\e[0m'
+export bold_in='\033[1m'
+export bold_out='\033[0m'
+ # Function to check Neovim version
+function check_neovim_version() {
+    # Get the version of Neovim
+    if command -v nvim &> /dev/null; then
+        # Extract the version number
+        nvim_version=$(nvim --version | head -n 1 | awk '{print $2}')
+        # Compare versions
+        if [[ $(printf '%s\n' "$nvim_version" "0.10.0" | sort -V | head -n 1) = "0.10.0" ]]; then
+            echo "Neovim version is $nvim_version, which is >= 0.10.0"
+            return 0
+        else
+            echo "Neovim version is $nvim_version, which is < 0.10.0"
+            return 1
+        fi
+    else
+        echo "Neovim is not installed."
+        return 2
+    fi
+}
+# Beginning of functions for script unfolding
+function backup_directories() {
   local root_dir="$1"
   local current_date
   local config="config"
@@ -36,8 +64,12 @@ backup_directories() {
   printf "\n"
   printf "Backup stored in: \n${orange}%s${clear}\n" "$backup_dir" | indent 3
 }
-
+# Functions for terminal printing of missing required packages
+# 'commands' array of required packages to verify
 commands=("git" "gcc" "make" "npm" "sqlite3" "rg" "lazygit")
+# 'messages' array of messages related to missing packets
+# NOTE: To function properly, the number of entries in 'command'
+# must match the number of entries in 'messages'
 messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install npm -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
 function print_if_one_missing() {
   local msg="$1" # Capture the message passed as an argument
@@ -49,7 +81,6 @@ function print_if_one_missing() {
   done
   if [ ${#missing_commands[@]} -ne 0 ]; then
     local type=$1 # Take 'type' as a parameter to the function
-
     if [[ "$type" == "header" ]]; then
       divider_single_red
       center_bold_red "WARNING - Missing packages detected."
