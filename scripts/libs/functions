@@ -10,24 +10,36 @@ export red='\033[0;31m'
 export clear='\e[0m'
 export bold_in='\033[1m'
 export bold_out='\033[0m'
- # Function to check Neovim version
+# Function to check Neovim version
 function check_neovim_version() {
-    # Get the version of Neovim
-    if command -v nvim &> /dev/null; then
-        # Extract the version number
-        nvim_version=$(nvim --version | head -n 1 | awk '{print $2}')
-        # Compare versions
-        if [[ $(printf '%s\n' "$nvim_version" "0.10.0" | sort -V | head -n 1) = "0.10.0" ]]; then
-            echo "Neovim version is $nvim_version, which is >= 0.10.0"
-            return 0
-        else
-            echo "Neovim version is $nvim_version, which is < 0.10.0"
-            return 1
-        fi
+  # Check if Neovim is installed
+  if command -v nvim &>/dev/null; then
+    # Get the path of the Neovim executable
+    nvim_path=$(command -v nvim)
+
+    # Extract the version number
+    nvim_vers="$(nvim --version | head -1)"
+    nvim_version=$(echo "$nvim_vers" | tr -cd '[:digit:].')
+    nvim_req="0.10.0"
+    # nvim_version=$(nvim --version | head -n 1 | awk '{print $2}')
+
+    # Print the path of the Neovim executable
+    printf "Neovim executable path: ${bold_in}%s${bold_out}\n" "$nvim_path" | indent 2
+
+    # Compare versions
+    if [[ $(printf '%s\n' "$nvim_version" "$nvim_req" | sort -V | head -n 1) = "0.10.0" ]]; then
+      printf "Neovim version is ${bold_in}%s${bold_out} ${bold_in}CHECK PASSED${bold_out}\n" "$nvim_version" | indent 2
+      return 0
     else
-        echo "Neovim is not installed."
-        return 2
+      printf "Neovim version is ${bold_in}%s${bold_out} ${bold_in}UPGRADE PLEASE${bold_out}\n" "$nvim_version" | indent 2
+      printf "  %s" "$info_to_exit"
+      press_to_exit
+      # exit 1
     fi
+  else
+    warning_bar "WARNING - No Neovim Found"
+    # exit 2
+  fi
 }
 # Beginning of functions for script unfolding
 function backup_directories() {
@@ -230,7 +242,7 @@ function indent() {
 function press_to_exit() {
   while true; do
     read -rsn1 key # Read a single character silently
-    if [[ -n "$key" ]]; then
+    if [[ "$key" == $'\n' || -n "$key" ]]; then
       printf "\n"
       exit
     fi
