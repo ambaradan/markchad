@@ -21,49 +21,15 @@ printf "\n"
 format_text "A README is available for further information about the project and the software needed to run it at:"
 printf "\n  ${bold_in}%s\n\n${bold_out}" "https://github.com/ambaradan/markchad/blob/main/README.md"
 press_enter_or_quit
-# Controllo dipendenze richieste
-# nv_vers="$(nvim --version | head -1)"
-# nv_strip=$(echo "$nv_vers" | tr -cd '[:digit:].')
-# nv_req="0.10.0"
-# nv_path=$(command -v nvim)
-tmp_dir="$HOME/.local/tmp"
-tar_name="markchad.tar.gz"
-sha256_name="markchad.tar.gz.sha256"
+# tmp_dir="$HOME/.local/tmp"
+# tar_name="markchad.tar.gz"
+# sha256_name="markchad.tar.gz.sha256"
 section_title "$nv_check_title"
+printf "\n"
 check_neovim_version
-# if command -v nvim >/dev/null; then
-#   printf "$nv_check_ok: ${orange}%s${clear}\n" "$nv_path" | indent 2
-# else
-#   warning_bar "WARNING - No Neovim Found"
-#   format_text "$nv_check_no"
-#   # Neovim Documentation
-#   printf "\n"
-#   printf "${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
-#   printf "${blue}%s${clear}" "$neovim_install" | indent 5
-#   printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
-#   # --------------------
-#   warning_bar "$install_halt"
-#   exit
-# fi
-# if ! printf "$nv_req\n%s\n" "$(nvim --version | grep -io "[0-9][0-9a-z.-]*" | head -n1)" | sort -V -C; then
-#   warning_bar "$warning - Version Outdated"
-#   format_text "$nv_vers_req"
-#   printf "\n"
-#   printf "%s ${blue}%s${clear}" "$nv_required" "$nv_req" | indent 8
-#   printf "%s ${orange}%s${clear}" "$nv_installed" "$nv_strip" | indent 8
-#   # Neovim Documentation
-#   printf "\n${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
-#   printf "${blue}%s${clear}" "$neovim_install" | indent 5
-#   printf "${blue}%s${clear}\n\n" "$neovim_install" | indent 5
-#   # --------------------
-#   printf "  %s" "$info_to_exit"
-#   press_to_exit
-# else
-#   printf "Installed version:   ${orange}%s${clear} " "$nv_vers" | indent 2
-# fi
 section_title "$msg_nv_exe"
-# commands=("git" "gcc" "make" "rsync" "sqlite3" "rg" "lazygit")
-# messages=("sudo dnf install git -y" "sudo dnf install gcc -y" "sudo dnf install make -y" "sudo dnf install rsync -y" "sudo dnf install sqlite -y" "Check the NOTE below" "Check the NOTE below")
+# Routine to check for required packages and print missing packages
+# descriptions and commands to terminal
 print_list_missing
 print_if_one_missing header
 for cmd in "${commands[@]}"; do
@@ -184,6 +150,9 @@ if [ -d "$config" ]; then
   fi
 fi
 remove_markchad
+tmp_dir="$HOME/.local/tmp"
+tar_name="markchad.tar.gz"
+sha256_name="markchad.tar.gz.sha256"
 section_title "Downloading source files"
 printf "\n"
 printf "${bold_in}  %s${bold_out}\n" "Downloading the latest version of the configuration"

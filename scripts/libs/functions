@@ -1,6 +1,6 @@
 #!/bin/env bash
 # Used only locally to eliminate ShellChek warnings
-# source ./messages
+source ./messages
 # Function to back up directories
 # Variable Colors
 export green='\e[32m'
@@ -20,9 +20,8 @@ function check_neovim_version() {
     # Extract the version number
     nvim_vers="$(nvim --version | head -1)"
     nvim_version=$(echo "$nvim_vers" | tr -cd '[:digit:].')
+    # Minimum required version
     nvim_req="0.10.0"
-    # nvim_version=$(nvim --version | head -n 1 | awk '{print $2}')
-
     # Print the path of the Neovim executable
     printf "Neovim executable path: ${bold_in}%s${bold_out}\n" "$nvim_path" | indent 2
 
@@ -31,14 +30,29 @@ function check_neovim_version() {
       printf "Neovim version is ${bold_in}%s${bold_out} ${bold_in}CHECK PASSED${bold_out}\n" "$nvim_version" | indent 2
       return 0
     else
-      printf "Neovim version is ${bold_in}%s${bold_out} ${bold_in}UPGRADE PLEASE${bold_out}\n" "$nvim_version" | indent 2
-      printf "  %s" "$info_to_exit"
-      press_to_exit
-      # exit 1
+  warning_bar "$warning - Version Outdated"
+  format_text "$nv_vers_req"
+  printf "\n"
+  printf "%s ${bold_in}%s${bold_out}" "$nv_required" "$nvim_req" | indent 8
+  printf "%s ${bold_in}%s${bold_out}" "$nv_installed" "$nvim_version" | indent 8
+  # Neovim Documentation
+  printf "\n${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
+  printf "${bold_in}%s${bold_out}" "$neovim_install" | indent 5
+  printf "${bold_in}%s${bold_out}\n\n" "$neovim_build" | indent 5
+  # --------------------
+  exit 1
     fi
   else
     warning_bar "WARNING - No Neovim Found"
-    # exit 2
+    format_text "$nv_check_no"
+    # Neovim Documentation
+    printf "\n"
+    printf "${bold_in}%s${bold_out}\n\n" "$neovim_title" | indent 3
+    printf "${bold_in}%s${bold_out}" "$neovim_install" | indent 5
+    printf "${bold_in}%s${bold_out}\n\n" "$neovim_build" | indent 5
+    # --------------------
+    warning_bar "$install_halt"
+    exit 2
   fi
 }
 # Beginning of functions for script unfolding
@@ -205,7 +219,8 @@ function remove_markchad() {
     if [[ -e "$item" ]]; then
       echo "Attempting to remove: $item..."
       rm -rf "$item" # Using -r to handle directories and -f to force removal
-      if [[ $? -eq 0 ]]; then
+      local item_err=$?
+      if [[ $item_err -eq 0 ]]; then
         echo "$item removed successfully."
       else
         echo "Error: Failed to remove $item."
@@ -242,7 +257,7 @@ function indent() {
 function press_to_exit() {
   while true; do
     read -rsn1 key # Read a single character silently
-    if [[ "$key" == $'\n' || -n "$key" ]]; then
+    if [[ -n "$key" ]]; then
       printf "\n"
       exit
     fi
