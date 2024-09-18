@@ -102,6 +102,50 @@ Made no changes to the themes provided by *NvChad*. This allows you to use it ac
 
 All releases, and the changelog information for each, are available [on this page](https://github.com/ambaradan/markchad/releases).
 
+### Vale configuration
+
+The best description for Vale is from the [project page](https://vale.sh/):
+
+> Vale is a command-line tool that brings code-like linting to prose. It's fast, cross-platform (Windows, macOS, and Linux), and highly customizable.
+
+Vale installs as part of the Markchad configuration. Vale is not required, but you will need at minimum an empty initialization file in your home directory.
+
+* To create an empty `.vale.ini` in your $HOME folder: `touch ~/.vale.ini`. At this point, your editor will work without throwing errors when you try to write a file.
+
+* To create a usable `.vale.ini` file with suggested dictionaries for technical markdown editing, do this instead.
+
+    1. Create the `.vale.ini` file in the path of the `vale` binary `~/.local/share/nvim/mason/packages/vale/`
+
+    2. Add the following to your `.vale.ini` file:
+
+        ```bash
+        StylesPath = styles
+
+        MinAlertLevel = suggestion
+
+        Packages = RedHat, alex
+
+        [*]
+        BasedOnStyles = Vale, RedHat, alex
+        ```
+
+        Save and exit the file.
+
+    3. Change to that folder: `cd ~/.local/share/nvim/mason/packages/vale` and run:
+
+        ```bash
+        ./vale sync
+        ```
+
+        This will populate the alex and RedHat dictionaries.
+
+    4. To use these effectively, both the `.vale.ini` file,  and the `styles` folder need to be in the root of your home directory:
+
+        ```bash
+        cp ~/.local/share/nvim/mason/packages/vale/.vale.ini ~/
+        cp -Rf ~/.local/share/nvim/mason/packages/vale/styles ~/ 
+        ```
+
 ## Mapping - Quick Reference
 
 This table lists the main *Markchad* features and their respective mappings. The mappings marked as *Toggle* allow with the same command to open and close the respective functionality.
