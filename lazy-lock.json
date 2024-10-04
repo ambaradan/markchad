@@ -18,10 +18,10 @@
   "markdown-table-mode.nvim": { "branch": "main", "commit": "f830cd15a97deb3acc53d9f6607bc609f7f32e49" },
   "markdown.nvim": { "branch": "master", "commit": "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2" },
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
-  "menu": { "branch": "markchad_menu", "commit": "5e98ddcbf13bab8bde7c4f3b204d58a10bab5f54" },
+  "menu": { "branch": "markchad_menu", "commit": "bb6cf4b050809bb82e5768abbf736a9b9f02cfc6" },
   "minty": { "branch": "main", "commit": "8809b2c7c2edbeb3fa9c3b05bd2e89934d54f526" },
   "neo-tree.nvim": { "branch": "v3.x", "commit": "a77af2e764c5ed4038d27d1c463fa49cd4794e07" },
-  "neogit": { "branch": "master", "commit": "a021838dc2762cfc1c1808e56e112c36f5ca2154" },
+  "neogit": { "branch": "master", "commit": "d55bf6114c6cfba013e4c0e817e29e7752554ab7" },
   "neoscroll.nvim": { "branch": "master", "commit": "4e0428a41c6ec191df543fc95349f6e1c598e53f" },
   "nui.nvim": { "branch": "main", "commit": "b58e2bfda5cea347c9d58b7f11cf3012c7b3953f" },
   "nvim-autopairs": { "branch": "master", "commit": "ee297f215e95a60b01fde33275cc3c820eddeebe" },
@@ -47,5 +47,6 @@
   "ui": { "branch": "v3.0", "commit": "902cace97a6d1bb6e71274fc867c3e6ff5835ee4" },
   "volt": { "branch": "main", "commit": "ce1e55d52d86e33f340a20b45701b434cc684c15" },
   "which-key.nvim": { "branch": "main", "commit": "8badb359f7ab8711e2575ef75dfe6fbbd87e4821" },
-  "yanky.nvim": { "branch": "main", "commit": "73215b77d22ebb179cef98e7e1235825431d10e4" }
+  "yanky.nvim": { "branch": "main", "commit": "73215b77d22ebb179cef98e7e1235825431d10e4" },
+  "zen-mode.nvim": { "branch": "main", "commit": "29b292bdc58b76a6c8f294c961a8bf92c5a6ebd6" }
 }
