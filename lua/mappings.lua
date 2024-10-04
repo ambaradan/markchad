@@ -36,7 +36,7 @@ vim.keymap.set("n", "<C-t>", function()
 	require("menu").open("default")
 end, {})
 -- New Menu UI
--- mouse users + nvimtree users!
+-- mouse users + markdown code menu
 vim.keymap.set("n", "<RightMouse>", function()
 	vim.cmd.exec('"normal! \\<RightMouse>"')
 
