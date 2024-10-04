@@ -21,6 +21,11 @@ return {
 		enabled = false,
 		-- opts = overrides.nvimtree,
 	},
+  {
+    "ambaradan/menu",
+    lazy = "false",
+    branch = "markchad_menu",
+  },
   --
   {
     "nvim-treesitter/nvim-treesitter",

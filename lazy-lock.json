@@ -18,7 +18,7 @@
   "markdown-table-mode.nvim": { "branch": "main", "commit": "f830cd15a97deb3acc53d9f6607bc609f7f32e49" },
   "markdown.nvim": { "branch": "master", "commit": "dfa0d2def6dbf77e9206b16dc90cad4dd23d55d2" },
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
-  "menu": { "branch": "main", "commit": "205b3de60bbd1dfa73fd12b04530743cd0e70b22" },
+  "menu": { "branch": "markchad_menu", "commit": "5e98ddcbf13bab8bde7c4f3b204d58a10bab5f54" },
   "minty": { "branch": "main", "commit": "8809b2c7c2edbeb3fa9c3b05bd2e89934d54f526" },
   "neo-tree.nvim": { "branch": "v3.x", "commit": "a77af2e764c5ed4038d27d1c463fa49cd4794e07" },
   "neogit": { "branch": "master", "commit": "a021838dc2762cfc1c1808e56e112c36f5ca2154" },
