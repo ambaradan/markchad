@@ -30,3 +30,16 @@ map("n", "<leader>nc", function()
 	vim.b.x = not vim.b.x
 	require("cmp").setup.buffer({ enabled = not vim.b.x })
 end, { desc = "Toggle Cmp Support" })
+
+-- Keyboard users
+vim.keymap.set("n", "<C-t>", function()
+	require("menu").open("default")
+end, {})
+-- New Menu UI
+-- mouse users + nvimtree users!
+vim.keymap.set("n", "<RightMouse>", function()
+	vim.cmd.exec('"normal! \\<RightMouse>"')
+
+	local options = vim.bo.ft == "markdown" and "markchad" or "default"
+	require("menu").open(options, { mouse = true })
+end, {})
