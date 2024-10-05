@@ -3,6 +3,9 @@ return {
 	"folke/zen-mode.nvim",
 	enabled = true,
 	cmd = "ZenMode",
+	keys = {
+		{ "<leader>zm", "<cmd>ZenMode<cr>", desc = "Zen Mode" },
+	},
 	opts = {
 		window = {
 			options = {
@@ -10,9 +13,11 @@ return {
 				relativenumber = false,
 			},
 		},
-		kitty = {
-			enabled = true,
-			font = "+4", -- font size increment
+		plugins = {
+			kitty = {
+				enabled = true,
+				font = "+2", -- font size increment
+			},
 		},
 	},
 }
