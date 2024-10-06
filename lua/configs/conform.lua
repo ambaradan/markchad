@@ -1,12 +1,13 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
+    css = { "prettier" },
+    html = { "prettier" },
 		sh = { "shfmt" },
 		bash = { "shfmt" },
 		markdown = { "markdownlint" },
     yaml = { "yamlfmt" },
-    css = { "prettier" },
-    html = { "prettier" },
+
   },
 
   -- format_on_save = {
@@ -16,4 +17,4 @@ local options = {
   -- },
 }
 
-require("conform").setup(options)
+return options
