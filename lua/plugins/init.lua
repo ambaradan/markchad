@@ -23,9 +23,8 @@ return {
     lazy = "false",
     branch = "markchad_menu",
   },
-  --
   {
-    "nvim-treesitter/nvim-treesitter",
+"nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
         "vim",
@@ -36,8 +35,8 @@ return {
         "bash",
         "yaml",
         "markdown",
-        "markdown_inline",
+        "markdown_inline"
       },
-    },
+  	},
   },
 }

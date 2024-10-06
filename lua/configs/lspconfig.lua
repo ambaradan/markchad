@@ -6,6 +6,7 @@ local lspconfig = require "lspconfig"
 -- EXAMPLE
 local servers = { "html", "cssls", "marksman", "yamlls", "bashls" }
 local nvlsp = require "nvchad.configs.lspconfig"
+
 -- lsps with default config
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -15,6 +16,7 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+require'lspconfig'.denols.setup{}
 -- configuring single server, example: typescript
 -- lspconfig.ts_ls.setup {
 --   on_attach = nvlsp.on_attach,
