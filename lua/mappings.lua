@@ -4,7 +4,9 @@ local map = vim.keymap.set
 
 map("n", ":", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
-
+map("n", "<leader>th", function()
+	require("nvchad.themes").open({ style = "flat" })
+end, { desc = "NvCHad Themes" })
 -- replacement of standard nvimtree mapping with neotree
 map("n", "<C-n>", "<cmd>Neotree right toggle<CR>", { desc = "neotree toggle window" })
 map("n", "<leader>e", "<cmd>Neotree focus<CR>", { desc = "neotree focus window" })
@@ -23,7 +25,10 @@ map({ "n", "t" }, "<A-i>", function()
 end, { desc = "terminal toggle floating term" })
 
 -- Command to close all buffers
-map("n", "<leader>cx", "<cmd>:%bd!<cr>", { desc = "Close all buffers" })
+-- takes advantage of the NvChad API
+map("n", "<leader>cx", function()
+	require("nvchad.tabufline").closeAllBufs(true)
+end, { desc = "Close all buffers" })
 
 -- Toggle Cmp
 map("n", "<leader>nc", function()
