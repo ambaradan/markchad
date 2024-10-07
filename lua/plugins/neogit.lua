@@ -19,6 +19,10 @@ return {
 			"sindrets/diffview.nvim",
 			"nvim-lua/plenary.nvim",
 		},
+		config = function()
+			dofile(vim.g.base46_cache .. "neogit")
+			require("neogit").setup()
+		end,
 		keys = {
 			{
 				"<leader>ng",

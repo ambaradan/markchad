@@ -3,8 +3,8 @@ return {
 	enabled = true,
 	event = "BufReadPost",
 	config = function()
+    dofile(vim.g.base46_cache .. "rainbowdelimiters")
 		local rainbow_delimiters = require("rainbow-delimiters")
-
 		vim.g.rainbow_delimiters = {
 			strategy = {
 				[""] = rainbow_delimiters.strategy["global"],
