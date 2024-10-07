@@ -12,29 +12,29 @@ M.base46 = {
 		["@markup.strong"] = { fg = "cyan" },
 	},
 	hl_add = {
-		NeoTreeBufferNumber = { fg = "folder_bg" }, --The buffer number shown in the buffers source.
+		NeoTreeBufferNumber = { fg = "baby_pink" }, --The buffer number shown in the buffers source.
 		NeoTreeCursorLine = { fg = "teal" }, --|hl-CursorLine| override in Neo-tree window.
 		NeoTreeDimText = { fg = "light_grey" }, --Greyed out text used in various places.
-		NeoTreeDirectoryIcon = { fg = "vibrant_green" }, -- Directory icon
-		NeoTreeDirectoryName = { fg = "blue" }, --Directory name
+		NeoTreeDirectoryIcon = { fg = "folder_bg" }, -- Directory icon
+		NeoTreeDirectoryName = { fg = "cyan" }, --Directory name
 		NeoTreeDotfile = { fg = "green" }, --Used for icons and names when dotfiles are filtered.
-		NeoTreeFileIcon = { fg = "nord_blue" }, --File icon, when not overridden by devicons.
-		NeoTreeFileName = { fg = "sun" }, --File name, when not overwritten by another status.
+		NeoTreeFileIcon = { fg = "baby_pink" }, --File icon, when not overridden by devicons.
+		NeoTreeFileName = { fg = "yellow" }, --File name, when not overwritten by another status.
 		NeoTreeFileNameOpened = { fg = "blue" }, --File name when the file is open. Not used yet.
 		NeoTreeFilterTerm = { }, --The filter term, as displayed in the root node.
 		NeoTreeFloatBorder = { fg = "one_bg2", bg = "black" }, --The border for pop-up windows.
-		NeoTreeFloatTitle = { fg = "yellow", bg = "black" }, --Used for the title text of pop-ups when the border-style is set to another style than "NC". This is derived from NeoTreeFloatBorder.
-		NeoTreeGitAdded = {  }, --File name when the git status is added.
-		NeoTreeGitConflict = {  }, --File name when the git status is conflict.
+		NeoTreeFloatTitle = { fg = "nord_blue", bg = "black" }, --Used for the title text of pop-ups when the border-style is set to another style than "NC". This is derived from NeoTreeFloatBorder.
+		NeoTreeGitAdded = { fg = "orange" }, --File name when the git status is added.
+		NeoTreeGitConflict = { fg = "red" }, --File name when the git status is conflict.
 		NeoTreeGitDeleted = {  }, --File name when the git status is deleted.
-		NeoTreeGitIgnored = {  }, --File name when the git status is ignored.
-		NeoTreeGitModified = { fg = "red" }, --File name when the git status is modified.
-		NeoTreeGitUnstaged = { fg = "orange" }, --Used for git unstaged symbol.
-		NeoTreeGitUntracked = {  }, --File name when the git status is untracked.
-		NeoTreeGitStaged = {  }, --Used for git staged symbol.
+		NeoTreeGitIgnored = { fg = "light_grey" }, --File name when the git status is ignored.
+		NeoTreeGitModified = { fg = "baby_pink" }, --File name when the git status is modified.
+		NeoTreeGitUnstaged = { fg = "pink" }, --Used for git unstaged symbol.
+		NeoTreeGitUntracked = { fg = "baby_pink" }, --File name when the git status is untracked.
+		NeoTreeGitStaged = { fg = "blue" }, --Used for git staged symbol.
 		NeoTreeHiddenByName = {  }, --Used for icons and names when `hide_by_name` is used.
-		NeoTreeIndentMarker = {  }, --The style of indentation markers (guides). By default, the "Normal" highlight is used.
-		NeoTreeExpander = {  }, --Used for collapsed/expanded icons.
+		NeoTreeIndentMarker = { fg = "light_grey" }, --The style of indentation markers (guides). By default, the "Normal" highlight is used.
+		NeoTreeExpander = { fg = "orange" }, --Used for collapsed/expanded icons.
 		NeoTreeNormal = {  }, --|hl-Normal| override in Neo-tree window.
 		NeoTreeNormalNC = {  }, --|hl-NormalNC| override in Neo-tree window.
 		NeoTreeSignColumn = {  }, --|hl-SignColumn| override in Neo-tree window.
@@ -45,9 +45,9 @@ M.base46 = {
 		NeoTreeVertSplit = {  }, --|hl-VertSplit| override in Neo-tree window.
 		NeoTreeWinSeparator = {  }, --|hl-WinSeparator| override in Neo-tree window.
 		NeoTreeEndOfBuffer = {  }, --|hl-EndOfBuffer| override in Neo-tree window.
-		NeoTreeRootName = { fg = "vibrant_green" }, --The name of the root node.
+		NeoTreeRootName = { fg = "sun" }, --The name of the root node.
 		NeoTreeSymbolicLinkTarget = {  }, --Symbolic link target.
-		NeoTreeTitleBar = {  }, --Used for the title bar of pop-ups, when the border-style is set to "NC". This is derived from NeoTreeFloatBorder.
+		NeoTreeTitleBar = { fg = "orange" }, --Used for the title bar of pop-ups, when the border-style is set to "NC". This is derived from NeoTreeFloatBorder.
 		NeoTreeWindowsHidden = {  }, --Used for icons and names that are hidden on Windows.
 
 		-- NeoTreeDirectoryIcon = { fg = "yellow" },
