@@ -6,6 +6,7 @@ local M = {}
 
 M.base46 = {
 	theme = "gruvchad",
+integrations = { "neogit" },
 	hl_override = {
 		FloatBorder = { fg = "light_grey", bg = "black" },
 		["@markup.italic"] = { fg = "nord_blue" },
