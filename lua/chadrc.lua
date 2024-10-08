@@ -6,7 +6,7 @@ local M = {}
 
 M.base46 = {
 	theme = "gruvchad",
-integrations = { "neogit" },
+	integrations = { "neogit" },
 	hl_override = {
 		FloatBorder = { fg = "light_grey", bg = "black" },
 		["@markup.italic"] = { fg = "nord_blue" },
@@ -22,34 +22,34 @@ integrations = { "neogit" },
 		NeoTreeFileIcon = { fg = "baby_pink" }, --File icon, when not overridden by devicons.
 		NeoTreeFileName = { fg = "yellow" }, --File name, when not overwritten by another status.
 		NeoTreeFileNameOpened = { fg = "blue" }, --File name when the file is open. Not used yet.
-		NeoTreeFilterTerm = { }, --The filter term, as displayed in the root node.
+		NeoTreeFilterTerm = {}, --The filter term, as displayed in the root node.
 		NeoTreeFloatBorder = { fg = "one_bg2", bg = "black" }, --The border for pop-up windows.
 		NeoTreeFloatTitle = { fg = "nord_blue", bg = "black" }, --Used for the title text of pop-ups when the border-style is set to another style than "NC". This is derived from NeoTreeFloatBorder.
 		NeoTreeGitAdded = { fg = "orange" }, --File name when the git status is added.
 		NeoTreeGitConflict = { fg = "red" }, --File name when the git status is conflict.
-		NeoTreeGitDeleted = {  }, --File name when the git status is deleted.
+		NeoTreeGitDeleted = {}, --File name when the git status is deleted.
 		NeoTreeGitIgnored = { fg = "light_grey" }, --File name when the git status is ignored.
 		NeoTreeGitModified = { fg = "baby_pink" }, --File name when the git status is modified.
 		NeoTreeGitUnstaged = { fg = "pink" }, --Used for git unstaged symbol.
 		NeoTreeGitUntracked = { fg = "baby_pink" }, --File name when the git status is untracked.
 		NeoTreeGitStaged = { fg = "blue" }, --Used for git staged symbol.
-		NeoTreeHiddenByName = {  }, --Used for icons and names when `hide_by_name` is used.
+		NeoTreeHiddenByName = {}, --Used for icons and names when `hide_by_name` is used.
 		NeoTreeIndentMarker = { fg = "light_grey" }, --The style of indentation markers (guides). By default, the "Normal" highlight is used.
 		NeoTreeExpander = { fg = "orange" }, --Used for collapsed/expanded icons.
-		NeoTreeNormal = {  }, --|hl-Normal| override in Neo-tree window.
-		NeoTreeNormalNC = {  }, --|hl-NormalNC| override in Neo-tree window.
-		NeoTreeSignColumn = {  }, --|hl-SignColumn| override in Neo-tree window.
-		NeoTreeStats = {  }, --Used for "stat" columns like size, last modified, etc.
-		NeoTreeStatsHeader = {  }, --Used for the header (top line) of the above columns.
-		NeoTreeStatusLine = {  }, --|hl-StatusLine| override in Neo-tree window.
-		NeoTreeStatusLineNC = {  }, --|hl-StatusLineNC| override in Neo-tree window.
-		NeoTreeVertSplit = {  }, --|hl-VertSplit| override in Neo-tree window.
-		NeoTreeWinSeparator = {  }, --|hl-WinSeparator| override in Neo-tree window.
-		NeoTreeEndOfBuffer = {  }, --|hl-EndOfBuffer| override in Neo-tree window.
+		NeoTreeNormal = {}, --|hl-Normal| override in Neo-tree window.
+		NeoTreeNormalNC = {}, --|hl-NormalNC| override in Neo-tree window.
+		NeoTreeSignColumn = {}, --|hl-SignColumn| override in Neo-tree window.
+		NeoTreeStats = {}, --Used for "stat" columns like size, last modified, etc.
+		NeoTreeStatsHeader = {}, --Used for the header (top line) of the above columns.
+		NeoTreeStatusLine = {}, --|hl-StatusLine| override in Neo-tree window.
+		NeoTreeStatusLineNC = {}, --|hl-StatusLineNC| override in Neo-tree window.
+		NeoTreeVertSplit = {}, --|hl-VertSplit| override in Neo-tree window.
+		NeoTreeWinSeparator = {}, --|hl-WinSeparator| override in Neo-tree window.
+		NeoTreeEndOfBuffer = {}, --|hl-EndOfBuffer| override in Neo-tree window.
 		NeoTreeRootName = { fg = "sun" }, --The name of the root node.
-		NeoTreeSymbolicLinkTarget = {  }, --Symbolic link target.
+		NeoTreeSymbolicLinkTarget = {}, --Symbolic link target.
 		NeoTreeTitleBar = { fg = "orange" }, --Used for the title bar of pop-ups, when the border-style is set to "NC". This is derived from NeoTreeFloatBorder.
-		NeoTreeWindowsHidden = {  }, --Used for icons and names that are hidden on Windows.
+		NeoTreeWindowsHidden = {}, --Used for icons and names that are hidden on Windows.
 
 		-- NeoTreeDirectoryIcon = { fg = "yellow" },
 		-- NeoTreeDirectoryName = { fg = "sun" },
