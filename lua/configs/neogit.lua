@@ -17,7 +17,4 @@ require("neogit").setup({
 	commit_editor = {
 		kind = "floating",
 	},
-	log_view = {
-		kind = "floating",
-	},
 })
