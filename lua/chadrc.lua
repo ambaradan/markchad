@@ -14,13 +14,13 @@ M.base46 = {
 	},
 	hl_add = {
 		NeoTreeBufferNumber = { fg = "baby_pink" }, --The buffer number shown in the buffers source.
-		NeoTreeCursorLine = { fg = "teal" }, --|hl-CursorLine| override in Neo-tree window.
+		NeoTreeCursorLine = { fg = "vibrant_green" }, --|hl-CursorLine| override in Neo-tree window.
 		NeoTreeDimText = { fg = "light_grey" }, --Greyed out text used in various places.
 		NeoTreeDirectoryIcon = { fg = "folder_bg" }, -- Directory icon
-		NeoTreeDirectoryName = { fg = "cyan" }, --Directory name
+		NeoTreeDirectoryName = { fg = "folder_bg" }, --Directory name
 		NeoTreeDotfile = { fg = "green" }, --Used for icons and names when dotfiles are filtered.
 		NeoTreeFileIcon = { fg = "baby_pink" }, --File icon, when not overridden by devicons.
-		NeoTreeFileName = { fg = "yellow" }, --File name, when not overwritten by another status.
+		NeoTreeFileName = { fg = "sun" }, --File name, when not overwritten by another status.
 		NeoTreeFileNameOpened = { fg = "blue" }, --File name when the file is open. Not used yet.
 		NeoTreeFilterTerm = {}, --The filter term, as displayed in the root node.
 		NeoTreeFloatBorder = { fg = "one_bg2", bg = "black" }, --The border for pop-up windows.
@@ -29,8 +29,8 @@ M.base46 = {
 		NeoTreeGitConflict = { fg = "red" }, --File name when the git status is conflict.
 		NeoTreeGitDeleted = {}, --File name when the git status is deleted.
 		NeoTreeGitIgnored = { fg = "light_grey" }, --File name when the git status is ignored.
-		NeoTreeGitModified = { fg = "baby_pink" }, --File name when the git status is modified.
-		NeoTreeGitUnstaged = { fg = "pink" }, --Used for git unstaged symbol.
+		NeoTreeGitModified = { fg = "orange" }, --File name when the git status is modified.
+		NeoTreeGitUnstaged = { fg = "orange" }, --Used for git unstaged symbol.
 		NeoTreeGitUntracked = { fg = "baby_pink" }, --File name when the git status is untracked.
 		NeoTreeGitStaged = { fg = "blue" }, --Used for git staged symbol.
 		NeoTreeHiddenByName = {}, --Used for icons and names when `hide_by_name` is used.
