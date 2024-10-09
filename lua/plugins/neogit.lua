@@ -21,7 +21,12 @@ return {
 			{
 				"<leader>ng",
 				"<cmd>Neogit kind=vsplit<cr>",
-				desc = "git manager",
+				desc = "git manager workspace",
+			},
+			{
+				"<leader>nf",
+				"<cmd>Neogit cwd=%:p:h kind=vsplit<cr>",
+				desc = "git manager current file",
 			},
 		},
 		config = function()
