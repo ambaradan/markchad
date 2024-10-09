@@ -20,7 +20,7 @@ return {
 		keys = {
 			{
 				"<leader>ng",
-				"<cmd>Neogit kind=floating<cr>",
+				"<cmd>Neogit kind=vsplit<cr>",
 				desc = "git manager",
 			},
 		},
