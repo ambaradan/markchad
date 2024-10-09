@@ -20,7 +20,7 @@ M.base46 = {
 		NeoTreeDirectoryName = { fg = "folder_bg" }, --Directory name
 		NeoTreeDotfile = { fg = "green" }, --Used for icons and names when dotfiles are filtered.
 		NeoTreeFileIcon = { fg = "baby_pink" }, --File icon, when not overridden by devicons.
-		NeoTreeFileName = { fg = "sun" }, --File name, when not overwritten by another status.
+		NeoTreeFileName = { fg = "white" }, --File name, when not overwritten by another status.
 		NeoTreeFileNameOpened = { fg = "blue" }, --File name when the file is open. Not used yet.
 		NeoTreeFilterTerm = {}, --The filter term, as displayed in the root node.
 		NeoTreeFloatBorder = { fg = "one_bg2", bg = "black" }, --The border for pop-up windows.
