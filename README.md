@@ -86,13 +86,13 @@ Specifically, the configuration can be installed following two distinct schemes:
 The installation script is available at the following address:
 
 ```bash
-curl -L https://github.com/ambaradan/markchad/releases/latest/download/install_markchad.tar.gz
+curl -LO https://github.com/ambaradan/markchad/releases/latest/download/install_markchad.tar.gz
 ```
 
 Also download the checksum file (sha256):
 
 ```bash
-curl -L https://github.com/ambaradan/markchad/releases/latest/download/install_markchad.tar.gz.sha256
+curl -LO https://github.com/ambaradan/markchad/releases/latest/download/install_markchad.tar.gz.sha256
 ```
 
 Verify the integrity of the archive with:
