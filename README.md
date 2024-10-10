@@ -24,11 +24,10 @@ Installation of Markchad is by way of a script, which will check the availabilit
 
 ### Repositories
 
-With the standard repositories, you will also need Extra Packages for Enterprise Linux (EPEL), and a Cool Other Package Repo (COPR) for `lazygit`:
+With the standard repositories, you will also need Extra Packages for Enterprise Linux (EPEL):
 
 ```bash
 sudo dnf install epel-release -y
-sudo dnf copr enable atim/lazygit -y
 ```
 
 ### Packages
@@ -36,7 +35,7 @@ sudo dnf copr enable atim/lazygit -y
 Install the packages:
 
 ```bash
-sudo dnf install gcc make unzip compat-lua-libs libtermkey libtree-sitter libvterm luajit luajit2.1-luv msgpack unibilium xsel ripgrep sqlite pandoc rsync curl lazygit tar git npm libicu
+sudo dnf install gcc make unzip compat-lua-libs libtermkey libtree-sitter libvterm luajit luajit2.1-luv msgpack unibilium xsel ripgrep sqlite pandoc rsync curl tar git npm libicu
 ```
 
 ### Neovim
@@ -212,7 +211,6 @@ This table lists the main *Markchad* features and their respective mappings. The
 |------------|--------------------------------------------------------------------------------------------|
 | Space + cm | Opens *Telescope* on commits made to the repository                                        |
 | Space + gg | Opens NeoTree by listing the status of the files against the *git* repository (Git Status) |
-| Space + lg | Opens *lazygit* for repository management (need *lazygit* installed)                       |
 | Space + ng | Opens *Neogit* for repository management                                                   |
 
 ### Diagnostics
