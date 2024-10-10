@@ -27,7 +27,7 @@ M.base46 = {
 		NeoTreeFloatTitle = { fg = "nord_blue", bg = "black" }, --Used for the title text of pop-ups when the border-style is set to another style than "NC". This is derived from NeoTreeFloatBorder.
 		NeoTreeGitAdded = { fg = "orange" }, --File name when the git status is added.
 		NeoTreeGitConflict = { fg = "red" }, --File name when the git status is conflict.
-		NeoTreeGitDeleted = {}, --File name when the git status is deleted.
+		NeoTreeGitDeleted = { fg = "red" }, --File name when the git status is deleted.
 		NeoTreeGitIgnored = { fg = "light_grey" }, --File name when the git status is ignored.
 		NeoTreeGitModified = { fg = "orange" }, --File name when the git status is modified.
 		NeoTreeGitUnstaged = { fg = "orange" }, --Used for git unstaged symbol.
