@@ -69,35 +69,55 @@ Made no changes to the themes provided by *NvChad*. This allows you to use it ac
 
 ## Installation
 
-1. Get the latest version of the Markchad install script:
+The installation of the configuration is fully automated, the entire process being handled by a bash script that provides the following functionality:
 
-    `curl -LO https://raw.githubusercontent.com/ambaradan/markchad/main/install.sh`
+* Checking for availability of required packages and presence of existing configurations
+* Backup and restore previous configurations
+* Installation of the configuration
+* Consultation of inline help
 
-2. Change the attributes to make it executable:
+Specifically, the configuration can be installed following two distinct schemes:
 
-    `chmod +x install.sh`
+1. As the main editor - this solution allows Markchad to be used with the standard Neovim command (nvim) and a possible launcher for the Gnome desktop, however, in this case all configuration files and shared data are removed, consequently it is recommended to back up the configuration before proceeding with the installation
+2. As a secondary editor - in this case the Markchad configuration is installed separately and the whole process runs using the `markchad` folder as a reference. The *markchad* folder is used for configurations in `.config` and for shared data in `.local/share`, this allows you to continue using the basic version of Neovim for the other programming languages you are working on and Markchad for Markdown documents only.
 
-3. Run the script:
-    `./install.sh`
+### Download the script
 
-4. The Markchad splash screen appears. If you are ready to continue with the install, follow the on-screen directions:
+The installation script is available at the following address:
 
-    ![markchad_splash_screen](images/markchad_splash.png)
+```bash
+curl -L https://github.com/ambaradan/markchad/releases/latest/download/install_markchad.tar.gz
+```
 
-5. The installation script provides two ways to install *Markchad*. You can install it as the default ("Nvim"), or if you prefer to keep your markdown editor separate from other work, using "Markchad."
+Also download the checksum file (sha256):
 
-    ![markchad_install](/images/markchad_install.png)
+```bash
+curl -L https://github.com/ambaradan/markchad/releases/latest/download/install_markchad.tar.gz.sha256
+```
+
+Verify the integrity of the archive with:
+
+```bash
+sha256sum -c install_markchad.tar.gz.sha256 
+install_markchad.tar.gz: OK
+```
+
+If everything is correct extract the archive and start the script with:
+
+```bash
+tar -xf install_markchad.tar,gz
+cd install_markchad
+./install.sh
+```
+
+The following screen will open from which you will carry out all the necessary operations to install the configuration:
+
+![markchad_install](./images/markchad_install.png)
 
 6. After the installation is finished, the first time the editor is started, whether it is opened by the script or by the related command, it is necessary to install all the LSPs required by the configuration. The language servers are already set up for their installation and can be installed in a single operation with:
 
     ```text
     :MasonInstallAll
-    ```
-
-    **NOTE:** In the installation of language servers, for an as yet unknown reason, the *deno* server, used for previewing Markdown documents, is not installed, although it is regularly in the table of servers to be installed. To install it, run the command:
-
-    ```text
-    :MasonInstall deno
     ```
 
 All releases, and the changelog information for each, are available [on this page](https://github.com/ambaradan/markchad/releases).
