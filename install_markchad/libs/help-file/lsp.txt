@@ -1,0 +1,8 @@
+An LSP is the protocol that is used to communicate between a language client and a language server. The language server is used to provide language-specific features such as:
+
+* Autocomplete.
+* Advanced syntax highlighting.
+* Code formatting.
+* And much more..
+     
+    :MasonInstallAll

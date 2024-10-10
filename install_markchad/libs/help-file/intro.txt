@@ -1,0 +1,17 @@
+
+[ Project purpose ]
+    
+Create a configuration of NvChad dedicated to writing documentation with Markdown code by implementing the following features.   
+
+* Automatically set Neovim options for Markdown files
+* Highlighting Markdown tags in the buffer
+* Providing a zen mode for document editing
+ 
+The script was created and tested on a Rocky Linux 9.4 system.   
+Consequently, all commands refer to a RHEL based system, especially the commands for installing the required packages.  
+In case you are using another Linux distribution, you should adapt them to your own distribution.  
+
+A README is available for further information about the project and the software needed to run it at:  
+
+https://github.com/ambaradan/markchad/blob/main/README.md
+

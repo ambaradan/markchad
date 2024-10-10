@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Define the help pages
+HELP_PAGE_1="./libs/help-file/intro.txt"
+HELP_PAGE_2="./libs/help-file/pre-install.txt"
+HELP_PAGE_3="./libs/help-file/post-install.txt"
+HELP_PAGE_4="./libs/help-file/lsp.txt"
+HELP_PAGE_5="./libs/help-file/vale.txt"
+
+# Function to format and display help content
+display_help() {
+  local page_number=$1
+  case $page_number in
+  1) content=$(cat "$HELP_PAGE_1") ;;
+  2) content=$(cat "$HELP_PAGE_2") ;;
+  3) content=$(cat "$HELP_PAGE_3") ;;
+  4) content=$(cat "$HELP_PAGE_4") ;;
+  5) content=$(cat "$HELP_PAGE_5") ;;
+  *) echo "Invalid page number. Please choose between 1 to 5." && return ;;
+  esac
+
+  # Clear the screen
+  clear
+  # Format the content to be 80 characters wide with padding
+  echo "$content" | fold -s -w 76 | while read -r line; do
+    printf "  %s  \n" "$line"
+  done
+}
+
+# Function to display menu in one row
+display_menu() {
+  printf "\n"
+  printf "\t\t1) Intro    2) Pre Install   3) Post Install\n"
+  printf "\t\t4) Language Server  5) Prose Linter  b) Back\n"
+}
+
+# Display the default help page (Help Page 1) and the menu
+display_help 1
+display_menu
+
+# Main loop
+while true; do
+  read -r -p "                           Select a page: " choice
+
+  case $choice in
+  1) display_help 1 ;;
+  2) display_help 2 ;;
+  3) display_help 3 ;;
+  4) display_help 4 ;;
+  5) display_help 5 ;;
+  b) return ;;
+  *) printf "Invalid choice. Please try again.\n" ;;
+  esac
+
+  display_menu  # Re-display the menu after each selection
+done

@@ -1,0 +1,273 @@
+#!/bin/env bash
+# variables
+TEMP_DIR="$HOME/.local/tmp"
+TEMP_FOLDER="markchad"
+TAR_FILE="$TEMP_FOLDER.tar.gz"
+TAR_CONFIG="$TEMP_FOLDER/config/nvim/"
+TAR_SHARE="$TEMP_FOLDER/share/nvim/"
+DOWNLOAD_URL="https://github.com/ambaradan/markchad/releases/latest/download/"
+SHA256_FILE="$TAR_FILE.sha256"
+CONFIG_DIR="$HOME/.config/$EDITOR_DIR"
+SHARE_DIR="$HOME/.local/share/$EDITOR_DIR"
+ADDON_DIR="$TEMP_DIR/$TEMP_FOLDER/add-on"
+ORIGINAL_DIR=""
+# Function to save the current directory
+original_dir_save() {
+  ORIGINAL_DIR=$(pwd) # Store the current directory
+}
+# Function to restore the original directory
+original_dir_restore() {
+  if [ -z "$ORIGINAL_DIR" ]; then
+    printf "Warning: No original directory saved!"
+    return 1 # Return with error status if ORIGINAL_DIR is not set
+  fi
+  cd "$ORIGINAL_DIR" || {
+    printf "Warning: Could not return to original directory %s\n" "$ORIGINAL_DIR"
+    return 1 # Return with error status if cd fails
+  }
+}
+# Function to clean up Markchad temporary files and directories
+cleanup_temp_files() {
+  remove_item() {
+    local item="$1"
+    local path_item
+    path_item=$(basename "$item") # Get the path of the item
+    if [ -e "$item" ]; then
+      rm -rf "$item"
+      if [ -e "$item" ]; then
+        printf "Error: Failed to remove ${italic}%s${clear}\n" "$path_item" >&2 | indent 2
+      else
+        printf "Successfully removed: ${italic}%s${clear}\n" "$path_item" | indent 2
+      fi
+    else
+      printf "No file or directory: ${italic}%s${clear} no action taken\n" "$path_item" | indent 2 >&2
+    fi
+  }
+
+  # printf "\n"
+  # printf "${bold_in}%s${bold_out}\n" "Starting cleanup temporary files..." | indent 2
+  # Remove TEMP_FOLDER, TAR_FILE, and SHA256_FILE
+  remove_item "$TEMP_DIR/$TEMP_FOLDER"
+  remove_item "$TEMP_DIR/$TAR_FILE"
+  remove_item "$TEMP_DIR/$SHA256_FILE"
+  printf "${bold_in}%s${bold_out}\n\n" "Cleanup completed." | indent 2
+}
+# Function to remove configuration and share directories
+remove_editor_dirs() {
+  local config_dir="$1"
+  local share_dir="$2"
+  # Function to remove a directory
+  remove_directory() {
+    local dir=$1
+    if [ -d "$dir" ]; then
+      # printf "Removing directory: %s\n" "$dir"
+      rm -rf "$dir"
+      # Check if the directory was successfully removed
+      if [ ! -d "$dir" ]; then
+        printf "Successfully removed ${italic}%s${clear}\n" "$dir" | indent 2
+      else
+        printf "Error: Failed to remove ${italic}%s${clear}\n" "$dir" >&2 | indent 2
+
+        exit 1
+      fi
+    else
+      printf "Warning: ${italic}%s${clear} does not exist. Skipping.\n" "$dir" | indent 2
+    fi
+  }
+  # Remove CONFIG_DIR
+  remove_directory "$config_dir"
+  # Remove SHARE_DIR
+  remove_directory "$share_dir"
+  printf "${bold_in}%s${bold_out}\n\n" "Removal process completed" | indent 2
+}
+# Function for downloading, verifying and extracting configuration files
+get_markchad() {
+
+  # Create TEMP_DIR if it does not exist
+  mkdir -p "$TEMP_DIR"
+  # Change to TEMP_DIR
+  cd "$TEMP_DIR" || {
+    printf "Error: Could not change to directory %s\n" "$TEMP_DIR" | indent 2
+    exit 1
+  }
+  # Download TAR_FILE
+  printf "Downloading %s...\n" "$TAR_FILE" | indent 2
+  if ! curl -s -LO "$DOWNLOAD_URL$TAR_FILE"; then
+    printf "Error: Failed to download %s\n" "$TAR_FILE" | indent 2
+    exit 1
+  fi
+  # Download SHA256_FILE
+  printf "Downloading %s...\n" "$SHA256_FILE" | indent 2
+  if ! curl -s -LO "$DOWNLOAD_URL$SHA256_FILE"; then
+    printf "Error: Failed to download %s\n" "$SHA256_FILE" | indent 2
+    exit 1
+  fi
+  # Verify the checksum
+  printf "Verifying checksum for %s...\n" "$TAR_FILE" | indent 2
+  if ! sha256sum -c "$SHA256_FILE" --quiet; then
+    printf "Error: Checksum verification failed for %s\n" "$TAR_FILE" | indent 2
+    exit 1
+  fi
+  # Extract the TAR file
+  printf "Extracting %s...\n" "$TAR_FILE" | indent 2
+  if ! tar -xzf "$TAR_FILE" -C "$TEMP_DIR"; then
+    printf "Error: Failed to extract %s\n" "$TAR_FILE" | indent 2
+    exit 1
+  fi
+  # Print success message
+  printf "Successfully downloaded and extracted ${bold_in}%s${bold_out}\n\n" "$TAR_FILE" | indent 2
+
+}
+# Function to copy files with error handling
+copy_markchad_files() {
+  local source_config="$TEMP_DIR/$TAR_CONFIG"
+  local source_share="$TEMP_DIR/$TAR_SHARE"
+
+  # Create necessary directories if they do not exist
+  mkdir -p "$CONFIG_DIR"
+  mkdir -p "$SHARE_DIR"
+
+  # Copy files from TAR_CONFIG to CONFIG_DIR
+  if cp -r "$source_config"* "$CONFIG_DIR/"; then
+    printf "Successfully copied files:\n" | indent 2
+
+    printf "from: ${italic}%s${clear}\n" "$source_config" | indent 2
+    printf "  to: ${italic}%s${clear}\n" "$CONFIG_DIR" | indent 2
+  else
+    printf "Error: Failed to copy files:\n"
+    printf "from: ${italic}%s${clear}\n" "$source_config" | indent 2
+    printf "  to: ${italic}%s${clear}\n" "$CONFIG_DIR" | indent 2
+    exit 1
+  fi
+
+  # Copy files from TAR_SHARE to SHARE_DIR
+  if cp -r "$source_share"* "$SHARE_DIR/"; then
+    printf "Successfully copied files:\n" | indent 2
+    printf "from: ${italic}%s${clear}\n" "$source_share" | indent 2
+    printf "  to: ${italic}%s${clear}\n" "$SHARE_DIR" | indent 2
+  else
+    printf "Error: Failed to copy files:\n" | indent 2
+    printf "from: ${italic}%s${clear}\n" "$source_share" | indent 2
+    printf "  to: ${italic}%s${clear}\n" "$SHARE_DIR" | indent 2
+    exit 1
+  fi
+
+  printf "${bold_in}%s${bold_out}\n\n" "All files copied successfully" | indent 2
+}
+# Function to copy add-on files or directories
+# to config or share folder with subpath
+# copy_addon "$ADDON_FILE_NVIM" "$CONFIG_DIR" "$DESTINATION_FILE_NVIM"
+copy_addon() {
+  local source="$1"
+  local destination="$2"
+  local subpath="$3"
+  # Check if the destination is valid
+  if [[ "$destination" != "$CONFIG_DIR" && "$destination" != "$SHARE_DIR" ]]; then
+    printf "Error: Destination must be either CONFIG_DIR or SHARE_DIR.\n"
+    return 1
+  fi
+  # Construct the full destination path
+  local full_destination="$destination/$subpath"
+  # Check if ADDON_DIR exists
+  if [[ ! -d "$ADDON_DIR" ]]; then
+    printf "Error: ADDON_DIR does not exist: %s\n" "$ADDON_DIR"
+    return 1
+  fi
+  # Check if the source file or directory exists in ADDON_DIR
+  if [[ ! -e "$ADDON_DIR/$source" ]]; then
+    printf "Error: Source file or directory does not exist in add-on: %s\n" "$ADDON_DIR/$source" | indent 2
+
+    return 1
+  fi
+
+  # Determine if the destination is a directory or a file
+  if [[ -d "$ADDON_DIR/$source" ]]; then
+    # If the destination is a directory, copy the source inside it
+    cp -r "$ADDON_DIR/$source" "$full_destination/"
+    printf "Successfully copied directory ${italic}%s${clear} to ${italic}%s${clear}.\n" "$source" ".${full_destination#*.}" | indent 2
+  else
+    # Create the directory for the destination if it doesn't exist
+    mkdir -p "$(dirname "$full_destination")"
+    # Copy the file to the full destination path
+    cp -r "$ADDON_DIR/$source" "$full_destination"
+    printf "Successfully copied ${italic}%s${clear} to ${italic}%s${clear}\n" "$source" "$subpath" | indent 2
+    printf "\n"
+  fi
+}
+# Function for setting up additional files
+function config_setup() {
+  if [[ "$EDITOR_DIR" == "markchad" ]]; then
+    printf "EDITOR is set to: ${bold_in}%s${bold_out}\n" "$EDITOR_DIR" | indent 2
+    copy_addon "peek-markchad.lua" "$CONFIG_DIR" "lua/plugins/peek.lua"
+  elif [[ "$EDITOR_DIR" == "nvim" ]]; then
+    printf "EDITOR is set to: ${bold_in}%s${bold_out}\n" "$EDITOR_DIR" | indent 2
+    copy_addon "peek-nvim.lua" "$CONFIG_DIR" "lua/plugins/peek.lua"
+  else
+    printf "EDITOR is not set to markchad or nvim. Skipping copy.\n" | indent 2
+  fi
+}
+# Function for post-install instructions
+command_to_open() {
+  printf "${bold_in}%s\n${bold_out}" "Installation finished successfully" | indent 2
+  if [ "$EDITOR_DIR" == "nvim" ]; then
+    format_text "The editor is set to Neovim (nvim). To open the new configuration use the standard command"
+    printf "\n\n"
+    printf "${bold_in}%s\n${bold_out}" "nvim" | indent 4
+  elif [ "$EDITOR_DIR" == "markchad" ]; then
+    format_text "The editor is set to MarkChad. To open the new configuration use the command"
+    printf "\n\n"
+    printf "${bold_in}%s\n${bold_out}" "NVIM_APPNAME=markchad nvim" | indent 4
+  else
+    printf "The editor is set to an unknown value: %s\n" "$EDITOR_DIR"
+  fi
+  format_text "To finish the configuration, some manual steps are required, which are shown in the next screen, press ENTER to view them."
+  printf "\n"
+}
+post_install_info() {
+  clear
+  print_right_aligned "[ Markchad Post Install ]"
+  printf "\n"
+  format_text "The newly installed configuration provides all the files (configuration and data) of all the components needed to run it."
+  printf "\n"
+  format_text "Due to incompatibility with the deployment method, language servers (LSP) are not provided and must be installed manually; the necessary servers are already set up in the configuration and can all be installed in one operation with the command:"
+  printf "\n\n"
+  printf "${bold_in}%s${bold_out}\n\n" ":MasonInstallAll" | indent 4
+  # format_text "For an as-yet undiscovered reason, the deno language server is not installed even when configured and must be installed separately with the command:"
+  printf "\n\n"
+  # printf "${bold_in}%s${bold_out}\n\n" ":MasonInstall deno" | indent 4
+  format_text "The configuration is distributed in release form to ensure stability, plugins are carefully configured and tested before being inserted but for those who want to use the latest versions, and maybe fix some bugs, they can use the command:"
+  printf "\n\n"
+  printf "${bold_in}%s${bold_out}\n\n" ":Lazy sync" | indent 4
+}
+# Main Script
+original_dir_save
+clear
+print_right_aligned "[ Markchad Install ]"
+printf "\n"
+printf "Installation method: ${bold_in}%s${bold_out}" "$EDITOR_DIR" | indent 2
+printf "\n"
+format_text "Installation of Markchad configuration. The procedure involves removing the existing configuration and it is recommended to make a backup using the dedicated procedure (Option 2)"
+printf "\n"
+press_enter_or_quit
+clear
+print_right_aligned "[ Markchad Install ]"
+printf "\n"
+printf "Installation method: ${bold_in}%s${bold_out}" "$EDITOR_DIR" | indent 2
+printf "\n"
+print_right_aligned "[ Cleanup Temporary Files ]"
+cleanup_temp_files
+print_right_aligned "[ Cleanup Configuration ]"
+remove_editor_dirs "$CONFIG_DIR" "$SHARE_DIR"
+print_right_aligned "[ Downloading Source Files ]"
+get_markchad
+print_right_aligned "[ Installing Configuration ]"
+copy_markchad_files
+print_right_aligned "[ Set-up Configuration ]"
+config_setup
+print_right_aligned "[ Removing Install Files ]"
+cleanup_temp_files
+command_to_open
+press_enter_or_quit
+post_install_info
+original_dir_restore
+press_enter_or_quit

@@ -1,0 +1,107 @@
+#!/bin/bash
+
+# Function to check if a command is available
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# NVIM configuration
+NVIM_BASE="$(nvim --version | head -1)" # Get nvim version
+NVIM_PATH="$(command -v nvim)"          # Get nvim path
+# Extract numeric version
+NVIM_VERSION=$(echo "$NVIM_BASE" | tr -cd '[:digit:].')
+NVIM_REQUIRED="0.10.0" # Required nvim version
+print_right_aligned "[ Neovim Check ]"
+printf "\n"
+# Check if nvim command exists
+if command_exists nvim; then
+  printf "NVIM is installed at: ${italic}%s${clear}\n" "$NVIM_PATH" | indent 2
+  printf "Current NVIM version: ${bold_in}%s${bold_out}\n" "$NVIM_VERSION" | indent 2
+
+  # Compare versions
+  if [[ "$(printf '%s\n' "$NVIM_VERSION" "$NVIM_REQUIRED" | sort -V | head -n1)" == "$NVIM_REQUIRED" ]]; then
+    printf "NVIM version is up-to-date: ${bold_in}%s${bold_out} >= ${bold_in}%s${bold_out}\n" "$NVIM_VERSION" "$NVIM_REQUIRED" | indent 2
+  else
+    printf "NVIM version is outdated: ${bold_in}%s${bold_out} < ${bold_in}%s${bold_out}\n" "$NVIM_VERSION" "$NVIM_REQUIRED" | indent 2
+  fi
+else
+  printf "NVIM is not installed.\n" | indent 2
+  exit 1
+fi
+print_right_aligned "[ Missing Packages Check ]"
+printf "\n"
+# Array of required commands
+CMD_REQUIRED=("git" "gcc" "make" "npm" "sqlite3" "rg")
+
+# Corresponding messages for missing commands
+MESSAGES=("sudo dnf install git -y"
+  "sudo dnf install gcc -y"
+  "sudo dnf install make -y"
+  "sudo dnf install npm -y"
+  "sudo dnf install sqlite -y"
+  "sudo dnf install rg -y")
+
+# Function to check if a command is available
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Header
+printf "%-12s "" "" %-30s "" "" %-15s\n" "Command" "Path" "Status" | indent 2
+printf "%-12s "" "" %-30s "" "" %-15s\n" "--------" "----" "------" | indent 2
+
+# Initialize a counter for missing commands
+missing_count=0
+
+# Iterate over the required commands
+for i in "${!CMD_REQUIRED[@]}"; do
+  CMD="${CMD_REQUIRED[$i]}"
+
+  if command_exists "$CMD"; then
+    CMD_PATH="$(command -v "$CMD")"
+    printf "%-12s "" "" %-30s "" "" %-15s\n" "$CMD" "$CMD_PATH" "Installed" | indent 2
+  else
+    # Handle multi-line message for rg
+    if [[ "$CMD" == "rg" ]]; then
+      printf "%-12s "" "" %-30s "" "" %-15s\n" "$CMD" "N/A" "sudo dnf install epel-release -y" | indent 2
+      printf "%-12s "" "" %-30s "" "" %-15s\n" "" "" "sudo dnf install rg -y" | indent 2
+    else
+      printf "%-12s "" "" %-30s "" "" %-15s\n" "$CMD" "N/A" "${MESSAGES[$i]}" | indent 2
+    fi
+    missing_count=$((missing_count + 1)) # Increment missing commands count
+  fi
+done
+
+# Final message summary
+if [ $missing_count -eq 0 ]; then
+  printf "\n"
+  format_text "All required commands are installed."
+else
+  printf "\n"
+  format_text "Some commands are missing. Please refer to the status above for details."
+fi
+printf "\n\n"
+# Define the configuration directories
+NVIM_CONFIG="$HOME/.config/nvim"
+MARKCHAD_CONFIG="$HOME/.config/markchad"
+print_right_aligned "[ Configuration Checks ]"
+printf "\n"
+# Function to check configuration directory and recommend backup
+check_config() {
+  local config_name=$1
+  local config_path=$2
+
+  if [ -d "$config_path" ]; then
+    printf "Found configuration: ${bold_in}%s${bold_out} - Recommended backup\n" "$config_name" | indent 2
+  else
+    printf "Configuration not found for: ${bold_in}%s${bold_out}\n" "$config_name" | indent 2
+  fi
+}
+
+# Check NVIM configuration
+check_config "NVIM" "$NVIM_CONFIG"
+
+# Check MARKCHAD configuration
+check_config "MARKCHAD" "$MARKCHAD_CONFIG"
+press_enter_or_quit
+return

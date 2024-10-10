@@ -1,0 +1,238 @@
+#!/bin/env bash
+# Function to display the main menu and get user input for backup or restore
+main_menu() {
+  print_right_aligned "[ Backup & Restore ]"
+  printf "\n"
+  format_text "This section provides the backup and restore functions of the two configurations, the Editor's choice menu is generated interactively based on the configurations found."
+  printf "\n"
+  format_text "The restore function always restores the last backup created, to restore previous backups you need to manually edit the 'latest' link in the backup folder"
+  printf "\n\n"
+  center_text "1) Backup      2) Restore      q) Main Menu"
+  printf "\n"
+  read -r -p "                          Enter your choice: " choice
+  printf "\n"
+  case $choice in
+  1)
+    select_editor
+    perform_backup
+    ;;
+  2)
+    restore_menu
+    ;;
+  q)
+    return
+    ;;
+  *)
+    printf "  Invalid choice. Exiting.\n"
+    exit 1
+    ;;
+  esac
+}
+
+# Function to display the menu and get user input for editor selection
+select_editor() {
+  printf "\t\t\t     Select your editor: \n"
+  printf "\n\t\t\t1) nvim"
+
+  # Check if the markchad config directory exists
+  if [ -d "$HOME/.config/markchad" ]; then
+    printf "\t\t2) markchad"
+  fi
+  printf "\n\n"
+  read -r -p "                          Enter your choice: " choice
+
+  case $choice in
+  1)
+    EDITOR_DIR="nvim"
+    ;;
+  2)
+    if [ -d "$HOME/.config/markchad" ]; then
+      EDITOR_DIR="markchad"
+    else
+      printf "Invalid choice: markchad directory does not exist. Exiting.\n"
+      exit 1
+    fi
+    ;;
+  *)
+    printf "Invalid choice. Exiting.\n"
+    exit 1
+    ;;
+  esac
+}
+# Function to list available backup directories for the specified editor
+list_backups() {
+  local padding="    " # Define padding (4 spaces)
+  printf "Available backups for : ${bold_in}%s${bold_out}\n\n" "$EDITOR_DIR" | indent 4
+
+  # Get the list of backup directories
+  local backups
+  backups=$(ls -1 -r -d "$HOME/backup/${EDITOR_DIR}_"* 2>/dev/null)
+
+  if [ -z "$backups" ]; then
+    printf "No backups found for ${bold_in}%s${bold_out}\n" "$EDITOR_DIR" | indent 4
+    printf "\n"
+    format_text "Make at least one backup copy to take advantage of the restore function."
+    printf "\n"
+  else
+    # Loop through each backup directory and add padding
+    while IFS= read -r line; do
+      printf "%s${italic}%s${clear}\n" "$padding" "$line"
+    done <<<"$backups"
+  fi
+}
+
+# Function to perform backup
+perform_backup() {
+  clear
+  print_right_aligned "[ Backup & Restore ]"
+  printf "${bold_in}\n%s\n\n${bold_out}" " - Backup Utility - " | indent 2
+  list_backups
+  printf "\nBacking up for the selected editor version?\n" | indent 2
+  press_enter_or_quit
+  # Variables
+  CONFIG_DIR="$HOME/.config/$EDITOR_DIR"
+  SHARE_DIR="$HOME/.local/share/$EDITOR_DIR"
+  # DATE=$(date +"%Y%m%d") # Get current date in YYYYMMDD format
+  TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+  BACKUP_DIR="$HOME/backup/${EDITOR_DIR}_$TIMESTAMP" # Create a subdirectory for each editor with the date
+  # Create backup directory if it doesn't exist
+  mkdir -p "$BACKUP_DIR"
+  # Create separate subdirectories for config and share backups
+  CONFIG_BACKUP_DIR="$BACKUP_DIR/config"
+  SHARE_BACKUP_DIR="$BACKUP_DIR/local_share"
+  mkdir -p "$CONFIG_BACKUP_DIR"
+  mkdir -p "$SHARE_BACKUP_DIR"
+  # Check if directories exist before backing up
+  if [ -d "$CONFIG_DIR" ]; then
+    cp -r "$CONFIG_DIR/"* "$CONFIG_BACKUP_DIR/"
+    printf "\nBackup of ${italic}%s${clear} completed.\n" "$CONFIG_DIR" | indent 2
+  else
+    printf "Warning: ${italic}%s${clear} does not exist. Skipping backup.\n" "$CONFIG_DIR" | indent 2
+  fi
+
+  if [ -d "$SHARE_DIR" ]; then
+    cp -r "$SHARE_DIR/"* "$SHARE_BACKUP_DIR/"
+    printf "Backup of ${italic}%s${clear} completed.\n" "$SHARE_DIR" | indent 2
+  else
+    printf "Warning: ${italic}%s${clear} does not exist. Skipping backup.\n" "$SHARE_DIR" | indent 2
+  fi
+
+  # Create a symbolic link to the latest backup
+  LATEST_LINK="$HOME/backup/latest_${EDITOR_DIR}"
+  if [ -L "$LATEST_LINK" ]; then
+    rm "$LATEST_LINK" # Remove existing link if it exists
+  fi
+  ln -s "$BACKUP_DIR" "$LATEST_LINK"
+
+  # Completion message
+  printf "Backup routine completed.\n\n" | indent 2
+  printf "Latest backup linked to ${bold_in}%s${bold_out}\n" "${EDITOR_DIR}_$TIMESTAMP" | indent 2
+  press_enter_or_quit
+}
+
+# Function to restore the latest backup for the selected editor
+restore_backup() {
+  clear
+  print_right_aligned "[ Backup & Restore ]"
+  printf "${bold_in}\n%s\n\n${bold_out}" " - Restore Utility - " | indent 2
+  list_backups
+  # Define the symlink name
+  SYMLINK="$HOME/backup/latest_$EDITOR_DIR"
+  # Check if the symlink exists
+  if [ -L "$SYMLINK" ]; then
+    # Get the target of the symlink
+    TARGET=$(readlink "$SYMLINK")
+    printf "\n"
+    printf "The latest backup is linked to: \n" | indent 2
+    printf "${bold_in}%s${bold_out}" "$TARGET" | indent 2
+  fi
+  printf "\n"
+  format_text "Continuing will restore the last saved configuration."
+  printf "\n"
+  press_enter_or_quit
+  CONFIG_DIR="$HOME/.config/$EDITOR_DIR"
+  SHARE_DIR="$HOME/.local/share/$EDITOR_DIR"
+
+  LATEST_LINK="$HOME/backup/latest_${EDITOR_DIR}"
+  if [ -L "$LATEST_LINK" ]; then
+    BACKUP_DIR=$(readlink -f "$LATEST_LINK")
+    # Deleting existing config and share directories
+    if [ -d "$CONFIG_DIR" ]; then
+      rm -rf "$CONFIG_DIR"
+      printf "\n"
+      printf "Deleted existing config directory:\n" | indent 2
+      printf "${bold_in}%s${bold_out}\n" "$CONFIG_DIR" | indent 2
+    fi
+
+    if [ -d "$SHARE_DIR" ]; then
+      rm -rf "$SHARE_DIR"
+      printf "Deleted existing share directory:\n" | indent 2
+      printf "${bold_in}%s${bold_out}\n" "$SHARE_DIR" | indent 2
+    fi
+    mkdir -p "$CONFIG_DIR"
+    mkdir -p "$SHARE_DIR"
+    # Restore config files
+    if [ -d "$BACKUP_DIR/config" ]; then
+      cp -r "$BACKUP_DIR/config/"* "$HOME/.config/$EDITOR_DIR/"
+      printf "Restored config from:\n" | indent 2
+      printf "${bold_in}%s${bold_out}\n" "$BACKUP_DIR/config" | indent 2
+    else
+      printf "No config backup directory found at:\n" | indent 2
+      printf "${bold_in}%s${bold_out}\n" "$BACKUP_DIR/config" | indent 2
+    fi
+
+    # Restore share files
+    if [ -d "$BACKUP_DIR/local_share" ]; then
+      cp -r "$BACKUP_DIR/local_share/"* "$HOME/.local/share/$EDITOR_DIR/"
+      printf "Restored share from:\n" | indent 2
+      printf "${bold_in}%s${bold_out}\n" "$BACKUP_DIR/local_share" | indent 2
+    else
+      printf "No local share backup directory found at:\n" | indent 2
+      printf "${bold_in}%s${bold_out}\n" "$BACKUP_DIR/local_share" | indent 2
+    fi
+
+    printf "Restoration completed for %s\n" "$EDITOR_DIR" | indent 2
+    printf "from the latest backup" | indent 2
+
+  else
+    printf "\n"
+    printf "No latest backup found for ${bold_in}%s${bold_out}\n" "$EDITOR_DIR" | indent 4
+  fi
+  press_enter_or_quit
+}
+
+# Function to display the restore menu
+restore_menu() {
+  center_text "Select your editor to restore from backup:"
+  printf "\n\t\t\t1) nvim"
+
+  # Check if the markchad config directory exists
+  if [ -d "$HOME/.config/markchad" ]; then
+    printf "\t\t2) markchad\n"
+  fi
+  printf "\n"
+  read -r -p "                          Enter your choice: " choice
+
+  case $choice in
+  1)
+    EDITOR_DIR="nvim"
+    restore_backup
+    ;;
+  2)
+    if [ -d "$HOME/.config/markchad" ]; then
+      EDITOR_DIR="markchad"
+      restore_backup
+    else
+      printf "Invalid choice: markchad directory does not exist. Exiting.\n"
+      exit 1
+    fi
+    ;;
+  *)
+    printf "Invalid choice. Exiting.\n"
+    exit 1
+    ;;
+  esac
+}
+
+# Main script execution
+main_menu

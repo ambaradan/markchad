@@ -1,0 +1,15 @@
+
+[ Requirements ]
+
+The configuration requires an installation of Neovim 0.10.0 or higher. For its installation, reference can be made to the official documentation available in the links below.
+
+<> https://github.com/neovim/neovim/blob/master/INSTALL.md
+<> https://github.com/neovim/neovim/blob/master/BUILD.md
+
+For the installation of the additional applications 'ripgrep' and 'lazygit' it is necessary to enable some repositories in the system, in particular EPEL (Extra Packages for Enterprise Linux) for ripgrep and COPR (Cool Other Package Repo) for lazygit is required. The commands needed are:
+
+sudo dnf install epel-release -y
+sudo dnf install ripgrep -y
+sudo dnf copr enable atim/lazygit -y
+sudo dnf install lazygit -y
+

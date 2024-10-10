@@ -1,0 +1,21 @@
+
+[ Vale Prose Linter ]
+
+Vale is installed along with the other servers during the Post Install phase but an initialization is required for its use.
+To do this copy the following code into a '.vale.ini' file in the home directory:
+
+StylesPath = ~/.local/share/vale/styles
+
+MinAlertLevel = suggestion
+
+Packages = RedHat, alex
+
+[*]
+BasedOnStyles = Vale, RedHat, alex
+
+Then download the dictionaries with the command:
+ 
+~/.local/share/nvim/mason/packages/vale/vale sync
+
+When the installation of dictionaries is finished upon saving a Markdown file, the language check provided by Vale will be activated.
+

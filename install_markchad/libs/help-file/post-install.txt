@@ -1,0 +1,17 @@
+
+[ Post Install ]
+
+After the installation is finished, manual intervention is required to install the language servers (LSP) as they are incompatible with the deployment method. The necessary servers are already set up in the chadr.lua file and can be installed in one operation with the command:
+
+:MasonInstallAll
+
+For a reason not yet identified 'deno', used for previewing Markdown documents, is not installed and must be installed separately with the command:
+
+:MasonInstall deno
+
+Among the installed language servers also 'vale' a Prose Linter is installed, this server requires a configuration file and in the absence of it generates an error (code 022), if you are not interested in using this LSP you can get rid of the error by entering an empty configuration file in HOME with the command:
+
+touch ~/.vale.ini
+
+If, however, you are interested in its use see the next page.
+
