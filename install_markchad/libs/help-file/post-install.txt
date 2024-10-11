@@ -13,5 +13,5 @@ Among the installed language servers also 'vale' a Prose Linter is installed, th
 
 touch ~/.vale.ini
 
-If, however, you are interested in its use see the next page.
+If you are interested in using Vale, see help screen, option 5.
 
