@@ -10,6 +10,8 @@ SHA256_FILE="$TAR_FILE.sha256"
 CONFIG_DIR="$HOME/.config/$EDITOR_DIR"
 SHARE_DIR="$HOME/.local/share/$EDITOR_DIR"
 ADDON_DIR="$TEMP_DIR/$TEMP_FOLDER/add-on"
+VALE_CONFIG="$HOME/.vale.ini"
+LOCAL_SHARE_DIR="$HOME/.local/share"
 ORIGINAL_DIR=""
 # Function to save the current directory
 original_dir_save() {
@@ -197,14 +199,96 @@ copy_addon() {
 # Function for setting up additional files
 function config_setup() {
   if [[ "$EDITOR_DIR" == "markchad" ]]; then
+    printf "\n"
     printf "EDITOR is set to: ${bold_in}%s${bold_out}\n" "$EDITOR_DIR" | indent 2
     copy_addon "peek-markchad.lua" "$CONFIG_DIR" "lua/plugins/peek.lua"
   elif [[ "$EDITOR_DIR" == "nvim" ]]; then
+    printf "\n"
     printf "EDITOR is set to: ${bold_in}%s${bold_out}\n" "$EDITOR_DIR" | indent 2
     copy_addon "peek-nvim.lua" "$CONFIG_DIR" "lua/plugins/peek.lua"
   else
     printf "EDITOR is not set to markchad or nvim. Skipping copy.\n" | indent 2
   fi
+  printf "\n"
+}
+# Vale configuration setup routine
+# Function to prompt user for input
+prompt_user() {
+  read -r -p "$1 (y/n): " choice
+  case "$choice" in
+  y | Y) return 0 ;; # User wants to proceed
+  n | N) return 1 ;; # User does not want to proceed
+  *)
+    printf "Invalid input. Please enter 'y' or 'n'."
+    prompt_user "$1"
+    ;;
+  esac
+}
+
+# Function to backup existing configuration
+backup_vale_conf() {
+  if [[ -f "$VALE_CONFIG" ]]; then
+    mv "$VALE_CONFIG" "$VALE_CONFIG.bak"
+    printf "Backup of ${italic}%s${clear} created.\n" "$VALE_CONFIG.bak" | indent 2 || {
+      printf "Error: Failed to back up %s" "$VALE_CONFIG" | indent 2
+      exit 1
+    }
+  fi
+  #
+  # if [[ -d "$LOCAL_SHARE_DIR/vale" ]]; then
+  #   mv -f "$LOCAL_SHARE_DIR/vale" "$LOCAL_SHARE_DIR/vale.bak"
+  #   printf "Backup of %s created.\n" "$LOCAL_SHARE_DIR/vale.bak" | indent 2 || {
+  #     printf "Error: Failed to back up %s" "$LOCAL_SHARE_DIR/vale" | indent 2
+  #     exit 1
+  #   }
+  # fi
+}
+setup_vale() {
+  # Check if Vale configuration file exists
+  if [[ ! -f "$VALE_CONFIG" ]]; then
+    printf "The configuration file ${italic}%s${clear} is missing.\n" "$VALE_CONFIG" | indent 2
+
+    if prompt_user "    Do you want to set up Vale?"; then
+      # Check if the vale folder exists in the LOCAL_SHARE_DIR
+      backup_vale_conf
+
+      # Copy the vale.ini and vale folder from ADDON_DIR
+      cp "$ADDON_DIR/vale/vale.ini" "$VALE_CONFIG"
+      printf "Copied vale.ini to ${italic}%s${clear}\n" "$VALE_CONFIG" | indent 2 || {
+        printf "Error: Failed to copy vale.ini to %s" "$VALE_CONFIG" | indent 2
+        exit 1
+      }
+      cp -rf "$ADDON_DIR/vale/vale" "$LOCAL_SHARE_DIR/"
+      printf "Copied vale folder to ${italic}%s${clear}\n" "$LOCAL_SHARE_DIR/" | indent 2 || {
+        printf "Error: Failed to copy vale folder to %s" "$LOCAL_SHARE_DIR" | indent 2
+        exit 1
+      }
+    else
+      printf "Vale setup skipped.\n" | indent 2
+      return
+    fi
+  else
+    printf "Configuration file ${italic}%s${clear} already exists.\n" "$VALE_CONFIG" | indent 2
+    if prompt_user "    Do you want to replace it?"; then
+      backup_vale_conf
+
+      # Copy the vale.ini and vale folder from ADDON_DIR
+      cp "$ADDON_DIR/vale/vale.ini" "$VALE_CONFIG"
+      printf "Copied vale.ini to ${italic}%s${clear}\n" "$VALE_CONFIG" | indent 2 || {
+        printf "Error: Failed to copy vale.ini to %s" "$VALE_CONFIG" | indent 2
+        exit 1
+      }
+      cp -rf "$ADDON_DIR/vale/vale" "$LOCAL_SHARE_DIR/"
+      printf "Copied vale folder to ${italic}%s${clear}\n" "$LOCAL_SHARE_DIR/" | indent 2 || {
+        printf "Error: Failed to copy vale folder to %s" "$LOCAL_SHARE_DIR" | indent 2
+        exit 1
+      }
+    else
+      printf "Replacement skipped.\n" | indent 2
+      return
+    fi
+  fi
+  printf "\n"
 }
 # Function for post-install instructions
 command_to_open() {
@@ -262,8 +346,12 @@ print_right_aligned "[ Downloading Source Files ]"
 get_markchad
 print_right_aligned "[ Installing Configuration ]"
 copy_markchad_files
+press_enter_or_quit
+clear
 print_right_aligned "[ Set-up Configuration ]"
 config_setup
+print_right_aligned "[ Vale Set-up ]"
+setup_vale
 print_right_aligned "[ Removing Install Files ]"
 cleanup_temp_files
 command_to_open
