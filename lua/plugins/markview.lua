@@ -23,7 +23,7 @@ return {
 
 			--- Amount of character to shift per heading level
 			---@type integer
-			shift_width = 2,
+			shift_width = 1,
 
 			heading_1 = {
 				style = "label",
@@ -85,6 +85,10 @@ return {
 		},
 		tables = {
 			enable = false,
+		},
+		inline_codes = {
+			enable = true,
+			hl = "MarkviewHeading5",
 		},
 	},
 }
