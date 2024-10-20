@@ -11,6 +11,7 @@ M.base46 = {
 		FloatBorder = { fg = "light_grey", bg = "black" },
 		["@markup.italic"] = { fg = "nord_blue" },
 		["@markup.strong"] = { fg = "cyan" },
+    ["@markup.raw"] = { fg = "teal" },
 	},
 	hl_add = {
 		NeoTreeBufferNumber = { fg = "baby_pink" }, --The buffer number shown in the buffers source.
