@@ -1,5 +1,25 @@
 # Markchad
 
+- [Markchad](#markchad)
+    - [Objective](#objective)
+    - [Introduction](#introduction)
+    - [Requirements](#requirements)
+        - [Repositories](#repositories)
+        - [Packages](#packages)
+        - [Neovim](#neovim)
+        - [Nerd fonts](#nerd-fonts)
+    - [Features](#features)
+    - [Installation](#installation)
+        - [Download the script](#download-the-script)
+        - [Vale configuration](#vale-configuration)
+    - [Mapping - Quick Reference](#mapping---quick-reference)
+        - [Editor](#editor)
+        - [Markdown](#markdown)
+        - [Git Repository](#git-repository)
+        - [Diagnostics](#diagnostics)
+        - [Miscellaneous](#miscellaneous)
+    - [Acknowledgements](#acknowledgements)
+
 **NOTE**: Rocky Linux 9.4 is the development platform for Markchad. The following should work for any Linux operating system derived from RHEL. If you are not on RHEL or a clone, adjustments will be needed for your operating system.
 
  **Disclaimer**: The developer of the Markchad scripts and files guarantees them for no purpose whatsoever. Use them at your own risk. That said, the script is tested by the developer and others, and it is believed to function for the desired purpose of creating a Neovim configuration for writing in Markdown that works very well. Your feedback is welcome!
@@ -8,9 +28,9 @@
 
 Create a configuration of NvChad dedicated to writing documentation with Markdown code by implementing the following features.
 
-* Automatically set Neovim options for Markdown files
-* Highlighting Markdown tags in the buffer
-* Providing a *zen mode* for document editing
+- Automatically set Neovim options for Markdown files
+- Highlighting Markdown tags in the buffer
+- Providing a *zen mode* for document editing
 
 ## Introduction
 
@@ -60,20 +80,20 @@ For the proper display of icons, use the [Nerd Font installation procedure here]
 
 ## Features
 
-* **Configuration:** careful writing of all configurations of the additional plugins makes them independent of each other. This allows disabling them when needed by means of the *Plugin Spec* `enabled = false/true` of *lazy.nvim* present in all configuration files. Include in the configuration files are keyboard keys to invoke the various features and convert them where possible to the *lazy style* format.
-* **UI - Interface:** some changes made to the layout strategy of `Telescope` to have a more modern and functional interface. Themes (*dropdown* and *ivy*) were also used for the `pickers` provided by default, and for those inserted by additional plugins.
+- **Configuration:** careful writing of all configurations of the additional plugins makes them independent of each other. This allows disabling them when needed by means of the *Plugin Spec* `enabled = false/true` of *lazy.nvim* present in all configuration files. Include in the configuration files are keyboard keys to invoke the various features and convert them where possible to the *lazy style* format.
+- **UI - Interface:** some changes made to the layout strategy of `Telescope` to have a more modern and functional interface. Themes (*dropdown* and *ivy*) were also used for the `pickers` provided by default, and for those inserted by additional plugins.
 Made no changes to the themes provided by *NvChad*. This allows you to use it according to your own aesthetic tastes. Not all themes offer a *rich* display for highlights and, implemented for graphic development, the default `onedark` theme is used.
-* **Editor:** supplemented the section of plugins that provide functionality to the editor with a *git* repository manager, a session manager that enables faster project management, and other small utilities to improve workflow.
-* **Markdown:** included several features for writing Markdown documentation including a preview of the document in the browser, highlighting in the buffer of markdown tags, conversion by keyboard keys of attributes to text, and more.
+- **Editor:** supplemented the section of plugins that provide functionality to the editor with a *git* repository manager, a session manager that enables faster project management, and other small utilities to improve workflow.
+- **Markdown:** included several features for writing Markdown documentation including a preview of the document in the browser, highlighting in the buffer of markdown tags, conversion by keyboard keys of attributes to text, and more.
 
 ## Installation
 
 The installation of the configuration is fully automated, the entire process being handled by a bash script that provides the following functionality:
 
-* Checking for availability of required packages and presence of existing configurations
-* Backup and restore previous configurations
-* Installation of the configuration
-* Consultation of inline help
+- Checking for availability of required packages and presence of existing configurations
+- Backup and restore previous configurations
+- Installation of the configuration
+- Consultation of inline help
 
 Specifically, the configuration can be installed following two distinct schemes:
 
@@ -129,9 +149,9 @@ The best description for Vale is from the [project page](https://vale.sh/):
 
 Vale installs as part of the Markchad configuration. Vale is not required, but you will need at minimum an empty initialization file in your home directory.
 
-* To create an empty `.vale.ini` in your $HOME folder: `touch ~/.vale.ini`. At this point, your editor will work without throwing errors when you try to write a file.
+- To create an empty `.vale.ini` in your $HOME folder: `touch ~/.vale.ini`. At this point, your editor will work without throwing errors when you try to write a file.
 
-* To create a usable `.vale.ini` file with suggested dictionaries for technical markdown editing, do this instead.
+- To create a usable `.vale.ini` file with suggested dictionaries for technical markdown editing, do this instead.
 
     1. Create the `.vale.ini` file in the path of the `vale` binary `~/.local/share/nvim/mason/packages/vale/`
 
