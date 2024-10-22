@@ -5,13 +5,13 @@
 local M = {}
 
 M.base46 = {
-	theme = "catppuccin",
+	theme = "kanagawa",
 	integrations = { "neogit", "markview" },
 	hl_override = {
 		FloatBorder = { fg = "light_grey", bg = "black" },
 		["@markup.italic"] = { fg = "nord_blue" },
 		["@markup.strong"] = { fg = "cyan" },
-    ["@markup.raw"] = { fg = "teal" },
+		["@markup.raw"] = { fg = "teal" },
 	},
 	hl_add = {
 		NeoTreeBufferNumber = { fg = "baby_pink" }, --The buffer number shown in the buffers source.
@@ -73,6 +73,9 @@ M.base46 = {
 		MarkviewListItemMinus = { fg = "blue" },
 		MarkviewListItemPlus = { fg = "teal" },
 		MarkviewListItemStar = { fg = "yellow" },
+
+		WhichKeyTitle = { bg = "black" },
+		WhichKeyNormal = { bg = "black" },
 	},
 }
 
