@@ -6,7 +6,7 @@ return {
 		require("which-key").setup({
 			preset = "helix",
 		})
-	end
+	end,
 }
 
 
