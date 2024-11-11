@@ -1,5 +1,9 @@
 # Markchad
 
+## Attenzione - novità sullo sviluppo
+
+The *Markchad* project will not be further developed, instead a new configuration based on the standard version of Neovim and managed by the new plugin manager [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim) is being developed, the project is called *rocksmarker* and can be viewed at [this address](https://github.com/ambaradan/rocksmarker).
+
 - [Markchad](#markchad)
     - [Objective](#objective)
     - [Introduction](#introduction)
